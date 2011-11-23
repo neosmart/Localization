@@ -25,12 +25,12 @@ namespace NeoSmart.Localization
             Key = key;
         }
 
-        public void ExportToFile(string xmlPath)
+        public void Save(string xmlPath)
         {
 
         }
 
-        public void LoadFromFile(string xmlPath)
+        public void Load(string xmlPath)
         {
             Key = Path.GetFileNameWithoutExtension(xmlPath);
             string localeKey = Path.GetFileName(Path.GetDirectoryName(xmlPath));

@@ -89,7 +89,7 @@ namespace NeoSmart.Localization
             if (!Directory.Exists(localeFolder))
                 return false;
 
-            return _locales[localeKey].LoadFromFile(Path.Combine(localeFolder, _propertiesXml));
+            return _locales[localeKey].Load(Path.Combine(localeFolder, _propertiesXml));
         }
 
         public string GetString(string key, string fallback = null)

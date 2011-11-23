@@ -12,13 +12,24 @@ namespace NeoSmart.Localization
 
         public IEnumerable<StringCollection> StringCollections
         {
-            get { return _stringMap.Values; }
+            get
+            {
+                return _stringMap.Values;
+            }
+            set
+            {
+                _stringMap.Clear();
+                foreach(var stringCollection in value)
+                {
+                    _stringMap.Add(stringCollection.Key, stringCollection);
+                }
+            }
         }
 
         public string Key { get; private set; }
         public string Name { get; internal set; }
         public bool Loaded { get; internal set; }
-        public bool RightToLeft { get; internal set; }
+        public bool RightToLeft { get; set; }
         public string ParentLocale { get; private set; }
 
         public int CompareTo(Locale other)
@@ -29,20 +40,23 @@ namespace NeoSmart.Localization
         public Locale(string localeKey)
         {
             Key = localeKey;
+            RightToLeft = false;
         }
 
         public string GetString(string key)
         {
+            if (!Loaded)
+                throw new Exception("Attempt to get key from unloaded locale!");
+
             return _stringMap[key].StringsTable[key];
         }
 
         private void LoadPropertiesXml(string xmlPath)
         {
-            XmlNode node;
             var xmlDocument = new XmlDocument();
             xmlDocument.Load(xmlPath);
 
-            node = xmlDocument.SelectSingleNode(@"/localization/locale");
+            var node = xmlDocument.SelectSingleNode(@"/localization/locale");
             if (node == null)
                 throw new IncompleteLocaleException("The required locale element 'locale' was not found.");
 
@@ -58,7 +72,25 @@ namespace NeoSmart.Localization
             ParentLocale = node != null ? node.InnerText : string.Empty;
         }
 
-        public bool LoadFromFile(string xmlPath)
+        private void SavePropertiesXml(string xmlPath)
+        {
+            var xmlDocument = new XmlDocument();
+
+            var xmlDeclaration = xmlDocument.CreateXmlDeclaration(@"1.0", @"utf-8", null);
+
+            xmlDocument.InsertBefore(xmlDeclaration, xmlDocument.DocumentElement);
+
+            var xmlNode = xmlDocument.AppendChild(xmlDocument.CreateElement(@"localization"));
+            xmlNode = xmlNode.AppendChild(xmlDocument.CreateElement(@"locale"));
+
+            xmlNode.AppendChild(xmlDocument.CreateNode(XmlNodeType.Element, @"name", @"")).InnerText = Name;
+            xmlNode.AppendChild(xmlDocument.CreateNode(XmlNodeType.Element, @"rtl", @"")).InnerText = RightToLeft.ToString().ToLower();
+            xmlNode.AppendChild(xmlDocument.CreateNode(XmlNodeType.Element, @"parentLocale", @"")).InnerText = ParentLocale;
+
+            xmlDocument.Save(xmlPath);
+        }
+
+        public bool Load(string xmlPath)
         {
             if (!File.Exists(xmlPath))
                 return false;
@@ -73,16 +105,26 @@ namespace NeoSmart.Localization
                 var stringKey = Path.GetFileNameWithoutExtension(stringFile);
 
                 var stringCollection = new StringCollection(stringKey);
-                stringCollection.LoadFromFile(stringFile);
+                stringCollection.Load(stringFile);
 
                 _stringMap[stringKey] = stringCollection;
             }
 
-            return true;
+            return Loaded = true;
         }
 
-        public bool ExportToFile(string path)
+        public bool Save(string xmlPath, bool exportStrings = true)
         {
+            SavePropertiesXml(xmlPath);
+
+            if(exportStrings)
+            {
+                var folder = Path.GetDirectoryName(xmlPath);
+                foreach(var sCollection in _stringMap.Values)
+                {
+                    sCollection.Save(Path.Combine(folder, sCollection.Key + @".xml"));
+                }
+            }
 
             return true;
         }
