@@ -136,7 +136,11 @@ namespace NeoSmart.Localization
                     catch (MissingMethodException)
                     {
                         if (!isForm)
+                        {
+                            //We can't do anything about it, as we must hard-code each known type
+                            _failedControls.Add(asmType.Name);
                             continue;
+                        }
 
                         //Create the object without initializing it
                         control = CreateControlWithoutConstructor(asmType);
