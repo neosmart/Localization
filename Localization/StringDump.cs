@@ -13,7 +13,8 @@ namespace NeoSmart.Localization
     {
         private readonly Dictionary<string, Dictionary<string, string>> _strings = new Dictionary<string, Dictionary<string, string>>();
         private readonly List<StringCollection> _stringCollections = new List<StringCollection>();
- 
+        private readonly List<string> _failedControls = new List<string>(); 
+
         private string _currentForm;
 
         private static readonly List<Type> ValidCollections = new List<Type>
@@ -28,6 +29,16 @@ namespace NeoSmart.Localization
                                                     BitConverter.ToString(new byte[] {0x31, 0xbf, 0x38, 0x56, 0xad, 0x36, 0x4e, 0x35}),
                                                     BitConverter.ToString(new byte[] {0xb0, 0x3f, 0x5f, 0x7f, 0x11, 0xd5, 0x0a, 0x3a})
                                                 };
+
+        public IEnumerable<string> FailedControls
+        {
+            get { return _failedControls; }
+        }
+
+        public bool ErrorsEncountered
+        {
+            get { return _failedControls.Count != 0; }
+        }
 
         public static bool IsFrameworkType(Type type)
         {
@@ -92,7 +103,7 @@ namespace NeoSmart.Localization
                 if (!ValidCollections.Contains(controls.PropertyType))
                     continue;
 
-                bool isForm = asmType.IsSubclassOf(typeof (Form));
+                var isForm = asmType.IsSubclassOf(typeof (Form));
 
                 if (isForm)
                 {
@@ -132,7 +143,10 @@ namespace NeoSmart.Localization
                 }
 
                 if (control == null)
+                {
+                    _failedControls.Add(asmType.Name);
                     continue; //Give up already!
+                }
 
                 foreach (var item in (IEnumerable)controls.GetValue(control, null))
                 {
