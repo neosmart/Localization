@@ -23,6 +23,11 @@ namespace NeoSmart.Localization
                                                     typeof (TableLayoutControlCollection),
                                                 };
 
+        private static readonly List<String> ValidNames = new List<string>
+                                                {
+                                                    @"Controls"
+                                                };
+
         private static readonly List<string> MicrosoftTokens = new List<string>
                                                 {
                                                     BitConverter.ToString(new byte[] {0xb7, 0x7a, 0x5c, 0x56, 0x19, 0x34, 0xe0, 0x89}),
@@ -94,7 +99,7 @@ namespace NeoSmart.Localization
                 {
                     //We can't just use GetProperty() because it sometimes throws AmbiguousMatchException for unknown reasons
                     //It's not like there can be two properties called "Controls" for a form now, is there? WTF, Microsoft?
-                    if (property.Name == @"Controls")
+                    if (ValidNames.Contains(property.Name))
                     {
                         controls = property;
                         break;
@@ -174,6 +179,11 @@ namespace NeoSmart.Localization
         public void AddControlCollectionTypes(IEnumerable<Type> propertyTypes)
         {
             ValidCollections.AddRange(propertyTypes);
+        }
+
+        public void AddControlCollectionNames(IEnumerable<string> names)
+        {
+            ValidNames.AddRange(names);
         }
 
         public List<StringCollection> GetAssemblyStrings(string path)
