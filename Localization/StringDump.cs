@@ -11,9 +11,9 @@ namespace NeoSmart.Localization
 {
     public class StringDump
     {
-        private readonly Dictionary<string, Dictionary<string, string>> _strings = new Dictionary<string, Dictionary<string, string>>();
-        private readonly List<StringCollection> _stringCollections = new List<StringCollection>();
-        private readonly List<string> _failedControls = new List<string>(); 
+        private Dictionary<string, Dictionary<string, string>> _strings = new Dictionary<string, Dictionary<string, string>>();
+        private List<StringCollection> _stringCollections = new List<StringCollection>();
+        private List<string> _failedControls = new List<string>(); 
 
         private string _currentForm;
 
@@ -78,8 +78,12 @@ namespace NeoSmart.Localization
             }
         }
 
-        private void LoadStrings(IEnumerable<Type> types)
+        private List<StringCollection> LoadStrings(IEnumerable<Type> types)
         {
+            _strings = new Dictionary<string, Dictionary<string, string>>();
+            _stringCollections = new List<StringCollection>();
+            _failedControls = new List<string>();
+
             foreach (var asmType in types)
             {
                 if (!asmType.IsSubclassOf(typeof (Control)))
@@ -148,7 +152,7 @@ namespace NeoSmart.Localization
                     continue; //Give up already!
                 }
 
-                foreach (var item in (IEnumerable)controls.GetValue(control, null))
+                foreach (var item in (IEnumerable) controls.GetValue(control, null))
                 {
                     if (!(item is Control))
                         continue;
@@ -163,13 +167,15 @@ namespace NeoSmart.Localization
                     LoadStrings(new[] {subControl.GetType()});
                 }
             }
+
+            return _stringCollections;
         }
- 
-        public void GetAssemblyStrings(string path)
+
+        public List<StringCollection> GetAssemblyStrings(string path)
         {
             var assembly = Assembly.LoadFrom(path);
 
-            LoadStrings(assembly.GetTypes());
+            return LoadStrings(assembly.GetTypes());
         }
     }
 }
