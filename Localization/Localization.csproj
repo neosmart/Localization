@@ -37,9 +37,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Locale.cs" />
     <Compile Include="StringCollection.cs" />
     <Compile Include="StringDump.cs" />
-    <Compile Include="StringManager.cs" />
+    <Compile Include="LocaleManager.cs" />
     <Compile Include="Exceptions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
