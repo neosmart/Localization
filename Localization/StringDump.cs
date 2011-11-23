@@ -12,6 +12,8 @@ namespace NeoSmart.Localization
     public class StringDump
     {
         private readonly Dictionary<string, Dictionary<string, string>> _strings = new Dictionary<string, Dictionary<string, string>>();
+        private readonly List<StringCollection> _stringCollections = new List<StringCollection>();
+ 
         private string _currentForm;
 
         private static readonly List<Type> ValidCollections = new List<Type>
@@ -76,6 +78,7 @@ namespace NeoSmart.Localization
                 foreach (var property in asmType.GetProperties())
                 {
                     //We can't just use GetProperty() because it sometimes throws AmbiguousMatchException for unknown reasons
+                    //It's not like there can be two properties called "Controls" for a form now, is there? WTF, Microsoft?
                     if (property.Name == @"Controls")
                     {
                         controls = property;
@@ -101,6 +104,7 @@ namespace NeoSmart.Localization
                     }
 
                     var stringCollection = new StringCollection(_currentForm);
+                    _stringCollections.Add(stringCollection);
                     _strings[_currentForm] = stringCollection.StringsTable;
                 }
 
@@ -147,7 +151,7 @@ namespace NeoSmart.Localization
             }
         }
  
-        public void LoadAssembly(string path)
+        public void GetAssemblyStrings(string path)
         {
             var assembly = Assembly.LoadFrom(path);
 
