@@ -83,12 +83,8 @@ namespace NeoSmart.Localization
             }
         }
 
-        private List<StringCollection> LoadStrings(IEnumerable<Type> types)
+        private void LoadStrings(IEnumerable<Type> types)
         {
-            _strings = new Dictionary<string, Dictionary<string, string>>();
-            _stringCollections = new List<StringCollection>();
-            _failedControls = new List<string>();
-
             foreach (var asmType in types)
             {
                 if (!asmType.IsSubclassOf(typeof (Control)))
@@ -172,8 +168,6 @@ namespace NeoSmart.Localization
                     LoadStrings(new[] {subControl.GetType()});
                 }
             }
-
-            return _stringCollections;
         }
 
         public void AddControlCollectionTypes(IEnumerable<Type> propertyTypes)
@@ -188,9 +182,15 @@ namespace NeoSmart.Localization
 
         public List<StringCollection> GetAssemblyStrings(string path)
         {
+            _strings = new Dictionary<string, Dictionary<string, string>>();
+            _stringCollections = new List<StringCollection>();
+            _failedControls = new List<string>();
+
             var assembly = Assembly.LoadFrom(path);
 
-            return LoadStrings(assembly.GetTypes());
+            LoadStrings(assembly.GetTypes());
+
+            return _stringCollections;
         }
     }
 }
