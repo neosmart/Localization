@@ -171,6 +171,11 @@ namespace NeoSmart.Localization
             return _stringCollections;
         }
 
+        public void AddControlCollectionTypes(IEnumerable<Type> propertyTypes)
+        {
+            ValidCollections.AddRange(propertyTypes);
+        }
+
         public List<StringCollection> GetAssemblyStrings(string path)
         {
             var assembly = Assembly.LoadFrom(path);
