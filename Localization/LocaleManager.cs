@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Xml;
 
 namespace NeoSmart.Localization
 {
@@ -10,7 +9,7 @@ namespace NeoSmart.Localization
         private static string _transFolder = @"";
         private static string _defaultLocale = @"en-US";
         private static string _propertiesXml = @"";
-        private static readonly Dictionary<string, Locale> _locales = new Dictionary<string, Locale>();
+        private static readonly Dictionary<string, Locale> LocalesMap = new Dictionary<string, Locale>();
 
         private string _currentLocale;
         private bool _defaultLoaded;
@@ -23,7 +22,7 @@ namespace NeoSmart.Localization
         
         public static IEnumerable<string> Locales
         {
-            get { return _locales.Keys; }
+            get { return LocalesMap.Keys; }
         }
 
         public static void LoadLocales(string localizationFolder = @"trans", string propertiesXml = @"properties.xml")
@@ -42,7 +41,7 @@ namespace NeoSmart.Localization
 
             lock (Locales)
             {
-                _locales.Clear();
+                LocalesMap.Clear();
                 var directories = Directory.GetDirectories(_transFolder);
                 foreach(var directory in directories)
                 {
@@ -53,7 +52,7 @@ namespace NeoSmart.Localization
                     if (!File.Exists(Path.Combine(directory, propertiesXml)))
                         continue;
 
-                    _locales.Add(localeKey, new Locale(localeKey));
+                    LocalesMap.Add(localeKey, new Locale(localeKey));
                 }
             }
         }
@@ -62,7 +61,7 @@ namespace NeoSmart.Localization
         {
             lock (Locales)
             {
-                if (!_locales.ContainsKey(localeKey))
+                if (!LocalesMap.ContainsKey(localeKey))
                     return false;
             }
 
@@ -89,7 +88,7 @@ namespace NeoSmart.Localization
             if (!Directory.Exists(localeFolder))
                 return false;
 
-            return _locales[localeKey].Load(Path.Combine(localeFolder, _propertiesXml));
+            return LocalesMap[localeKey].Load(Path.Combine(localeFolder, _propertiesXml));
         }
 
         public string GetString(string key, string fallback = null)
@@ -97,9 +96,12 @@ namespace NeoSmart.Localization
             if(string.IsNullOrEmpty(_currentLocale))
             {
                 LoadLocale(_defaultLocale);
+
+                if (string.IsNullOrEmpty(_currentLocale))
+                    return fallback;
             }
 
-            var locale = _locales[_currentLocale];
+            var locale = LocalesMap[_currentLocale];
 
             while(true)
             {
@@ -111,7 +113,7 @@ namespace NeoSmart.Localization
                 {
                     if(!string.IsNullOrEmpty(locale.ParentLocale))
                     {
-                        locale = _locales[locale.ParentLocale];
+                        locale = LocalesMap[locale.ParentLocale];
                         continue;
                     }
 

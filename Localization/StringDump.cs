@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Windows.Forms;
@@ -52,7 +51,8 @@ namespace NeoSmart.Localization
                 Control control = (Form) FormatterServices.GetUninitializedObject(asmType);
 
                 var ctor = typeof (Form).GetConstructor(new Type[] {});
-                Debug.Assert(ctor != null);
+                if(ctor == null)
+                    return null;
 
                 ctor.Invoke(control, new object[] {});
 

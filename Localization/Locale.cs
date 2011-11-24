@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Xml;
 
 namespace NeoSmart.Localization
@@ -95,14 +94,20 @@ namespace NeoSmart.Localization
             if (!File.Exists(xmlPath))
                 return false;
 
+            var folder = Path.GetDirectoryName(xmlPath);
+            if (string.IsNullOrEmpty(folder))
+                return false;
+
             LoadPropertiesXml(xmlPath);
 
-            foreach (var stringFile in Directory.GetFiles(Path.GetDirectoryName(xmlPath), @"*.xml"))
+            foreach (var stringFile in Directory.GetFiles(folder, @"*.xml"))
             {
                 if (string.Compare(stringFile, xmlPath, true) == 0)
                     continue;
 
                 var stringKey = Path.GetFileNameWithoutExtension(stringFile);
+                if (string.IsNullOrEmpty(stringKey))
+                    continue;
 
                 var stringCollection = new StringCollection(stringKey);
                 stringCollection.Load(stringFile);
@@ -121,6 +126,9 @@ namespace NeoSmart.Localization
             if(exportStrings)
             {
                 var folder = Path.GetDirectoryName(xmlPath);
+                if (string.IsNullOrEmpty(folder))
+                    return false;
+
                 foreach(var sCollection in _stringMap.Values)
                 {
                     sCollection.Save(Path.Combine(folder, sCollection.Key + @".xml"));

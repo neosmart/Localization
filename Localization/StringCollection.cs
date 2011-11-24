@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Xml;
 
 namespace NeoSmart.Localization
@@ -54,11 +52,10 @@ namespace NeoSmart.Localization
             Key = Path.GetFileNameWithoutExtension(xmlPath);
             string localeKey = Path.GetFileName(Path.GetDirectoryName(xmlPath));
 
-            XmlNode node;
             var xmlDocument = new XmlDocument();
             xmlDocument.Load(xmlPath);
 
-            node = xmlDocument.SelectSingleNode(@"/localization/strings");
+            var node = xmlDocument.SelectSingleNode(@"/localization/strings");
             if (node == null)
                 throw new IncompleteLocaleException("The required locale element 'strings' was not found.");
 
