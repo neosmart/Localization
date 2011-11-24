@@ -17,11 +17,11 @@ namespace NeoSmart.Localization
         private string _currentForm;
 
         private static readonly List<string> MicrosoftTokens = new List<string>
-                                                {
-                                                    BitConverter.ToString(new byte[] {0xb7, 0x7a, 0x5c, 0x56, 0x19, 0x34, 0xe0, 0x89}),
-                                                    BitConverter.ToString(new byte[] {0x31, 0xbf, 0x38, 0x56, 0xad, 0x36, 0x4e, 0x35}),
-                                                    BitConverter.ToString(new byte[] {0xb0, 0x3f, 0x5f, 0x7f, 0x11, 0xd5, 0x0a, 0x3a})
-                                                };
+            {
+                BitConverter.ToString(new byte[] {0xb7, 0x7a, 0x5c, 0x56, 0x19, 0x34, 0xe0, 0x89}),
+                BitConverter.ToString(new byte[] {0x31, 0xbf, 0x38, 0x56, 0xad, 0x36, 0x4e, 0x35}),
+                BitConverter.ToString(new byte[] {0xb0, 0x3f, 0x5f, 0x7f, 0x11, 0xd5, 0x0a, 0x3a})
+            };
 
         public IEnumerable<string> FailedControls
         {
@@ -44,12 +44,12 @@ namespace NeoSmart.Localization
 
         private Control CreateControlWithoutConstructor(Type asmType)
         {
+            //Huge hack coming through: we'll create an object without initializing it, then load the constructor from the base type (form) and call it on the derived type
+            //Then we'll manually call InitializeComponent... if it exists :)
+
             try
             {
                 Control control = (Form) FormatterServices.GetUninitializedObject(asmType);
-
-                //Huge hack coming through: we'll load the constructor from the base type (form), then call it on the derived type
-                //Then we'll manually call InitializeComponent... if it exists :)
 
                 var ctor = typeof (Form).GetConstructor(new Type[] {});
                 Debug.Assert(ctor != null);
@@ -57,7 +57,7 @@ namespace NeoSmart.Localization
                 ctor.Invoke(control, new object[] {});
 
                 var initComponent = asmType.GetMethod(@"InitializeComponent",
-                                                      BindingFlags.Public | BindingFlags.Instance | BindingFlags.Default | BindingFlags.NonPublic);
+                    BindingFlags.Public | BindingFlags.Instance | BindingFlags.Default | BindingFlags.NonPublic);
                 if (initComponent == null)
                     return null;
 
