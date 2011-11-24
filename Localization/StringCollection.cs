@@ -81,5 +81,23 @@ namespace NeoSmart.Localization
                 }
             }
         }
+
+        public void Merge(StringCollection newStrings, bool overwriteExisting = true)
+        {
+            Merge(newStrings.StringsTable, overwriteExisting);
+
+            return;
+        }
+
+        public void Merge(Dictionary<string, string> newStrings, bool overwriteExisting = true)
+        {
+            foreach (var entry in newStrings)
+            {
+                if (StringsTable.ContainsKey(entry.Key) && !overwriteExisting)
+                    continue;
+
+                StringsTable[entry.Key] = entry.Value;
+            }
+        }
     }
 }
