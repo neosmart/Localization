@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.Serialization;
-using System.Text;
 using System.Windows.Forms;
 
 namespace NeoSmart.Localization
@@ -70,6 +69,11 @@ namespace NeoSmart.Localization
             {
                 return null;
             }
+        }
+
+        private void LoadStringsFromObject(object control)
+        {
+            LoadStringsFromObjects(new [] {control});
         }
 
         private void LoadStringsFromObjects(IEnumerable controls)
@@ -175,6 +179,8 @@ namespace NeoSmart.Localization
                     continue; //Give up already!
                 }
 
+                LoadStringsFromObject(control);
+
                 foreach (var property in asmType.GetProperties())
                 {
                     //We can't just use GetProperty() because it sometimes throws AmbiguousMatchException for unknown reasons
@@ -187,8 +193,6 @@ namespace NeoSmart.Localization
                         _failedControls.Add(asmType.Name);
                         continue;
                     }
-
-                    LoadStringsFromObjects((IEnumerable)property.GetValue(control, null));
 
                     foreach (var item in (IEnumerable)property.GetValue(control, null))
                     {
