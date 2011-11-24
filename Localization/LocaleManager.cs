@@ -7,7 +7,7 @@ namespace NeoSmart.Localization
     public class LocaleManager
     {
         private static string _transFolder = @"";
-        private static string _defaultLocale = @"en-US";
+        private static string _defaultLocale = @"";
         private static string _propertiesXml = @"";
         private static readonly Dictionary<string, Locale> LocalesMap = new Dictionary<string, Locale>();
 
@@ -19,13 +19,14 @@ namespace NeoSmart.Localization
             get { return _defaultLocale; }
             set { lock (_defaultLocale) _defaultLocale = value; }
         }
-        
+
         public static IEnumerable<string> Locales
         {
             get { return LocalesMap.Keys; }
         }
 
-        public LocaleManager(string localizationFolder = @"lang", string propertiesXml = @"properties.xml")
+        public LocaleManager(string localizationFolder = @"lang", string propertiesXml = @"properties.xml",
+                             string defaultLocale = @"en-US")
         {
             lock (_transFolder)
             {
@@ -38,6 +39,11 @@ namespace NeoSmart.Localization
             {
                 _propertiesXml = propertiesXml;
             }
+
+            lock (_defaultLocale)
+            {
+                _defaultLocale = defaultLocale;
+            }
         }
 
         public static void LoadLocales()
@@ -46,7 +52,7 @@ namespace NeoSmart.Localization
             {
                 LocalesMap.Clear();
                 var directories = Directory.GetDirectories(_transFolder);
-                foreach(var directory in directories)
+                foreach (var directory in directories)
                 {
                     var localeKey = Path.GetFileName(directory);
                     if (string.IsNullOrEmpty(localeKey))
@@ -72,7 +78,7 @@ namespace NeoSmart.Localization
             _defaultLoaded = false;
 
             LoadLocale(localeKey);
-            if(!LoadLocale(_defaultLocale))
+            if (!LoadLocale(_defaultLocale))
                 throw new DefaultLocaleNotFoundException();
 
             return true;
@@ -96,7 +102,7 @@ namespace NeoSmart.Localization
 
         public string GetString(string key, string fallback = null)
         {
-            if(string.IsNullOrEmpty(_currentLocale))
+            if (string.IsNullOrEmpty(_currentLocale))
             {
                 LoadLocale(_defaultLocale);
 
@@ -106,7 +112,7 @@ namespace NeoSmart.Localization
 
             var locale = LocalesMap[_currentLocale];
 
-            while(true)
+            while (true)
             {
                 try
                 {
@@ -114,13 +120,13 @@ namespace NeoSmart.Localization
                 }
                 catch (KeyNotFoundException)
                 {
-                    if(!string.IsNullOrEmpty(locale.ParentLocale))
+                    if (!string.IsNullOrEmpty(locale.ParentLocale))
                     {
                         locale = LocalesMap[locale.ParentLocale];
                         continue;
                     }
 
-                    if(fallback != null)
+                    if (fallback != null)
                     {
                         return fallback;
                     }
