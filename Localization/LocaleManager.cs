@@ -25,20 +25,23 @@ namespace NeoSmart.Localization
             get { return LocalesMap.Keys; }
         }
 
-        public static void LoadLocales(string localizationFolder = @"trans", string propertiesXml = @"properties.xml")
+        public LocaleManager(string localizationFolder = @"lang", string propertiesXml = @"properties.xml")
         {
-            lock(_transFolder)
+            lock (_transFolder)
             {
                 _transFolder = Path.IsPathRooted(localizationFolder)
                                    ? localizationFolder
                                    : Path.Combine(AppDomain.CurrentDomain.BaseDirectory, localizationFolder);
             }
 
-            lock(_propertiesXml)
+            lock (_propertiesXml)
             {
                 _propertiesXml = propertiesXml;
             }
+        }
 
+        public static void LoadLocales()
+        {
             lock (Locales)
             {
                 LocalesMap.Clear();
@@ -49,7 +52,7 @@ namespace NeoSmart.Localization
                     if (string.IsNullOrEmpty(localeKey))
                         continue;
 
-                    if (!File.Exists(Path.Combine(directory, propertiesXml)))
+                    if (!File.Exists(Path.Combine(directory, _propertiesXml)))
                         continue;
 
                     LocalesMap.Add(localeKey, new Locale(localeKey));
