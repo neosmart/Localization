@@ -115,6 +115,7 @@ namespace NeoSmart.Localization
 
         public bool Save(string xmlPath, bool exportStrings = true)
         {
+            xmlPath = Path.GetFullPath(xmlPath);
             SavePropertiesXml(xmlPath);
 
             if(exportStrings)

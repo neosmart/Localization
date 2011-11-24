@@ -27,7 +27,26 @@ namespace NeoSmart.Localization
 
         public void Save(string xmlPath)
         {
+            var xmlDocument = new XmlDocument();
 
+            var xmlDeclaration = xmlDocument.CreateXmlDeclaration(@"1.0", @"utf-8", null);
+
+            xmlDocument.InsertBefore(xmlDeclaration, xmlDocument.DocumentElement);
+
+            var xmlNode = xmlDocument.AppendChild(xmlDocument.CreateElement(@"localization"));
+            xmlNode = xmlNode.AppendChild(xmlDocument.CreateElement(@"strings"));
+
+            foreach(var entry in _strings)
+            {
+                var stringNode = xmlDocument.CreateElement(@"string");
+
+                stringNode.SetAttribute(@"key", entry.Key);
+                stringNode.SetAttribute(@"value", entry.Value);
+
+                xmlNode.AppendChild(stringNode);
+            }
+
+            xmlDocument.Save(xmlPath);
         }
 
         public void Load(string xmlPath)
@@ -49,7 +68,7 @@ namespace NeoSmart.Localization
                 foreach (XmlNode text in strings)
                 {
                     if (text.Attributes == null)
-                        throw new MalformedStringException("Invalid translation string found. Attributes 'name' and 'key' are required.");
+                        throw new MalformedStringException("Invalid translation string found. Attributes 'key' and 'value' are required.");
 
                     string key = text.Attributes["key"].InnerText;
                     if(string.IsNullOrEmpty(key))
