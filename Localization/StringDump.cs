@@ -21,11 +21,13 @@ namespace NeoSmart.Localization
                                                 {
                                                     typeof (Control.ControlCollection),
                                                     typeof (TableLayoutControlCollection),
+                                                    typeof (ToolStripItemCollection)
                                                 };
 
         private static readonly List<String> ValidNames = new List<string>
                                                 {
-                                                    @"Controls"
+                                                    @"Controls",
+                                                    @"Items"
                                                 };
 
         private static readonly List<string> MicrosoftTokens = new List<string>
@@ -83,93 +85,127 @@ namespace NeoSmart.Localization
             }
         }
 
-        private void LoadStrings(IEnumerable<Type> types)
+        private void LoadStringsFromObjects(IEnumerable controls)
+        {
+            foreach(var o in controls)
+            {
+                if (!(o is Control))
+                    continue;
+
+                var control = o as Control;
+
+                if (!string.IsNullOrEmpty(control.Text))
+                {
+                    _strings[_currentForm][control.Name] = control.Text;
+                }
+
+                var type = o.GetType();
+                foreach (var property in type.GetProperties())
+                {
+                    //We can't just use GetProperty() because it sometimes throws AmbiguousMatchException for unknown reasons
+                    //It's not like there can be two properties called "Controls" for a form now, is there? WTF, Microsoft?
+                    if (!ValidNames.Contains(property.Name))
+                    {
+                        continue;
+                    }
+
+                    if (!ValidCollections.Contains(property.PropertyType))
+                        continue;
+
+                    var collection = property.GetValue(control, null);
+                    if(collection is IEnumerable)
+                    {
+                        LoadStringsFromObjects(collection as IEnumerable);
+                    }
+                }
+            }
+        }
+
+        private void LoadStringsFromTypes(IEnumerable<Type> types)
         {
             foreach (var asmType in types)
             {
                 if (!asmType.IsSubclassOf(typeof (Control)))
                     continue;
 
-                PropertyInfo controls = null;
                 foreach (var property in asmType.GetProperties())
                 {
                     //We can't just use GetProperty() because it sometimes throws AmbiguousMatchException for unknown reasons
                     //It's not like there can be two properties called "Controls" for a form now, is there? WTF, Microsoft?
-                    if (ValidNames.Contains(property.Name))
+                    if (!ValidNames.Contains(property.Name))
                     {
-                        controls = property;
-                        break;
-                    }
-                }
-
-                if (controls == null)
-                    continue;
-
-                if (!ValidCollections.Contains(controls.PropertyType))
-                    continue;
-
-                var isForm = asmType.IsSubclassOf(typeof (Form));
-
-                if (isForm)
-                {
-                    _currentForm = asmType.Name;
-                    if (_strings.ContainsKey(_currentForm))
-                    {
-                        //This form has already been traversed
                         continue;
                     }
 
-                    var stringCollection = new StringCollection(_currentForm);
-                    _stringCollections.Add(stringCollection);
-                    _strings[_currentForm] = stringCollection.StringsTable;
-                }
+                    if (!ValidCollections.Contains(property.PropertyType))
+                        continue;
 
-                Control control;
+                    var isForm = asmType.IsSubclassOf(typeof (Form));
 
-                if (IsFrameworkType(asmType))
-                {
-                    //Only try calling the default constructor on MS-provided types
-                    try
+                    if (isForm)
                     {
-                        control = (Control) Activator.CreateInstance(asmType, new object[] {});
-                    }
-                    catch (MissingMethodException)
-                    {
-                        if (!isForm)
+                        _currentForm = asmType.Name;
+                        if (_strings.ContainsKey(_currentForm))
                         {
-                            //We can't do anything about it, as we must hard-code each known type
-                            _failedControls.Add(asmType.Name);
+                            //This form has already been traversed
                             continue;
                         }
 
-                        //Create the object without initializing it
+                        var stringCollection = new StringCollection(_currentForm);
+                        _stringCollections.Add(stringCollection);
+                        _strings[_currentForm] = stringCollection.StringsTable;
+                    }
+
+                    Control control;
+
+                    if (IsFrameworkType(asmType))
+                    {
+                        //Only try calling the default constructor on MS-provided types
+                        try
+                        {
+                            control = (Control) Activator.CreateInstance(asmType, new object[] {});
+                        }
+                        catch (MissingMethodException)
+                        {
+                            if (!isForm)
+                            {
+                                //We can't do anything about it, as we must hard-code each known type
+                                _failedControls.Add(asmType.Name);
+                                continue;
+                            }
+
+                            //Create the object without initializing it
+                            control = CreateControlWithoutConstructor(asmType);
+                        }
+                    }
+                    else
+                    {
                         control = CreateControlWithoutConstructor(asmType);
                     }
-                }
-                else
-                {
-                    control = CreateControlWithoutConstructor(asmType);
-                }
 
-                if (control == null)
-                {
-                    _failedControls.Add(asmType.Name);
-                    continue; //Give up already!
-                }
-
-                foreach (var item in (IEnumerable) controls.GetValue(control, null))
-                {
-                    if (!(item is Control))
-                        continue;
-
-                    var subControl = item as Control;
-
-                    if (!string.IsNullOrEmpty(subControl.Text))
+                    if (control == null)
                     {
-                        _strings[_currentForm].Add(subControl.Name, subControl.Text);
+                        _failedControls.Add(asmType.Name);
+                        continue; //Give up already!
                     }
 
-                    LoadStrings(new[] {subControl.GetType()});
+                    var collection = property.GetValue(control, null);
+
+                    if(!(collection is IEnumerable))
+                    {
+                        _failedControls.Add(asmType.Name);
+                        continue;
+                    }
+
+                    LoadStringsFromObjects((IEnumerable)property.GetValue(control, null));
+
+                    foreach (var item in (IEnumerable)property.GetValue(control, null))
+                    {
+                        if (!(item is Control))
+                            continue;
+
+                        LoadStringsFromTypes(new[] { item.GetType() });
+                    }
                 }
             }
         }
@@ -192,7 +228,7 @@ namespace NeoSmart.Localization
 
             var assembly = Assembly.LoadFrom(path);
 
-            LoadStrings(assembly.GetTypes());
+            LoadStringsFromTypes(assembly.GetTypes());
 
             return _stringCollections;
         }
