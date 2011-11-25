@@ -4,141 +4,132 @@ using System.IO;
 
 namespace NeoSmart.Localization
 {
-    public class LocaleManager
-    {
-        private static string _transFolder = @"";
-        private static string _defaultLocale = @"";
-        private static string _propertiesXml = @"";
-        private static readonly Dictionary<string, Locale> LocalesMap = new Dictionary<string, Locale>();
+	public class LocaleManager
+	{
+		private static string _transFolder = @"";
+		private static string _defaultLocale = @"";
+		private static string _propertiesXml = @"";
+		private static readonly Dictionary<string, Locale> LocalesMap = new Dictionary<string, Locale>();
 
-        private string _currentLocale;
-        private bool _defaultLoaded;
+		private string _currentLocale;
 
-        public static string DefaultLocale
-        {
-            get { return _defaultLocale; }
-            set { lock (_defaultLocale) _defaultLocale = value; }
-        }
+		public static string DefaultLocale
+		{
+			get { return _defaultLocale; }
+			set { lock (_defaultLocale) _defaultLocale = value; }
+		}
 
-        public static IEnumerable<string> Locales
-        {
-            get { return LocalesMap.Keys; }
-        }
+		public static IEnumerable<string> Locales
+		{
+			get { return LocalesMap.Keys; }
+		}
 
-        public LocaleManager(string localizationFolder = @"lang", string propertiesXml = @"properties.xml",
-                             string defaultLocale = @"en-US")
-        {
-            lock (_transFolder)
-            {
-                _transFolder = Path.IsPathRooted(localizationFolder)
-                                   ? localizationFolder
-                                   : Path.Combine(AppDomain.CurrentDomain.BaseDirectory, localizationFolder);
-            }
+		public LocaleManager(string localizationFolder = @"lang", string propertiesXml = @"properties.xml", string defaultLocale = @"en-US")
+		{
+			lock (_transFolder)
+			{
+				_transFolder = Path.IsPathRooted(localizationFolder)
+				               	? localizationFolder
+				               	: Path.Combine(AppDomain.CurrentDomain.BaseDirectory, localizationFolder);
+			}
 
-            lock (_propertiesXml)
-            {
-                _propertiesXml = propertiesXml;
-            }
+			lock (_propertiesXml)
+			{
+				_propertiesXml = propertiesXml;
+			}
 
-            lock (_defaultLocale)
-            {
-                _defaultLocale = defaultLocale;
-            }
-        }
+			lock (_defaultLocale)
+			{
+				_defaultLocale = defaultLocale;
+			}
+		}
 
-        public static void LoadLocales()
-        {
-            lock (Locales)
-            {
-                LocalesMap.Clear();
-                var directories = Directory.GetDirectories(_transFolder);
-                foreach (var directory in directories)
-                {
-                    var localeKey = Path.GetFileName(directory);
-                    if (string.IsNullOrEmpty(localeKey))
-                        continue;
+		public static void LoadLocales()
+		{
+			lock (Locales)
+			{
+				LocalesMap.Clear();
+				var directories = Directory.GetDirectories(_transFolder);
+				foreach (var directory in directories)
+				{
+					var localeKey = Path.GetFileName(directory);
+					if (string.IsNullOrEmpty(localeKey))
+						continue;
 
-                    if (!File.Exists(Path.Combine(directory, _propertiesXml)))
-                        continue;
+					if (!File.Exists(Path.Combine(directory, _propertiesXml)))
+						continue;
 
-                    LocalesMap.Add(localeKey, new Locale(localeKey));
-                }
-            }
-        }
+					LocalesMap.Add(localeKey, new Locale(localeKey));
+				}
+			}
+		}
 
-        public bool SetLocale(string localeKey)
-        {
-            lock (Locales)
-            {
-                if (!LocalesMap.ContainsKey(localeKey))
-                    return false;
-            }
+		public bool SetLocale(string localeKey)
+		{
+			lock (Locales)
+			{
+				if (!LocalesMap.ContainsKey(localeKey))
+					return false;
+			}
 
-            _currentLocale = localeKey;
-            _defaultLoaded = false;
+			_currentLocale = localeKey;
 
-            LoadLocale(localeKey);
-            if (!LoadLocale(_defaultLocale))
-                throw new DefaultLocaleNotFoundException();
+			LoadLocale(localeKey);
+			if (!LoadLocale(_defaultLocale))
+				throw new DefaultLocaleNotFoundException();
 
-            return true;
-        }
+			return true;
+		}
 
-        private bool LoadLocale(string localeKey)
-        {
-            if (localeKey == _defaultLocale)
-            {
-                if (_defaultLoaded)
-                    return true;
-                _defaultLoaded = true;
-            }
+		private bool LoadLocale(string localeKey)
+		{
+			var localeFolder = Path.Combine(_transFolder, localeKey);
+			if (!Directory.Exists(localeFolder))
+				return false;
 
-            var localeFolder = Path.Combine(_transFolder, localeKey);
-            if (!Directory.Exists(localeFolder))
-                return false;
+            if (LocalesMap.ContainsKey(localeKey))
+                return true;
 
-            return LocalesMap[localeKey].Load(Path.Combine(localeFolder, _propertiesXml));
-        }
+			LocalesMap.Add(localeKey, new Locale(localeKey));
 
-        public string GetString(string key, string fallback = null)
-        {
-            if (string.IsNullOrEmpty(_currentLocale))
-            {
-                LoadLocale(_defaultLocale);
+			bool result = LocalesMap[localeKey].Load(Path.Combine(localeFolder, _propertiesXml));
 
-                if (string.IsNullOrEmpty(_currentLocale))
-                    return fallback;
-            }
+			return result;
+		}
 
-            var locale = LocalesMap[_currentLocale];
+		public string GetString(string collectionKey, string key, string fallback = null)
+		{
+			var localeKey = string.IsNullOrEmpty(_currentLocale) ? _defaultLocale : _currentLocale;
+			
+			if (!LocalesMap.ContainsKey(localeKey))
+			{
+				LoadLocale(localeKey);
+			}
 
-            while (true)
-            {
-                try
-                {
-                    return locale.GetString(key);
-                }
-                catch (KeyNotFoundException)
-                {
-                    if (!string.IsNullOrEmpty(locale.ParentLocale))
-                    {
-                        locale = LocalesMap[locale.ParentLocale];
-                        continue;
-                    }
+			var locale = LocalesMap[localeKey];
 
-                    if (fallback != null)
-                    {
-                        return fallback;
-                    }
+			while (true)
+			{
+				try
+				{
+					return locale.GetString(collectionKey, key);
+				}
+				catch (KeyNotFoundException)
+				{
+					if (!string.IsNullOrEmpty(locale.ParentLocale))
+					{
+						locale = LocalesMap[locale.ParentLocale];
+						continue;
+					}
 
-                    throw new StringNotFoundException();
-                }
-            }
-        }
+					if (fallback != null)
+					{
+						return fallback;
+					}
 
-        public string SetText(System.Windows.Forms.Control control)
-        {
-            return control.Text = GetString(control.Name);
-        }
-    }
+					throw new StringNotFoundException();
+				}
+			}
+		}
+	}
 }
