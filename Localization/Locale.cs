@@ -24,7 +24,6 @@ namespace NeoSmart.Localization
 
 		public string Key { get; private set; }
 		public string Name { get; internal set; }
-		public bool Loaded { get; internal set; }
 		public bool RightToLeft { get; set; }
 		public string ParentLocale { get; private set; }
 
@@ -41,9 +40,6 @@ namespace NeoSmart.Localization
 
 		public string GetString(string collectionKey, string key)
 		{
-			if (!Loaded)
-				throw new Exception("Attempt to get key from unloaded locale!");
-
 			return _stringMap[collectionKey].StringsTable[key];
 		}
 
@@ -112,7 +108,7 @@ namespace NeoSmart.Localization
 				_stringMap[stringKey] = stringCollection;
 			}
 
-			return Loaded = true;
+			return true;
 		}
 
 		public bool Save(string xmlPath, bool exportStrings = true)
