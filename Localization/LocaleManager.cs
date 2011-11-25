@@ -13,6 +13,8 @@ namespace NeoSmart.Localization
 
 		private string _currentLocale;
 
+		public string DefaultCollectionKey { get; set; }
+
 		public static string DefaultLocale
 		{
 			get { return _defaultLocale; }
@@ -24,7 +26,8 @@ namespace NeoSmart.Localization
 			get { return LocalesMap.Keys; }
 		}
 
-		public LocaleManager(string localizationFolder = @"lang", string propertiesXml = @"properties.xml", string defaultLocale = @"en-US")
+		public LocaleManager(string defaultCollectionKey = null, string localizationFolder = @"lang",
+		                     string propertiesXml = @"properties.xml", string defaultLocale = @"en-US")
 		{
 			lock (_transFolder)
 			{
@@ -42,6 +45,8 @@ namespace NeoSmart.Localization
 			{
 				_defaultLocale = defaultLocale;
 			}
+
+			DefaultCollectionKey = defaultCollectionKey;
 		}
 
 		public static void LoadLocales()
@@ -87,14 +92,20 @@ namespace NeoSmart.Localization
 			if (!Directory.Exists(localeFolder))
 				return false;
 
-            if (LocalesMap.ContainsKey(localeKey))
-                return true;
+			if (LocalesMap.ContainsKey(localeKey))
+				return true;
 
 			LocalesMap.Add(localeKey, new Locale(localeKey));
 
 			bool result = LocalesMap[localeKey].Load(Path.Combine(localeFolder, _propertiesXml));
 
 			return result;
+		}
+
+		public string GetString(string key, string fallback = null)
+		{
+			CheckDefaultCollectionKey();
+			return GetString(DefaultCollectionKey, key, fallback);
 		}
 
 		public string GetString(string collectionKey, string key, string fallback = null)
@@ -130,6 +141,32 @@ namespace NeoSmart.Localization
 					throw new StringNotFoundException();
 				}
 			}
+		}
+
+		private void CheckDefaultCollectionKey()
+		{
+			if(DefaultCollectionKey == null)
+			{
+				throw new DefaultCollectionKeyNotSet("An attempt to load keys without specifying the collection key was made, and no default collection key was previously set.");
+			}
+		}
+
+		public string [] GetStrings(string [] keys)
+		{
+			CheckDefaultCollectionKey();
+			return GetStrings(DefaultCollectionKey, keys);
+		}
+
+		public string [] GetStrings(string collectionKey, string [] keys)
+		{
+			var results = new List<string>(keys.Length);
+
+			foreach(string key in keys)
+			{
+				results.Add(GetString(collectionKey, key));
+			}
+
+			return results.ToArray();
 		}
 	}
 }

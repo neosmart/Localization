@@ -38,6 +38,14 @@ namespace NeoSmart.Localization
 		}
 	}
 
+	public class DefaultCollectionKeyNotSet : LocalizationException
+	{
+		public DefaultCollectionKeyNotSet(string message = "")
+			: base(message)
+		{
+		}
+	}
+
 	public class StringNotFoundException : LocalizationException
 	{
 	}
