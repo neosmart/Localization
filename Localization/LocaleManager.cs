@@ -102,10 +102,10 @@ namespace NeoSmart.Localization
 			return result;
 		}
 
-		public string GetString(string key, string fallback = null)
+		public string GetString(string key, bool useFallback = false, string fallback = null)
 		{
 			CheckDefaultCollectionKey();
-			return GetString(DefaultCollectionKey, key, fallback);
+			return GetString(DefaultCollectionKey, key, useFallback ? fallback : null);
 		}
 
 		public string GetString(string collectionKey, string key, string fallback = null)
