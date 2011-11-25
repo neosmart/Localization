@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Locale.cs" />
+    <Compile Include="SizeSync.cs" />
     <Compile Include="StringCollection.cs" />
     <Compile Include="StringDump.cs" />
     <Compile Include="LocaleManager.cs" />
