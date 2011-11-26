@@ -104,6 +104,23 @@ namespace NeoSmart.Localization
 			return result;
 		}
 
+		public StringStatus GetStringStatus(Locale locale, string collectionKey, string key)
+		{
+			StringTranslation translation;
+			locale.StringCollections[collectionKey].StringsTable.TryGetValue(key, out translation);
+				
+			if (translation == null)
+				return StringStatus.Missing;
+
+			if (translation.DeriveFromParent)
+				return StringStatus.UpToDate;
+
+			if (translation.Version == LocalesMap[_defaultLocale].StringCollections[collectionKey].StringsTable[key].Version)
+				return StringStatus.UpToDate;
+
+			return StringStatus.Outdated;
+		}
+
 		public string GetString(string key, bool useFallback = false, string fallback = null)
 		{
 			CheckDefaultCollectionKey();

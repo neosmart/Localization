@@ -6,7 +6,7 @@ namespace NeoSmart.Localization
 {
 	public enum StringStatus
 	{
-		Synced,
+		UpToDate,
 		Outdated,
 		Missing
 	}
