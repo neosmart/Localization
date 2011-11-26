@@ -29,13 +29,14 @@
 		private void InitializeComponent()
 		{
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+			this.lstKeys = new System.Windows.Forms.ListView();
 			this.splitContainer2 = new System.Windows.Forms.SplitContainer();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
-			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.txtOld = new System.Windows.Forms.TextBox();
+			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.txtNew = new System.Windows.Forms.TextBox();
-			this.groupBox3 = new System.Windows.Forms.GroupBox();
-			this.lstKeys = new System.Windows.Forms.ListView();
+			this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
+			this.colKey = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
@@ -44,7 +45,8 @@
 			this.splitContainer2.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
-			this.groupBox3.SuspendLayout();
+			this.toolStripContainer1.ContentPanel.SuspendLayout();
+			this.toolStripContainer1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// splitContainer1
@@ -55,14 +57,29 @@
 			// 
 			// splitContainer1.Panel1
 			// 
-			this.splitContainer1.Panel1.Controls.Add(this.groupBox3);
+			this.splitContainer1.Panel1.Controls.Add(this.lstKeys);
 			// 
 			// splitContainer1.Panel2
 			// 
 			this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
-			this.splitContainer1.Size = new System.Drawing.Size(485, 309);
-			this.splitContainer1.SplitterDistance = 117;
+			this.splitContainer1.Size = new System.Drawing.Size(485, 284);
+			this.splitContainer1.SplitterDistance = 116;
 			this.splitContainer1.TabIndex = 0;
+			// 
+			// lstKeys
+			// 
+			this.lstKeys.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.colKey});
+			this.lstKeys.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.lstKeys.FullRowSelect = true;
+			this.lstKeys.HideSelection = false;
+			this.lstKeys.Location = new System.Drawing.Point(0, 0);
+			this.lstKeys.Name = "lstKeys";
+			this.lstKeys.Size = new System.Drawing.Size(116, 284);
+			this.lstKeys.TabIndex = 1;
+			this.lstKeys.UseCompatibleStateImageBehavior = false;
+			this.lstKeys.View = System.Windows.Forms.View.Details;
+			this.lstKeys.SelectedIndexChanged += new System.EventHandler(this.lstKeys_SelectedIndexChanged);
 			// 
 			// splitContainer2
 			// 
@@ -78,8 +95,8 @@
 			// splitContainer2.Panel2
 			// 
 			this.splitContainer2.Panel2.Controls.Add(this.groupBox2);
-			this.splitContainer2.Size = new System.Drawing.Size(364, 309);
-			this.splitContainer2.SplitterDistance = 106;
+			this.splitContainer2.Size = new System.Drawing.Size(365, 284);
+			this.splitContainer2.SplitterDistance = 97;
 			this.splitContainer2.TabIndex = 0;
 			// 
 			// groupBox1
@@ -90,10 +107,24 @@
 			this.groupBox1.Controls.Add(this.txtOld);
 			this.groupBox1.Location = new System.Drawing.Point(3, 3);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(358, 100);
+			this.groupBox1.Size = new System.Drawing.Size(359, 91);
 			this.groupBox1.TabIndex = 0;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Source Text";
+			// 
+			// txtOld
+			// 
+			this.txtOld.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.txtOld.BackColor = System.Drawing.Color.White;
+			this.txtOld.Location = new System.Drawing.Point(6, 19);
+			this.txtOld.Multiline = true;
+			this.txtOld.Name = "txtOld";
+			this.txtOld.ReadOnly = true;
+			this.txtOld.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+			this.txtOld.Size = new System.Drawing.Size(347, 66);
+			this.txtOld.TabIndex = 0;
 			// 
 			// groupBox2
 			// 
@@ -103,62 +134,48 @@
 			this.groupBox2.Controls.Add(this.txtNew);
 			this.groupBox2.Location = new System.Drawing.Point(3, 3);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(358, 193);
+			this.groupBox2.Size = new System.Drawing.Size(359, 174);
 			this.groupBox2.TabIndex = 0;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Translated Text";
-			// 
-			// txtOld
-			// 
-			this.txtOld.BackColor = System.Drawing.Color.White;
-			this.txtOld.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.txtOld.Location = new System.Drawing.Point(3, 16);
-			this.txtOld.Multiline = true;
-			this.txtOld.Name = "txtOld";
-			this.txtOld.ReadOnly = true;
-			this.txtOld.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.txtOld.Size = new System.Drawing.Size(352, 81);
-			this.txtOld.TabIndex = 0;
 			// 
 			// txtNew
 			// 
 			this.txtNew.AcceptsReturn = true;
 			this.txtNew.AcceptsTab = true;
-			this.txtNew.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.txtNew.Location = new System.Drawing.Point(3, 16);
-			this.txtNew.Multiline = true;
-			this.txtNew.Name = "txtNew";
-			this.txtNew.Size = new System.Drawing.Size(352, 174);
-			this.txtNew.TabIndex = 0;
-			// 
-			// groupBox3
-			// 
-			this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			this.txtNew.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.groupBox3.Controls.Add(this.lstKeys);
-			this.groupBox3.Location = new System.Drawing.Point(4, 4);
-			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(110, 299);
-			this.groupBox3.TabIndex = 0;
-			this.groupBox3.TabStop = false;
-			this.groupBox3.Text = "Translation Keys";
+			this.txtNew.Location = new System.Drawing.Point(6, 19);
+			this.txtNew.Multiline = true;
+			this.txtNew.Name = "txtNew";
+			this.txtNew.Size = new System.Drawing.Size(347, 149);
+			this.txtNew.TabIndex = 0;
 			// 
-			// lstKeys
+			// toolStripContainer1
 			// 
-			this.lstKeys.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.lstKeys.Location = new System.Drawing.Point(3, 16);
-			this.lstKeys.Name = "lstKeys";
-			this.lstKeys.Size = new System.Drawing.Size(104, 280);
-			this.lstKeys.TabIndex = 1;
-			this.lstKeys.UseCompatibleStateImageBehavior = false;
-			this.lstKeys.View = System.Windows.Forms.View.List;
+			// 
+			// toolStripContainer1.ContentPanel
+			// 
+			this.toolStripContainer1.ContentPanel.Controls.Add(this.splitContainer1);
+			this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(485, 284);
+			this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
+			this.toolStripContainer1.Name = "toolStripContainer1";
+			this.toolStripContainer1.Size = new System.Drawing.Size(485, 309);
+			this.toolStripContainer1.TabIndex = 1;
+			this.toolStripContainer1.Text = "toolStripContainer1";
+			// 
+			// colKey
+			// 
+			this.colKey.Text = "Translation Key";
+			this.colKey.Width = 93;
 			// 
 			// Translator
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.Controls.Add(this.splitContainer1);
+			this.Controls.Add(this.toolStripContainer1);
 			this.Name = "Translator";
 			this.Size = new System.Drawing.Size(485, 309);
 			this.splitContainer1.Panel1.ResumeLayout(false);
@@ -171,7 +188,9 @@
 			this.groupBox1.PerformLayout();
 			this.groupBox2.ResumeLayout(false);
 			this.groupBox2.PerformLayout();
-			this.groupBox3.ResumeLayout(false);
+			this.toolStripContainer1.ContentPanel.ResumeLayout(false);
+			this.toolStripContainer1.ResumeLayout(false);
+			this.toolStripContainer1.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -184,7 +203,8 @@
 		private System.Windows.Forms.TextBox txtOld;
 		private System.Windows.Forms.GroupBox groupBox2;
 		private System.Windows.Forms.TextBox txtNew;
-		private System.Windows.Forms.GroupBox groupBox3;
 		private System.Windows.Forms.ListView lstKeys;
+		private System.Windows.Forms.ToolStripContainer toolStripContainer1;
+		private System.Windows.Forms.ColumnHeader colKey;
 	}
 }

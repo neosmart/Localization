@@ -8,12 +8,18 @@ namespace NeoSmart.Localization
 	{
 		public string Key { get; private set; }
 
-		public Dictionary<string, string> StringsTable
+		public string this[string key]
+		{
+			get { return StringsTable[key].Value; }
+			set { StringsTable[key] = new StringTranslation(key, value); }
+		}
+
+		public Dictionary<string, StringTranslation> StringsTable
 		{
 			get { return _strings; }
 		}
 
-		private readonly Dictionary<string, string> _strings = new Dictionary<string, string>();
+		private readonly Dictionary<string, StringTranslation> _strings = new Dictionary<string, StringTranslation>();
 
 		public StringCollection(string key)
 		{
@@ -31,7 +37,7 @@ namespace NeoSmart.Localization
 			var xmlNode = xmlDocument.AppendChild(xmlDocument.CreateElement(@"localization"));
 			xmlNode = xmlNode.AppendChild(xmlDocument.CreateElement(@"strings"));
 
-			foreach (var entry in _strings)
+			foreach (var entry in _strings.Values)
 			{
 				var stringNode = xmlDocument.CreateElement(@"string");
 
@@ -71,26 +77,26 @@ namespace NeoSmart.Localization
 					if (_strings.ContainsKey(key))
 						throw new DuplicateKeyException(string.Format("Key {0} in {1}\\{2} was defined more than once.", key, localeKey, Key));
 
-					_strings.Add(key, text.Attributes["value"].InnerText);
+					_strings[key] = new StringTranslation(key, text.Attributes["value"].InnerText);
 				}
 			}
 		}
 
 		public void Merge(StringCollection newStrings, bool overwriteExisting = true)
 		{
-			Merge(newStrings.StringsTable, overwriteExisting);
+			Merge(newStrings.StringsTable.Values, overwriteExisting);
 
 			return;
 		}
 
-		public void Merge(Dictionary<string, string> newStrings, bool overwriteExisting = true)
+		public void Merge(IEnumerable<StringTranslation> newStrings, bool overwriteExisting = true)
 		{
 			foreach (var entry in newStrings)
 			{
 				if (StringsTable.ContainsKey(entry.Key) && !overwriteExisting)
 					continue;
 
-				StringsTable[entry.Key] = entry.Value;
+				StringsTable[entry.Key] = new StringTranslation(entry.Key, entry.Value);
 			}
 		}
 	}

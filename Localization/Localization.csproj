@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums.cs" />
     <Compile Include="Locale.cs" />
     <Compile Include="SizeSync.cs" />
     <Compile Include="StringCollection.cs" />
@@ -50,6 +51,7 @@
     <Compile Include="LocaleManager.cs" />
     <Compile Include="Exceptions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StringTranslation.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="NeoSmart Technologies.snk" />

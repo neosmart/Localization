@@ -15,26 +15,33 @@ namespace NeoSmart.Localization
 
 		public string DefaultCollectionKey { get; set; }
 
-		public static string DefaultLocale
+		public string DefaultLocale
 		{
 			get { return _defaultLocale; }
 			set { lock (_defaultLocale) _defaultLocale = value; }
 		}
 
-		public static IEnumerable<string> Locales
+		public Dictionary<string, Locale> Locales
 		{
-			get { return LocalesMap.Keys; }
+			get { return LocalesMap; }
 		}
 
-		public LocaleManager(string defaultCollectionKey = null, string localizationFolder = @"lang",
-		                     string propertiesXml = @"properties.xml", string defaultLocale = @"en-US")
+		public string LocaleRoot
 		{
-			lock (_transFolder)
+			get { return _transFolder; }
+			set
 			{
-				_transFolder = Path.IsPathRooted(localizationFolder)
-				               	? localizationFolder
-				               	: Path.Combine(AppDomain.CurrentDomain.BaseDirectory, localizationFolder);
+				lock (_transFolder)
+				{
+					_transFolder = Path.IsPathRooted(value) ? value : Path.Combine(AppDomain.CurrentDomain.BaseDirectory, value);
+				}
 			}
+		}
+
+		public LocaleManager(string defaultCollectionKey = null, string defaultLocale = @"en-US", string localizationFolder = @"lang",
+		                     string propertiesXml = @"properties.xml")
+		{
+			LocaleRoot = localizationFolder;
 
 			lock (_propertiesXml)
 			{
@@ -49,7 +56,7 @@ namespace NeoSmart.Localization
 			DefaultCollectionKey = defaultCollectionKey;
 		}
 
-		public static void LoadLocales()
+		public void LoadLocales()
 		{
 			lock (Locales)
 			{
@@ -91,11 +98,6 @@ namespace NeoSmart.Localization
 			var localeFolder = Path.Combine(_transFolder, localeKey);
 			if (!Directory.Exists(localeFolder))
 				return false;
-
-			if (LocalesMap.ContainsKey(localeKey))
-				return true;
-
-			LocalesMap.Add(localeKey, new Locale(localeKey));
 
 			bool result = LocalesMap[localeKey].Load(Path.Combine(localeFolder, _propertiesXml));
 

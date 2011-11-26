@@ -9,7 +9,7 @@ namespace NeoSmart.Localization
 {
 	public class StringDump
 	{
-		private Dictionary<string, Dictionary<string, string>> _strings = new Dictionary<string, Dictionary<string, string>>();
+		private Dictionary<string, StringCollection> _strings = new Dictionary<string, StringCollection>();
 		private List<StringCollection> _stringCollections = new List<StringCollection>();
 		private List<string> _failedControls = new List<string>();
 
@@ -148,7 +148,7 @@ namespace NeoSmart.Localization
 
 					var stringCollection = new StringCollection(_currentForm);
 					_stringCollections.Add(stringCollection);
-					_strings[_currentForm] = stringCollection.StringsTable;
+					_strings[_currentForm] = stringCollection;
 				}
 
 				object control;
@@ -209,7 +209,7 @@ namespace NeoSmart.Localization
 
 		public List<StringCollection> GetAssemblyStrings(string path)
 		{
-			_strings = new Dictionary<string, Dictionary<string, string>>();
+			_strings = new Dictionary<string, StringCollection>();
 			_stringCollections = new List<StringCollection>();
 			_failedControls = new List<string>();
 

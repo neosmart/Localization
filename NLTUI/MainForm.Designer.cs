@@ -41,18 +41,22 @@
 			this.newToolStripButton = new System.Windows.Forms.ToolStripButton();
 			this.openToolStripButton = new System.Windows.Forms.ToolStripButton();
 			this.saveToolStripButton = new System.Windows.Forms.ToolStripButton();
-			this.printToolStripButton = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
 			this.cutToolStripButton = new System.Windows.Forms.ToolStripButton();
 			this.copyToolStripButton = new System.Windows.Forms.ToolStripButton();
 			this.pasteToolStripButton = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.helpToolStripButton = new System.Windows.Forms.ToolStripButton();
+			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+			this.toolStrip2 = new System.Windows.Forms.ToolStrip();
+			this.txtLocaleSelector = new System.Windows.Forms.ToolStripLabel();
+			this.cbxLocales = new System.Windows.Forms.ToolStripDropDownButton();
 			this.menuStrip1.SuspendLayout();
 			this.toolStripContainer1.ContentPanel.SuspendLayout();
 			this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
 			this.toolStripContainer1.SuspendLayout();
 			this.toolStrip1.SuspendLayout();
+			this.toolStrip2.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// statusStrip1
@@ -120,10 +124,10 @@
 			// toolStripContainer1.TopToolStripPanel
 			// 
 			this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip1);
+			this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip2);
 			// 
 			// tbxTranslations
 			// 
-			this.tbxTranslations.Alignment = System.Windows.Forms.TabAlignment.Bottom;
 			this.tbxTranslations.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tbxTranslations.Location = new System.Drawing.Point(0, 0);
 			this.tbxTranslations.Name = "tbxTranslations";
@@ -138,16 +142,16 @@
             this.newToolStripButton,
             this.openToolStripButton,
             this.saveToolStripButton,
-            this.printToolStripButton,
             this.toolStripSeparator,
             this.cutToolStripButton,
             this.copyToolStripButton,
             this.pasteToolStripButton,
             this.toolStripSeparator1,
-            this.helpToolStripButton});
+            this.helpToolStripButton,
+            this.toolStripSeparator2});
 			this.toolStrip1.Location = new System.Drawing.Point(3, 0);
 			this.toolStrip1.Name = "toolStrip1";
-			this.toolStrip1.Size = new System.Drawing.Size(208, 25);
+			this.toolStrip1.Size = new System.Drawing.Size(191, 25);
 			this.toolStrip1.TabIndex = 0;
 			// 
 			// newToolStripButton
@@ -158,6 +162,7 @@
 			this.newToolStripButton.Name = "newToolStripButton";
 			this.newToolStripButton.Size = new System.Drawing.Size(23, 22);
 			this.newToolStripButton.Text = "&New";
+			this.newToolStripButton.Click += new System.EventHandler(this.newToolStripButton_Click);
 			// 
 			// openToolStripButton
 			// 
@@ -167,6 +172,7 @@
 			this.openToolStripButton.Name = "openToolStripButton";
 			this.openToolStripButton.Size = new System.Drawing.Size(23, 22);
 			this.openToolStripButton.Text = "&Open";
+			this.openToolStripButton.Click += new System.EventHandler(this.openToolStripButton_Click);
 			// 
 			// saveToolStripButton
 			// 
@@ -176,15 +182,6 @@
 			this.saveToolStripButton.Name = "saveToolStripButton";
 			this.saveToolStripButton.Size = new System.Drawing.Size(23, 22);
 			this.saveToolStripButton.Text = "&Save";
-			// 
-			// printToolStripButton
-			// 
-			this.printToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.printToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("printToolStripButton.Image")));
-			this.printToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.printToolStripButton.Name = "printToolStripButton";
-			this.printToolStripButton.Size = new System.Drawing.Size(23, 22);
-			this.printToolStripButton.Text = "&Print";
 			// 
 			// toolStripSeparator
 			// 
@@ -232,6 +229,36 @@
 			this.helpToolStripButton.Size = new System.Drawing.Size(23, 22);
 			this.helpToolStripButton.Text = "He&lp";
 			// 
+			// toolStripSeparator2
+			// 
+			this.toolStripSeparator2.Name = "toolStripSeparator2";
+			this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+			// 
+			// toolStrip2
+			// 
+			this.toolStrip2.Dock = System.Windows.Forms.DockStyle.None;
+			this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.txtLocaleSelector,
+            this.cbxLocales});
+			this.toolStrip2.Location = new System.Drawing.Point(198, 0);
+			this.toolStrip2.Name = "toolStrip2";
+			this.toolStrip2.Size = new System.Drawing.Size(69, 25);
+			this.toolStrip2.TabIndex = 1;
+			// 
+			// txtLocaleSelector
+			// 
+			this.txtLocaleSelector.Name = "txtLocaleSelector";
+			this.txtLocaleSelector.Size = new System.Drawing.Size(44, 22);
+			this.txtLocaleSelector.Text = "Locale:";
+			// 
+			// cbxLocales
+			// 
+			this.cbxLocales.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.cbxLocales.Image = ((System.Drawing.Image)(resources.GetObject("cbxLocales.Image")));
+			this.cbxLocales.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.cbxLocales.Name = "cbxLocales";
+			this.cbxLocales.Size = new System.Drawing.Size(13, 22);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -252,6 +279,8 @@
 			this.toolStripContainer1.PerformLayout();
 			this.toolStrip1.ResumeLayout(false);
 			this.toolStrip1.PerformLayout();
+			this.toolStrip2.ResumeLayout(false);
+			this.toolStrip2.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -271,13 +300,16 @@
 		private System.Windows.Forms.ToolStripButton newToolStripButton;
 		private System.Windows.Forms.ToolStripButton openToolStripButton;
 		private System.Windows.Forms.ToolStripButton saveToolStripButton;
-		private System.Windows.Forms.ToolStripButton printToolStripButton;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator;
 		private System.Windows.Forms.ToolStripButton cutToolStripButton;
 		private System.Windows.Forms.ToolStripButton copyToolStripButton;
 		private System.Windows.Forms.ToolStripButton pasteToolStripButton;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 		private System.Windows.Forms.ToolStripButton helpToolStripButton;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+		private System.Windows.Forms.ToolStrip toolStrip2;
+		private System.Windows.Forms.ToolStripLabel txtLocaleSelector;
+		private System.Windows.Forms.ToolStripDropDownButton cbxLocales;
 	}
 }
 

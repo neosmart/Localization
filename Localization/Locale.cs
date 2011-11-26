@@ -7,29 +7,16 @@ namespace NeoSmart.Localization
 {
 	public class Locale : IComparable<Locale>
 	{
-		private readonly Dictionary<string, StringCollection> _stringMap = new Dictionary<string, StringCollection>();
-
-		public IEnumerable<StringCollection> StringCollections
-		{
-			get { return _stringMap.Values; }
-			set
-			{
-				_stringMap.Clear();
-				foreach (var stringCollection in value)
-				{
-					_stringMap.Add(stringCollection.Key, stringCollection);
-				}
-			}
-		}
+		public readonly Dictionary<string, StringCollection> StringCollections = new Dictionary<string, StringCollection>();
 
 		public string Key { get; private set; }
 		public string Name { get; internal set; }
 		public bool RightToLeft { get; set; }
-		public string ParentLocale { get; private set; }
+		public string ParentLocale { get; set; }
 
 		public int CompareTo(Locale other)
 		{
-			return Name.CompareTo(other.Name);
+			return Key.CompareTo(other.Key);
 		}
 
 		public Locale(string localeKey)
@@ -40,7 +27,7 @@ namespace NeoSmart.Localization
 
 		public string GetString(string collectionKey, string key)
 		{
-			return _stringMap[collectionKey].StringsTable[key];
+			return StringCollections[collectionKey][key];
 		}
 
 		private void LoadPropertiesXml(string xmlPath)
@@ -61,7 +48,7 @@ namespace NeoSmart.Localization
 			RightToLeft = node != null && node.InnerText == "true";
 
 			node = xmlDocument.SelectSingleNode(@"/localization/locale/parentLocale");
-			ParentLocale = node != null ? node.InnerText : string.Empty;
+			ParentLocale = node != null ? node.InnerText : null;
 		}
 
 		private void SavePropertiesXml(string xmlPath)
@@ -105,7 +92,7 @@ namespace NeoSmart.Localization
 				var stringCollection = new StringCollection(stringKey);
 				stringCollection.Load(stringFile);
 
-				_stringMap[stringKey] = stringCollection;
+				StringCollections[stringKey] = stringCollection;
 			}
 
 			return true;
@@ -122,7 +109,7 @@ namespace NeoSmart.Localization
 				if (string.IsNullOrEmpty(folder))
 					return false;
 
-				foreach (var sCollection in _stringMap.Values)
+				foreach (var sCollection in StringCollections.Values)
 				{
 					sCollection.Save(Path.Combine(folder, sCollection.Key + @".xml"));
 				}
