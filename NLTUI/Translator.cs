@@ -11,26 +11,49 @@ namespace NLTUI
 {
 	public partial class Translator : UserControl
 	{
-		private Locale _locale;
 		private string _collectionKey;
+		private LocaleManager _localeManager;
 		private Locale _parentLocale;
+		private Locale _locale;
 
-		public Translator(Locale locale, Locale parentLocale = null)
+		public Translator(LocaleManager localeManager, Locale parentLocale = null)
 		{
-			_locale = locale;
+			_localeManager = localeManager;
 			_parentLocale = parentLocale;
 			InitializeComponent();
+
+			imageList1.Images.Add(@"red", Properties.Resources.red);
+			imageList1.Images.Add(@"orange", Properties.Resources.orange);
+			imageList1.Images.Add(@"green", Properties.Resources.green);
 		}
 
 		public void LoadKeys(Locale loadFrom, string collectionKey)
 		{
 			_collectionKey = collectionKey;
+			_locale = _localeManager.Locales[_localeManager.CurrentLocale];
 
 			var enumerable = loadFrom.StringCollections[collectionKey].StringsTable.Keys;
 			foreach (var key in enumerable)
 			{
-				lstKeys.Items.Add(new ListViewItem(key));
+				var item = new ListViewItem(key);
+
+				switch (_localeManager.GetStringStatus(_locale, _collectionKey, key))
+				{
+					case StringStatus.UpToDate:
+						item.ImageKey = @"green";
+						break;
+					case StringStatus.Outdated:
+						item.ImageKey = @"orange";
+						break;
+					case StringStatus.Missing:
+						item.ImageKey = @"red";
+						break;
+				}
+
+				lstKeys.Items.Add(item);
 			}
+
+			colKey.AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
 		}
 
 		private void lstKeys_SelectedIndexChanged(object sender, EventArgs e)
@@ -39,7 +62,7 @@ namespace NLTUI
 				return;
 
 			txtOld.Text = _parentLocale != null ? _parentLocale.GetString(_collectionKey, lstKeys.SelectedItems[0].Text) : string.Empty;
-			txtNew.Text = _locale.GetString(_collectionKey, lstKeys.SelectedItems[0].Text);
+			txtNew.Text = _localeManager.GetString(_collectionKey, lstKeys.SelectedItems[0].Text);
 		}
 	}
 }

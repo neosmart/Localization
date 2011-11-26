@@ -77,7 +77,7 @@ namespace NLTUI
 			var tabPage = new TabPage();
 			tabPage.Text = displayName;
 
-			var translator = new Translator(locale, !string.IsNullOrEmpty(locale.ParentLocale) ? _localeManager.Locales[locale.ParentLocale] : null);
+			var translator = new Translator(_localeManager, !string.IsNullOrEmpty(locale.ParentLocale) ? _localeManager.Locales[locale.ParentLocale] : null);
 
 			tabPage.Controls.Add(translator);
 			translator.Dock = DockStyle.Fill;

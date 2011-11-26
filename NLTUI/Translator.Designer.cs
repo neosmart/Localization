@@ -28,15 +28,17 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.lstKeys = new System.Windows.Forms.ListView();
+			this.colKey = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.splitContainer2 = new System.Windows.Forms.SplitContainer();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.txtOld = new System.Windows.Forms.TextBox();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.txtNew = new System.Windows.Forms.TextBox();
 			this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
-			this.colKey = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.imageList1 = new System.Windows.Forms.ImageList(this.components);
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
@@ -63,7 +65,7 @@
 			// 
 			this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
 			this.splitContainer1.Size = new System.Drawing.Size(485, 284);
-			this.splitContainer1.SplitterDistance = 116;
+			this.splitContainer1.SplitterDistance = 115;
 			this.splitContainer1.TabIndex = 0;
 			// 
 			// lstKeys
@@ -75,11 +77,17 @@
 			this.lstKeys.HideSelection = false;
 			this.lstKeys.Location = new System.Drawing.Point(0, 0);
 			this.lstKeys.Name = "lstKeys";
-			this.lstKeys.Size = new System.Drawing.Size(116, 284);
+			this.lstKeys.Size = new System.Drawing.Size(115, 284);
+			this.lstKeys.SmallImageList = this.imageList1;
 			this.lstKeys.TabIndex = 1;
 			this.lstKeys.UseCompatibleStateImageBehavior = false;
 			this.lstKeys.View = System.Windows.Forms.View.Details;
 			this.lstKeys.SelectedIndexChanged += new System.EventHandler(this.lstKeys_SelectedIndexChanged);
+			// 
+			// colKey
+			// 
+			this.colKey.Text = "Translation Key";
+			this.colKey.Width = 93;
 			// 
 			// splitContainer2
 			// 
@@ -95,7 +103,7 @@
 			// splitContainer2.Panel2
 			// 
 			this.splitContainer2.Panel2.Controls.Add(this.groupBox2);
-			this.splitContainer2.Size = new System.Drawing.Size(365, 284);
+			this.splitContainer2.Size = new System.Drawing.Size(366, 284);
 			this.splitContainer2.SplitterDistance = 97;
 			this.splitContainer2.TabIndex = 0;
 			// 
@@ -107,7 +115,7 @@
 			this.groupBox1.Controls.Add(this.txtOld);
 			this.groupBox1.Location = new System.Drawing.Point(3, 3);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(359, 91);
+			this.groupBox1.Size = new System.Drawing.Size(360, 91);
 			this.groupBox1.TabIndex = 0;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Source Text";
@@ -123,7 +131,7 @@
 			this.txtOld.Name = "txtOld";
 			this.txtOld.ReadOnly = true;
 			this.txtOld.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.txtOld.Size = new System.Drawing.Size(347, 66);
+			this.txtOld.Size = new System.Drawing.Size(348, 66);
 			this.txtOld.TabIndex = 0;
 			// 
 			// groupBox2
@@ -134,7 +142,7 @@
 			this.groupBox2.Controls.Add(this.txtNew);
 			this.groupBox2.Location = new System.Drawing.Point(3, 3);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(359, 174);
+			this.groupBox2.Size = new System.Drawing.Size(360, 174);
 			this.groupBox2.TabIndex = 0;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Translated Text";
@@ -149,7 +157,7 @@
 			this.txtNew.Location = new System.Drawing.Point(6, 19);
 			this.txtNew.Multiline = true;
 			this.txtNew.Name = "txtNew";
-			this.txtNew.Size = new System.Drawing.Size(347, 149);
+			this.txtNew.Size = new System.Drawing.Size(348, 149);
 			this.txtNew.TabIndex = 0;
 			// 
 			// toolStripContainer1
@@ -166,10 +174,11 @@
 			this.toolStripContainer1.TabIndex = 1;
 			this.toolStripContainer1.Text = "toolStripContainer1";
 			// 
-			// colKey
+			// imageList1
 			// 
-			this.colKey.Text = "Translation Key";
-			this.colKey.Width = 93;
+			this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
+			this.imageList1.ImageSize = new System.Drawing.Size(16, 16);
+			this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
 			// 
 			// Translator
 			// 
@@ -206,5 +215,6 @@
 		private System.Windows.Forms.ListView lstKeys;
 		private System.Windows.Forms.ToolStripContainer toolStripContainer1;
 		private System.Windows.Forms.ColumnHeader colKey;
+		private System.Windows.Forms.ImageList imageList1;
 	}
 }

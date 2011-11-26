@@ -67,6 +67,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="Translator.resx">
       <DependentUpon>Translator.cs</DependentUpon>
@@ -87,6 +88,24 @@
       <Project>{27E902E1-878B-4032-8455-7555D03FF7F9}</Project>
       <Name>Localization</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\green_small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\orange_small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\red_small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\green.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\orange.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\red.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
