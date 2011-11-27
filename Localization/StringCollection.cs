@@ -54,6 +54,9 @@ namespace NeoSmart.Localization
 				stringNode.SetAttribute(@"key", entry.Key);
 				stringNode.SetAttribute(@"value", entry.Value);
 
+				if (entry.BumpVersion)
+					++entry.Version;
+
 				if (entry.Version != 0)
 					stringNode.SetAttribute(@"version", entry.Version.ToString());
 

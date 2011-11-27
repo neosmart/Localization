@@ -240,9 +240,9 @@
 			this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.txtLocaleSelector,
             this.cbxLocales});
-			this.toolStrip2.Location = new System.Drawing.Point(198, 0);
+			this.toolStrip2.Location = new System.Drawing.Point(194, 0);
 			this.toolStrip2.Name = "toolStrip2";
-			this.toolStrip2.Size = new System.Drawing.Size(69, 25);
+			this.toolStrip2.Size = new System.Drawing.Size(100, 25);
 			this.toolStrip2.TabIndex = 1;
 			// 
 			// txtLocaleSelector

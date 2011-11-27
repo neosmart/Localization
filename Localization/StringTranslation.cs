@@ -12,17 +12,15 @@ namespace NeoSmart.Localization
 
 		public bool DeriveFromParent { get; set; }
 
-		public uint Version { get; set; }
+		public bool BumpVersion { get; set; }
+
+		public uint Version { get; internal set; }
 
 		public StringTranslation(string key, string value)
 		{
 			Key = key;
 			Value = value;
-		}
-
-		public uint BumpVersion()
-		{
-			return ++Version;
+			BumpVersion = false;
 		}
 	}
 }

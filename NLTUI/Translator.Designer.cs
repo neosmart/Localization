@@ -32,13 +32,16 @@
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.lstKeys = new System.Windows.Forms.ListView();
 			this.colKey = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.imageList1 = new System.Windows.Forms.ImageList(this.components);
 			this.splitContainer2 = new System.Windows.Forms.SplitContainer();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.txtOld = new System.Windows.Forms.TextBox();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
+			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+			this.chkDerived = new System.Windows.Forms.CheckBox();
+			this.chkMinorUpdate = new System.Windows.Forms.CheckBox();
 			this.txtNew = new System.Windows.Forms.TextBox();
 			this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
-			this.imageList1 = new System.Windows.Forms.ImageList(this.components);
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
@@ -47,6 +50,7 @@
 			this.splitContainer2.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
+			this.flowLayoutPanel1.SuspendLayout();
 			this.toolStripContainer1.ContentPanel.SuspendLayout();
 			this.toolStripContainer1.SuspendLayout();
 			this.SuspendLayout();
@@ -89,6 +93,12 @@
 			this.colKey.Text = "Translation Key";
 			this.colKey.Width = 93;
 			// 
+			// imageList1
+			// 
+			this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
+			this.imageList1.ImageSize = new System.Drawing.Size(16, 16);
+			this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+			// 
 			// splitContainer2
 			// 
 			this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -126,12 +136,12 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.txtOld.BackColor = System.Drawing.Color.White;
-			this.txtOld.Location = new System.Drawing.Point(6, 19);
+			this.txtOld.Location = new System.Drawing.Point(7, 19);
 			this.txtOld.Multiline = true;
 			this.txtOld.Name = "txtOld";
 			this.txtOld.ReadOnly = true;
 			this.txtOld.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.txtOld.Size = new System.Drawing.Size(348, 66);
+			this.txtOld.Size = new System.Drawing.Size(347, 66);
 			this.txtOld.TabIndex = 0;
 			// 
 			// groupBox2
@@ -139,6 +149,7 @@
 			this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.groupBox2.Controls.Add(this.flowLayoutPanel1);
 			this.groupBox2.Controls.Add(this.txtNew);
 			this.groupBox2.Location = new System.Drawing.Point(3, 3);
 			this.groupBox2.Name = "groupBox2";
@@ -147,6 +158,38 @@
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Translated Text";
 			// 
+			// flowLayoutPanel1
+			// 
+			this.flowLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.flowLayoutPanel1.Controls.Add(this.chkDerived);
+			this.flowLayoutPanel1.Controls.Add(this.chkMinorUpdate);
+			this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
+			this.flowLayoutPanel1.Location = new System.Drawing.Point(7, 151);
+			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+			this.flowLayoutPanel1.Size = new System.Drawing.Size(346, 17);
+			this.flowLayoutPanel1.TabIndex = 2;
+			// 
+			// chkDerived
+			// 
+			this.chkDerived.AutoSize = true;
+			this.chkDerived.Location = new System.Drawing.Point(207, 3);
+			this.chkDerived.Name = "chkDerived";
+			this.chkDerived.Size = new System.Drawing.Size(136, 17);
+			this.chkDerived.TabIndex = 1;
+			this.chkDerived.Text = "Use parent locale\'s text";
+			this.chkDerived.UseVisualStyleBackColor = true;
+			this.chkDerived.CheckedChanged += new System.EventHandler(this.chkDerived_CheckedChanged);
+			// 
+			// chkMinorUpdate
+			// 
+			this.chkMinorUpdate.AutoSize = true;
+			this.chkMinorUpdate.Location = new System.Drawing.Point(113, 3);
+			this.chkMinorUpdate.Name = "chkMinorUpdate";
+			this.chkMinorUpdate.Size = new System.Drawing.Size(88, 17);
+			this.chkMinorUpdate.TabIndex = 2;
+			this.chkMinorUpdate.Text = "Minor update";
+			this.chkMinorUpdate.UseVisualStyleBackColor = true;
+			// 
 			// txtNew
 			// 
 			this.txtNew.AcceptsReturn = true;
@@ -154,10 +197,10 @@
 			this.txtNew.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.txtNew.Location = new System.Drawing.Point(6, 19);
+			this.txtNew.Location = new System.Drawing.Point(7, 19);
 			this.txtNew.Multiline = true;
 			this.txtNew.Name = "txtNew";
-			this.txtNew.Size = new System.Drawing.Size(348, 149);
+			this.txtNew.Size = new System.Drawing.Size(347, 126);
 			this.txtNew.TabIndex = 0;
 			// 
 			// toolStripContainer1
@@ -173,12 +216,6 @@
 			this.toolStripContainer1.Size = new System.Drawing.Size(485, 309);
 			this.toolStripContainer1.TabIndex = 1;
 			this.toolStripContainer1.Text = "toolStripContainer1";
-			// 
-			// imageList1
-			// 
-			this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
-			this.imageList1.ImageSize = new System.Drawing.Size(16, 16);
-			this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
 			// 
 			// Translator
 			// 
@@ -197,6 +234,8 @@
 			this.groupBox1.PerformLayout();
 			this.groupBox2.ResumeLayout(false);
 			this.groupBox2.PerformLayout();
+			this.flowLayoutPanel1.ResumeLayout(false);
+			this.flowLayoutPanel1.PerformLayout();
 			this.toolStripContainer1.ContentPanel.ResumeLayout(false);
 			this.toolStripContainer1.ResumeLayout(false);
 			this.toolStripContainer1.PerformLayout();
@@ -216,5 +255,8 @@
 		private System.Windows.Forms.ToolStripContainer toolStripContainer1;
 		private System.Windows.Forms.ColumnHeader colKey;
 		private System.Windows.Forms.ImageList imageList1;
+		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+		private System.Windows.Forms.CheckBox chkDerived;
+		private System.Windows.Forms.CheckBox chkMinorUpdate;
 	}
 }

@@ -107,9 +107,8 @@ namespace NeoSmart.Localization
 		public StringStatus GetStringStatus(Locale locale, string collectionKey, string key)
 		{
 			StringTranslation translation;
-			locale.StringCollections[collectionKey].StringsTable.TryGetValue(key, out translation);
-				
-			if (translation == null)
+
+			if (!locale.StringCollections[collectionKey].StringsTable.TryGetValue(key, out translation))
 				return StringStatus.Missing;
 
 			if (translation.DeriveFromParent)
