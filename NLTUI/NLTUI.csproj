@@ -90,15 +90,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\green_small.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\orange_small.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\red_small.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\green.png" />
   </ItemGroup>
   <ItemGroup>
