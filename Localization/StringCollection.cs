@@ -83,20 +83,25 @@ namespace NeoSmart.Localization
 					if (text.Attributes == null)
 						throw new MalformedStringException("Invalid translation string found. Attributes 'key' and 'value' are required.");
 
-					var key = text.Attributes["key"].InnerText;
-					if (string.IsNullOrEmpty(key))
-						continue;
+					var key = text.Attributes["key"];
+					if(key == null || string.IsNullOrEmpty(key.InnerText))
+						throw new MalformedStringException("Invalid translation string found. Attributes 'key' and 'value' are required.");
 
-					if (_strings.ContainsKey(key))
-						throw new DuplicateKeyException(string.Format("Key {0} in {1}\\{2} was defined more than once.", key, localeKey, Key));
+					if (_strings.ContainsKey(key.InnerText))
+						throw new DuplicateKeyException(string.Format("Key {0} in {1}\\{2} was defined more than once.", key.InnerText, localeKey, Key));
 
-					var newString = new StringTranslation(key, text.Attributes["value"].InnerText);
-					_strings[key] = newString;
+					var value = text.Attributes["value"];
+					if (value == null)
+						throw new MalformedStringException("Invalid translation string found. Attributes 'key' and 'value' are required.");
 
-					var versionText = text.Attributes["version"].InnerText;
+					var newString = new StringTranslation(key.InnerText, value.InnerText);
+					_strings[newString.Key] = newString;
 
-					if (!string.IsNullOrEmpty(versionText))
-						newString.Version = uint.Parse(versionText);
+					var version = text.Attributes["version"];
+					if (version != null)
+					{
+						newString.Version = uint.Parse(version.InnerText);
+					}
 				}
 			}
 		}
