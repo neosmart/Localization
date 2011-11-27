@@ -26,6 +26,8 @@ namespace NeoSmart.Localization
 			get { return LocalesMap; }
 		}
 
+		public string PropertiesXml { get { return _propertiesXml; } }
+
 		public string LocaleRoot
 		{
 			get { return _transFolder; }
@@ -87,8 +89,17 @@ namespace NeoSmart.Localization
 			CurrentLocale = localeKey;
 
 			LoadLocale(localeKey);
-			if (!LoadLocale(_defaultLocale))
-				throw new DefaultLocaleNotFoundException();
+
+			if (localeKey != _defaultLocale)
+			{
+				if (!LoadLocale(_defaultLocale))
+					throw new DefaultLocaleNotFoundException();
+
+				if(string.IsNullOrEmpty(Locales[CurrentLocale].ParentLocale))
+				{
+					Locales[CurrentLocale].ParentLocale = DefaultLocale;
+				}
+			}
 
 			return true;
 		}
@@ -143,7 +154,7 @@ namespace NeoSmart.Localization
 				{
 					return locale.GetString(collectionKey, key);
 				}
-				catch (KeyNotFoundException)
+				catch (StringNotFoundException)
 				{
 					if (!string.IsNullOrEmpty(locale.ParentLocale))
 					{

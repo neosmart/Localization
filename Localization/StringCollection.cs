@@ -10,7 +10,17 @@ namespace NeoSmart.Localization
 
 		public string this[string key]
 		{
-			get { return StringsTable[key].Value; }
+			get
+			{
+				try
+				{
+					return StringsTable[key].Value;
+				}
+				catch(KeyNotFoundException)
+				{
+					throw new StringNotFoundException();
+				}
+			}
 			set
 			{
 				if (StringsTable.ContainsKey(key))

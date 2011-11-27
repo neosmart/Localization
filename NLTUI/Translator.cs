@@ -31,6 +31,11 @@ namespace NLTUI
 		public void LoadKeys(Locale loadFrom, string collectionKey)
 		{
 			_locale = _localeManager.Locales[_localeManager.CurrentLocale];
+
+			if(_locale.StringCollections.ContainsKey(collectionKey) == false)
+			{
+				_locale.StringCollections.Add(collectionKey, new StringCollection(collectionKey));
+			}
 			_collection = _locale.StringCollections[collectionKey];
 
 			var enumerable = loadFrom.StringCollections[collectionKey].StringsTable.Keys;
@@ -57,6 +62,17 @@ namespace NLTUI
 			colKey.AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
 		}
 
+		private void StoreCurrentData()
+		{
+			_lastTranslation.DeriveFromParent = chkDerived.Checked;
+			_lastTranslation.BumpVersion = !chkMinorUpdate.Checked;
+
+			if (!_lastTranslation.DeriveFromParent)
+			{
+				_lastTranslation.Value = txtNew.Text;
+			}
+		}
+
 		private void lstKeys_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			if (lstKeys.SelectedItems.Count == 0)
@@ -66,17 +82,19 @@ namespace NLTUI
 
 			if(_lastTranslation != null)
 			{
-				_lastTranslation.DeriveFromParent = chkDerived.Checked;
-				_lastTranslation.BumpVersion = !chkMinorUpdate.Checked;
-
-				if(!_lastTranslation.DeriveFromParent)
-				{
-					_lastTranslation.Value = txtNew.Text;
-				}
+				StoreCurrentData();
 			}
 
 			txtOld.Text = _parentLocale != null ? _parentLocale.GetString(_collection.Key, selectedKey) : string.Empty;
-			txtNew.Text = _collection[selectedKey];
+			try
+			{
+				txtNew.Text = _collection[selectedKey];
+			}
+			catch (StringNotFoundException)
+			{
+				_collection.StringsTable.Add(selectedKey, new StringTranslation(selectedKey, string.Empty));
+				txtNew.Text = _collection[selectedKey];
+			}
 
 			_lastTranslation = _collection.StringsTable[selectedKey];
 
@@ -95,6 +113,12 @@ namespace NLTUI
 			{
 				txtNew.Text = _lastTranslation.Value;
 			}
+		}
+
+		public void Save()
+		{
+			StoreCurrentData();
+			_locale.Save();
 		}
 	}
 }

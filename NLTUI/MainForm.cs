@@ -13,62 +13,78 @@ namespace NLTUI
 	public partial class MainForm : Form
 	{
 		private LocaleManager _localeManager;
+		private List<Translator> _translators;
+		private string _folder;
 
 		public MainForm()
 		{
 			InitializeComponent();
 		}
 
-		private void LoadLocales()
+		private void FillLocalesMenu(string selectedKey)
 		{
 			foreach(var locale in _localeManager.Locales.Values)
 			{
-				var entry = new ToolStripMenuItem(string.IsNullOrEmpty(locale.Name) ? locale.Key : locale.Name);
+				var entry = new ToolStripMenuItem(locale.Key);
+				entry.Checked = locale.Key == selectedKey;
 				entry.CheckOnClick = true;
 				entry.CheckStateChanged += LocaleChanged;
-				
-				if(locale.Key == _localeManager.DefaultLocale)
-				{
-					entry.Checked = true;
-				}
 
 				cbxLocales.DropDownItems.Add(entry);
 			}
+			cbxLocales.Text = selectedKey;
 		}
 
 		void LocaleChanged(object sender, EventArgs e)
 		{
 			var item = ((ToolStripMenuItem) sender);
-			if(!item.Checked)
-				return;
+			ChangeLocale(_localeManager.Locales[item.Text]);
+		}
 
-			cbxLocales.Text = item.Text;
-			
-			foreach(var other in cbxLocales.DropDownItems)
-			{
-				if (other == sender)
-					continue;
-
-				((ToolStripMenuItem)other).Checked = false;
-			}
+		private void ResetTranslators()
+		{
+			tbxTranslations.TabPages.Clear();
+			_translators = new List<Translator>();
 		}
 
 		private void ResetWorkspace()
 		{
-			tbxTranslations.TabPages.Clear();
+			ResetTranslators();
 			cbxLocales.DropDownItems.Clear();
 			cbxLocales.Text = string.Empty;
 		}
 
-		private void CreateDocuments()
+		private void ChangeLocale(Locale locale)
+		{
+			var dialogResult = MessageBox.Show("Do you want to save your changes to this locale's strings?", "Save Changes?", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+			if (dialogResult == DialogResult.Cancel)
+				return;
+			if (dialogResult == DialogResult.Yes)
+				Save();
+
+			_localeManager.LoadLocales();
+			_localeManager.SetLocale(locale.Key);
+			locale = _localeManager.Locales[locale.Key];
+
+			ResetWorkspace();
+			FillLocalesMenu(locale.Key);
+			CreateDocuments(locale);
+		}
+
+		private void CreateDocuments(Locale newLocale = null)
 		{
 			var defaultLocale = _localeManager.Locales[_localeManager.DefaultLocale];
-			_localeManager.SetLocale(_localeManager.DefaultLocale);
+
+			if(newLocale == null)
+			{
+				newLocale = defaultLocale;
+			}
 
 			foreach(var stringTable in defaultLocale.StringCollections)
 			{
-				var translator = CreateTranslator(defaultLocale, stringTable.Key);
+				var translator = CreateTranslator(newLocale, stringTable.Key);
 				translator.LoadKeys(defaultLocale, stringTable.Key);
+				_translators.Add(translator);
 			}
 		}
 
@@ -119,10 +135,10 @@ namespace NLTUI
 
 		private void newToolStripButton_Click(object sender, EventArgs e)
 		{
-
+			
 		}
 
-		private void openToolStripButton_Click(object sender, EventArgs e)
+		private void Open()
 		{
 			LoadFolderResult loadResult;
 			var folderDialog = new FolderBrowserDialog();
@@ -146,13 +162,55 @@ namespace NLTUI
 			if (loadResult == LoadFolderResult.Cancel)
 				return;
 
+			_folder = folderDialog.SelectedPath;
 			Properties.Settings.Default.LastBrowse = folderDialog.SelectedPath;
 			Properties.Settings.Default.Save();
 
 			ResetWorkspace();
-
-			LoadLocales();
+			_localeManager.SetLocale(_localeManager.DefaultLocale);
+			FillLocalesMenu(_localeManager.DefaultLocale);
 			CreateDocuments();
+		}
+
+		private void NewLocale()
+		{
+			var dialog = new NewLocaleDialog();
+			dialog.ShowDialog();
+
+			if (dialog.Result == DialogResult.Cancel)
+				return;
+
+			var newLocale = new Locale(dialog.LocaleKey);
+			newLocale.ParentLocale = _localeManager.DefaultLocale;
+			newLocale.Name = dialog.LocaleName;
+
+			var newFolder = Path.Combine(_folder, dialog.LocaleKey);
+			if (!Directory.Exists(newFolder))
+				Directory.CreateDirectory(newFolder);
+
+			newLocale.Save(Path.Combine(newFolder, _localeManager.PropertiesXml));
+
+			ChangeLocale(newLocale);
+		}
+
+		private void Save()
+		{
+			_translators[tbxTranslations.SelectedIndex].Save();
+		}
+
+		private void openToolStripButton_Click(object sender, EventArgs e)
+		{
+			Open();
+		}
+
+		private void btnSave_Click(object sender, EventArgs e)
+		{
+			Save();
+		}
+
+		private void btnNewLocale_Click(object sender, EventArgs e)
+		{
+			NewLocale();
 		}
 	}
 }

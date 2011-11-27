@@ -10,9 +10,11 @@ namespace NeoSmart.Localization
 		public readonly Dictionary<string, StringCollection> StringCollections = new Dictionary<string, StringCollection>();
 
 		public string Key { get; private set; }
-		public string Name { get; internal set; }
+		public string Name { get; set; }
 		public bool RightToLeft { get; set; }
 		public string ParentLocale { get; set; }
+
+		private string _xmlPath;
 
 		public int CompareTo(Locale other)
 		{
@@ -32,6 +34,7 @@ namespace NeoSmart.Localization
 
 		private void LoadPropertiesXml(string xmlPath)
 		{
+			_xmlPath = xmlPath;
 			var xmlDocument = new XmlDocument();
 			xmlDocument.Load(xmlPath);
 
@@ -116,6 +119,14 @@ namespace NeoSmart.Localization
 			}
 
 			return true;
+		}
+
+		public bool Save()
+		{
+			if(string.IsNullOrEmpty(_xmlPath))
+				throw new Exception("Calling save without save as!");
+
+			return Save(_xmlPath);
 		}
 	}
 }

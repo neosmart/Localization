@@ -42,6 +42,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enums.cs" />
+    <Compile Include="NewLocaleDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NewLocaleDialog.Designer.cs">
+      <DependentUpon>NewLocaleDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -56,6 +62,9 @@
     <Compile Include="Translator.Designer.cs">
       <DependentUpon>Translator.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="NewLocaleDialog.resx">
+      <DependentUpon>NewLocaleDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
