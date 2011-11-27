@@ -11,7 +11,17 @@ namespace NeoSmart.Localization
 		public string this[string key]
 		{
 			get { return StringsTable[key].Value; }
-			set { StringsTable[key] = new StringTranslation(key, value); }
+			set
+			{
+				if (StringsTable.ContainsKey(key))
+				{
+					StringsTable[key] = new StringTranslation(key, value);
+				}
+				else
+				{
+					StringsTable[key].Value = value;
+				}
+			}
 		}
 
 		public Dictionary<string, StringTranslation> StringsTable
@@ -44,6 +54,9 @@ namespace NeoSmart.Localization
 				stringNode.SetAttribute(@"key", entry.Key);
 				stringNode.SetAttribute(@"value", entry.Value);
 
+				if (entry.Version != 0)
+					stringNode.SetAttribute(@"version", entry.Version.ToString());
+
 				xmlNode.AppendChild(stringNode);
 			}
 
@@ -70,14 +83,20 @@ namespace NeoSmart.Localization
 					if (text.Attributes == null)
 						throw new MalformedStringException("Invalid translation string found. Attributes 'key' and 'value' are required.");
 
-					string key = text.Attributes["key"].InnerText;
+					var key = text.Attributes["key"].InnerText;
 					if (string.IsNullOrEmpty(key))
 						continue;
 
 					if (_strings.ContainsKey(key))
 						throw new DuplicateKeyException(string.Format("Key {0} in {1}\\{2} was defined more than once.", key, localeKey, Key));
 
-					_strings[key] = new StringTranslation(key, text.Attributes["value"].InnerText);
+					var newString = new StringTranslation(key, text.Attributes["value"].InnerText);
+					_strings[key] = newString;
+
+					var versionText = text.Attributes["version"].InnerText;
+
+					if (!string.IsNullOrEmpty(versionText))
+						newString.Version = uint.Parse(versionText);
 				}
 			}
 		}
@@ -96,7 +115,7 @@ namespace NeoSmart.Localization
 				if (StringsTable.ContainsKey(entry.Key) && !overwriteExisting)
 					continue;
 
-				StringsTable[entry.Key] = new StringTranslation(entry.Key, entry.Value);
+				StringsTable[entry.Key] = entry;
 			}
 		}
 	}

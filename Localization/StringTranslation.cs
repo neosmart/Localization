@@ -12,7 +12,7 @@ namespace NeoSmart.Localization
 
 		public bool DeriveFromParent { get; set; }
 
-		public int Version { get; set; }
+		public uint Version { get; set; }
 
 		public StringTranslation(string key, string value)
 		{
@@ -20,7 +20,7 @@ namespace NeoSmart.Localization
 			Value = value;
 		}
 
-		public int BumpVersion()
+		public uint BumpVersion()
 		{
 			return ++Version;
 		}

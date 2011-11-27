@@ -11,7 +11,7 @@ namespace NeoSmart.Localization
 		private static string _propertiesXml = @"";
 		private static readonly Dictionary<string, Locale> LocalesMap = new Dictionary<string, Locale>();
 
-		private string _currentLocale;
+		public string CurrentLocale { get; private set; }
 
 		public string DefaultCollectionKey { get; set; }
 
@@ -84,7 +84,7 @@ namespace NeoSmart.Localization
 					return false;
 			}
 
-			_currentLocale = localeKey;
+			CurrentLocale = localeKey;
 
 			LoadLocale(localeKey);
 			if (!LoadLocale(_defaultLocale))
@@ -129,7 +129,7 @@ namespace NeoSmart.Localization
 
 		public string GetString(string collectionKey, string key, string fallback = null)
 		{
-			var localeKey = string.IsNullOrEmpty(_currentLocale) ? _defaultLocale : _currentLocale;
+			var localeKey = string.IsNullOrEmpty(CurrentLocale) ? _defaultLocale : CurrentLocale;
 			
 			if (!LocalesMap.ContainsKey(localeKey))
 			{
