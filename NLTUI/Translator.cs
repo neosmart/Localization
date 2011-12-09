@@ -16,6 +16,7 @@ namespace NLTUI
 		private Locale _locale;
 		private StringTranslation _lastTranslation;
 		private StringCollection _collection;
+		private bool _forceModified;
 
 		public Translator(LocaleManager localeManager, Locale parentLocale = null)
 		{
@@ -37,6 +38,7 @@ namespace NLTUI
 				_locale.StringCollections.Add(collectionKey, new StringCollection(collectionKey));
 			}
 			_collection = _locale.StringCollections[collectionKey];
+			txtNew.RightToLeft = _locale.RightToLeft ? RightToLeft.Yes : RightToLeft.No;
 
 			var enumerable = loadFrom.StringCollections[collectionKey].StringsTable.Keys;
 			foreach (var key in enumerable)
@@ -60,10 +62,18 @@ namespace NLTUI
 			}
 
 			colKey.AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
+
+			chkMinorUpdate.Visible = _parentLocale == null;
+			chkDerived.Enabled = _parentLocale != null;
+			chkUpToDate.Visible = _parentLocale != null;
+			btnSetModified.Visible = _parentLocale == null;
 		}
 
 		private void StoreCurrentData()
 		{
+			if (_lastTranslation == null)
+				return;
+
 			_lastTranslation.DeriveFromParent = chkDerived.Checked;
 			_lastTranslation.BumpVersion = !chkMinorUpdate.Checked;
 
@@ -99,7 +109,15 @@ namespace NLTUI
 			_lastTranslation = _collection.StringsTable[selectedKey];
 
 			chkDerived.Checked = _lastTranslation.DeriveFromParent;
-			chkMinorUpdate.Checked = !_lastTranslation.BumpVersion;
+
+			if(_forceModified)
+			{
+				chkMinorUpdate.Checked = true;
+			}
+			else
+			{
+				chkMinorUpdate.Checked = !_lastTranslation.BumpVersion;
+			}
 		}
 
 		private void chkDerived_CheckedChanged(object sender, EventArgs e)
@@ -118,7 +136,13 @@ namespace NLTUI
 		public void Save()
 		{
 			StoreCurrentData();
-			_locale.Save();
+			_locale.Save(btnSetModified.Checked);
+		}
+
+		private void btnSetModified_Click(object sender, EventArgs e)
+		{
+			_forceModified = btnSetModified.Checked;
+			chkMinorUpdate.Enabled = !btnSetModified.Checked;
 		}
 	}
 }

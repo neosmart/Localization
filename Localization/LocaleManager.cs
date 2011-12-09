@@ -110,6 +110,11 @@ namespace NeoSmart.Localization
 			if (!Directory.Exists(localeFolder))
 				return false;
 
+			if (Locales.Count == 0)
+			{
+				LoadLocales();
+			}
+
 			bool result = LocalesMap[localeKey].Load(Path.Combine(localeFolder, _propertiesXml));
 
 			return result;

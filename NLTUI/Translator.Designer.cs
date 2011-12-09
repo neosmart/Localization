@@ -1,4 +1,6 @@
-﻿namespace NLTUI
+﻿using System.Windows.Forms;
+
+namespace NLTUI
 {
 	partial class Translator
 	{
@@ -36,17 +38,20 @@
 			this.imageList1 = new System.Windows.Forms.ImageList(this.components);
 			this.splitContainer2 = new System.Windows.Forms.SplitContainer();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
-			this.txtOld = new System.Windows.Forms.TextBox();
+			this.txtOld = new System.Windows.Forms.RichTextBox();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
 			this.chkDerived = new System.Windows.Forms.CheckBox();
 			this.chkMinorUpdate = new System.Windows.Forms.CheckBox();
-			this.txtNew = new System.Windows.Forms.TextBox();
+			this.txtNew = new System.Windows.Forms.RichTextBox();
 			this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
 			this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
 			this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
 			this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
+			this.chkUpToDate = new System.Windows.Forms.CheckBox();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.btnSetModified = new System.Windows.Forms.ToolStripButton();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
@@ -147,7 +152,7 @@
 			this.txtOld.Multiline = true;
 			this.txtOld.Name = "txtOld";
 			this.txtOld.ReadOnly = true;
-			this.txtOld.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+			this.txtOld.ScrollBars = RichTextBoxScrollBars.ForcedVertical;
 			this.txtOld.Size = new System.Drawing.Size(347, 66);
 			this.txtOld.TabIndex = 0;
 			// 
@@ -168,8 +173,9 @@
 			// flowLayoutPanel1
 			// 
 			this.flowLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.flowLayoutPanel1.Controls.Add(this.chkDerived);
 			this.flowLayoutPanel1.Controls.Add(this.chkMinorUpdate);
+			this.flowLayoutPanel1.Controls.Add(this.chkDerived);
+			this.flowLayoutPanel1.Controls.Add(this.chkUpToDate);
 			this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
 			this.flowLayoutPanel1.Location = new System.Drawing.Point(7, 151);
 			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
@@ -179,7 +185,7 @@
 			// chkDerived
 			// 
 			this.chkDerived.AutoSize = true;
-			this.chkDerived.Location = new System.Drawing.Point(207, 3);
+			this.chkDerived.Location = new System.Drawing.Point(113, 3);
 			this.chkDerived.Name = "chkDerived";
 			this.chkDerived.Size = new System.Drawing.Size(136, 17);
 			this.chkDerived.TabIndex = 1;
@@ -190,7 +196,7 @@
 			// chkMinorUpdate
 			// 
 			this.chkMinorUpdate.AutoSize = true;
-			this.chkMinorUpdate.Location = new System.Drawing.Point(113, 3);
+			this.chkMinorUpdate.Location = new System.Drawing.Point(255, 3);
 			this.chkMinorUpdate.Name = "chkMinorUpdate";
 			this.chkMinorUpdate.Size = new System.Drawing.Size(88, 17);
 			this.chkMinorUpdate.TabIndex = 2;
@@ -199,7 +205,7 @@
 			// 
 			// txtNew
 			// 
-			this.txtNew.AcceptsReturn = true;
+			this.txtNew.ScrollBars = RichTextBoxScrollBars.ForcedVertical;
 			this.txtNew.AcceptsTab = true;
 			this.txtNew.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
@@ -234,10 +240,12 @@
 			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButton1,
             this.toolStripButton2,
-            this.toolStripButton3});
+            this.toolStripButton3,
+            this.toolStripSeparator1,
+            this.btnSetModified});
 			this.toolStrip1.Location = new System.Drawing.Point(3, 0);
 			this.toolStrip1.Name = "toolStrip1";
-			this.toolStrip1.Size = new System.Drawing.Size(81, 25);
+			this.toolStrip1.Size = new System.Drawing.Size(141, 25);
 			this.toolStrip1.TabIndex = 0;
 			// 
 			// toolStripButton1
@@ -266,6 +274,32 @@
 			this.toolStripButton3.Name = "toolStripButton3";
 			this.toolStripButton3.Size = new System.Drawing.Size(23, 22);
 			this.toolStripButton3.Text = "Rename Key";
+			// 
+			// chkUpToDate
+			// 
+			this.chkUpToDate.AutoSize = true;
+			this.chkUpToDate.Location = new System.Drawing.Point(17, 3);
+			this.chkUpToDate.Name = "chkUpToDate";
+			this.chkUpToDate.Size = new System.Drawing.Size(90, 17);
+			this.chkUpToDate.TabIndex = 3;
+			this.chkUpToDate.Text = "Synchronized";
+			this.chkUpToDate.UseVisualStyleBackColor = true;
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+			// 
+			// btnSetModified
+			// 
+			this.btnSetModified.CheckOnClick = true;
+			this.btnSetModified.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.btnSetModified.Image = ((System.Drawing.Image)(resources.GetObject("btnSetModified.Image")));
+			this.btnSetModified.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.btnSetModified.Name = "btnSetModified";
+			this.btnSetModified.Size = new System.Drawing.Size(23, 22);
+			this.btnSetModified.Text = "Mark all as modified";
+			this.btnSetModified.Click += new System.EventHandler(this.btnSetModified_Click);
 			// 
 			// Translator
 			// 
@@ -302,9 +336,9 @@
 		private System.Windows.Forms.SplitContainer splitContainer1;
 		private System.Windows.Forms.SplitContainer splitContainer2;
 		private System.Windows.Forms.GroupBox groupBox1;
-		private System.Windows.Forms.TextBox txtOld;
+		private System.Windows.Forms.RichTextBox txtOld;
 		private System.Windows.Forms.GroupBox groupBox2;
-		private System.Windows.Forms.TextBox txtNew;
+		private System.Windows.Forms.RichTextBox txtNew;
 		private System.Windows.Forms.ListView lstKeys;
 		private System.Windows.Forms.ToolStripContainer toolStripContainer1;
 		private System.Windows.Forms.ColumnHeader colKey;
@@ -316,5 +350,8 @@
 		private System.Windows.Forms.ToolStripButton toolStripButton1;
 		private System.Windows.Forms.ToolStripButton toolStripButton2;
 		private System.Windows.Forms.ToolStripButton toolStripButton3;
+		private System.Windows.Forms.CheckBox chkUpToDate;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+		private System.Windows.Forms.ToolStripButton btnSetModified;
 	}
 }

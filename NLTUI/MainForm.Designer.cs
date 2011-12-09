@@ -113,7 +113,7 @@
 			// toolStripContainer1.ContentPanel
 			// 
 			this.toolStripContainer1.ContentPanel.Controls.Add(this.tbxTranslations);
-			this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(764, 411);
+			this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(764, 436);
 			this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.toolStripContainer1.LeftToolStripPanelVisible = false;
 			this.toolStripContainer1.Location = new System.Drawing.Point(0, 24);
@@ -125,8 +125,8 @@
 			// 
 			// toolStripContainer1.TopToolStripPanel
 			// 
-			this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip1);
 			this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip2);
+			this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip1);
 			// 
 			// tbxTranslations
 			// 
@@ -134,7 +134,7 @@
 			this.tbxTranslations.Location = new System.Drawing.Point(0, 0);
 			this.tbxTranslations.Name = "tbxTranslations";
 			this.tbxTranslations.SelectedIndex = 0;
-			this.tbxTranslations.Size = new System.Drawing.Size(764, 411);
+			this.tbxTranslations.Size = new System.Drawing.Size(764, 436);
 			this.tbxTranslations.TabIndex = 0;
 			// 
 			// toolStrip1
@@ -153,9 +153,9 @@
             this.toolStripSeparator1,
             this.btnHelp,
             this.toolStripSeparator2});
-			this.toolStrip1.Location = new System.Drawing.Point(3, 25);
+			this.toolStrip1.Location = new System.Drawing.Point(3, 0);
 			this.toolStrip1.Name = "toolStrip1";
-			this.toolStrip1.Size = new System.Drawing.Size(268, 25);
+			this.toolStrip1.Size = new System.Drawing.Size(237, 25);
 			this.toolStrip1.TabIndex = 0;
 			// 
 			// btnNew
@@ -264,7 +264,7 @@
 			this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.txtLocaleSelector,
             this.cbxLocales});
-			this.toolStrip2.Location = new System.Drawing.Point(81, 0);
+			this.toolStrip2.Location = new System.Drawing.Point(240, 0);
 			this.toolStrip2.Name = "toolStrip2";
 			this.toolStrip2.Size = new System.Drawing.Size(69, 25);
 			this.toolStrip2.TabIndex = 1;
