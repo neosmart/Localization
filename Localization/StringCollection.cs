@@ -62,13 +62,21 @@ namespace NeoSmart.Localization
 				var stringNode = xmlDocument.CreateElement(@"string");
 
 				stringNode.SetAttribute(@"key", entry.Key);
-				stringNode.SetAttribute(@"value", entry.Value);
 
-				if (entry.BumpVersion || forceUpdated)
-					++entry.Version;
+				if (entry.AliasedKey)
+				{
+					stringNode.SetAttribute(@"clone", entry.CloneOf);
+				}
+				else
+				{
+					stringNode.SetAttribute(@"value", Utils.NormalizeLineBreaks(entry.Value));
 
-				if (entry.Version != 0)
-					stringNode.SetAttribute(@"version", entry.Version.ToString());
+					if (entry.BumpVersion || forceUpdated)
+						++entry.Version;
+
+					if (entry.Version != 0)
+						stringNode.SetAttribute(@"version", entry.Version.ToString());
+				}
 
 				xmlNode.AppendChild(stringNode);
 			}
@@ -94,27 +102,47 @@ namespace NeoSmart.Localization
 				foreach (XmlNode text in strings)
 				{
 					if (text.Attributes == null)
-						throw new MalformedStringException("Invalid translation string found. Attributes 'key' and 'value' are required.");
+						throw new MalformedStringException("Invalid translation string found. Attribute 'key' is required.");
 
-					var key = text.Attributes["key"];
-					if(key == null || string.IsNullOrEmpty(key.InnerText))
-						throw new MalformedStringException("Invalid translation string found. Attributes 'key' and 'value' are required.");
+					var temp = text.Attributes["key"];
 
-					if (_strings.ContainsKey(key.InnerText))
-						throw new DuplicateKeyException(string.Format("Key {0} in {1}\\{2} was defined more than once.", key.InnerText, localeKey, Key));
+					if (temp == null || string.IsNullOrEmpty(temp.InnerText))
+						throw new MalformedStringException("Invalid translation string found. Attribute 'key' is required.");
+
+					var key = temp.InnerText;
 
 					var value = text.Attributes["value"];
-					if (value == null)
-						throw new MalformedStringException("Invalid translation string found. Attributes 'key' and 'value' are required.");
+					var clone = text.Attributes["clone"];
 
-					var newString = new StringTranslation(key.InnerText, value.InnerText);
-					_strings[newString.Key] = newString;
-
-					var version = text.Attributes["version"];
-					if (version != null)
+					if((clone == null || string.IsNullOrEmpty(clone.InnerText)) && value == null)
 					{
-						newString.Version = uint.Parse(version.InnerText);
+						throw new MalformedStringException("Invalid translation string found. Either attribute 'value' or 'clone' is required.");
 					}
+
+					uint version = 0;
+					var versionElement = text.Attributes["version"];
+					if (versionElement != null)
+					{
+						version = uint.Parse(versionElement.InnerText);
+					}
+
+					if (_strings.ContainsKey(key))
+						throw new DuplicateKeyException(string.Format("Key {0} in {1}\\{2} was defined more than once.", key, localeKey, Key));
+
+					StringTranslation newString;
+
+					if(clone == null || string.IsNullOrEmpty(clone.InnerText))
+					{
+						newString = new StringTranslation(key, value.InnerText);
+					}
+					else
+					{
+						newString = new StringTranslation(key, _strings[clone.InnerText].Value);
+						newString.CloneOf = clone.InnerText;
+					}
+
+					_strings[newString.Key] = newString;
+					newString.Version = version;	
 				}
 			}
 		}

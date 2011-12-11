@@ -16,6 +16,13 @@ namespace NeoSmart.Localization
 
 		public uint Version { get; internal set; }
 
+		public string CloneOf { get; set; }
+
+		public bool AliasedKey
+		{
+			get { return !string.IsNullOrEmpty(CloneOf); }
+		}
+
 		public StringTranslation(string key, string value)
 		{
 			Key = key;

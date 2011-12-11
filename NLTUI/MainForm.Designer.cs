@@ -37,6 +37,9 @@
 			this.mnuHelp = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
 			this.tbxTranslations = new System.Windows.Forms.TabControl();
+			this.toolStrip2 = new System.Windows.Forms.ToolStrip();
+			this.txtLocaleSelector = new System.Windows.Forms.ToolStripLabel();
+			this.cbxLocales = new System.Windows.Forms.ToolStripDropDownButton();
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
 			this.btnNew = new System.Windows.Forms.ToolStripButton();
 			this.btnNewLocale = new System.Windows.Forms.ToolStripButton();
@@ -50,15 +53,12 @@
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.btnHelp = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-			this.toolStrip2 = new System.Windows.Forms.ToolStrip();
-			this.txtLocaleSelector = new System.Windows.Forms.ToolStripLabel();
-			this.cbxLocales = new System.Windows.Forms.ToolStripDropDownButton();
 			this.menuStrip1.SuspendLayout();
 			this.toolStripContainer1.ContentPanel.SuspendLayout();
 			this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
 			this.toolStripContainer1.SuspendLayout();
-			this.toolStrip1.SuspendLayout();
 			this.toolStrip2.SuspendLayout();
+			this.toolStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// statusStrip1
@@ -125,8 +125,8 @@
 			// 
 			// toolStripContainer1.TopToolStripPanel
 			// 
-			this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip2);
 			this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip1);
+			this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip2);
 			// 
 			// tbxTranslations
 			// 
@@ -136,6 +136,31 @@
 			this.tbxTranslations.SelectedIndex = 0;
 			this.tbxTranslations.Size = new System.Drawing.Size(764, 436);
 			this.tbxTranslations.TabIndex = 0;
+			// 
+			// toolStrip2
+			// 
+			this.toolStrip2.Dock = System.Windows.Forms.DockStyle.None;
+			this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.txtLocaleSelector,
+            this.cbxLocales});
+			this.toolStrip2.Location = new System.Drawing.Point(240, 0);
+			this.toolStrip2.Name = "toolStrip2";
+			this.toolStrip2.Size = new System.Drawing.Size(69, 25);
+			this.toolStrip2.TabIndex = 1;
+			// 
+			// txtLocaleSelector
+			// 
+			this.txtLocaleSelector.Name = "txtLocaleSelector";
+			this.txtLocaleSelector.Size = new System.Drawing.Size(44, 22);
+			this.txtLocaleSelector.Text = "Locale:";
+			// 
+			// cbxLocales
+			// 
+			this.cbxLocales.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.cbxLocales.Image = ((System.Drawing.Image)(resources.GetObject("cbxLocales.Image")));
+			this.cbxLocales.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.cbxLocales.Name = "cbxLocales";
+			this.cbxLocales.Size = new System.Drawing.Size(13, 22);
 			// 
 			// toolStrip1
 			// 
@@ -258,31 +283,6 @@
 			this.toolStripSeparator2.Name = "toolStripSeparator2";
 			this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
 			// 
-			// toolStrip2
-			// 
-			this.toolStrip2.Dock = System.Windows.Forms.DockStyle.None;
-			this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.txtLocaleSelector,
-            this.cbxLocales});
-			this.toolStrip2.Location = new System.Drawing.Point(240, 0);
-			this.toolStrip2.Name = "toolStrip2";
-			this.toolStrip2.Size = new System.Drawing.Size(69, 25);
-			this.toolStrip2.TabIndex = 1;
-			// 
-			// txtLocaleSelector
-			// 
-			this.txtLocaleSelector.Name = "txtLocaleSelector";
-			this.txtLocaleSelector.Size = new System.Drawing.Size(44, 22);
-			this.txtLocaleSelector.Text = "Locale:";
-			// 
-			// cbxLocales
-			// 
-			this.cbxLocales.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.cbxLocales.Image = ((System.Drawing.Image)(resources.GetObject("cbxLocales.Image")));
-			this.cbxLocales.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.cbxLocales.Name = "cbxLocales";
-			this.cbxLocales.Size = new System.Drawing.Size(13, 22);
-			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -302,10 +302,10 @@
 			this.toolStripContainer1.TopToolStripPanel.PerformLayout();
 			this.toolStripContainer1.ResumeLayout(false);
 			this.toolStripContainer1.PerformLayout();
-			this.toolStrip1.ResumeLayout(false);
-			this.toolStrip1.PerformLayout();
 			this.toolStrip2.ResumeLayout(false);
 			this.toolStrip2.PerformLayout();
+			this.toolStrip1.ResumeLayout(false);
+			this.toolStrip1.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

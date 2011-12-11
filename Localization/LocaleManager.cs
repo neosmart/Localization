@@ -9,9 +9,10 @@ namespace NeoSmart.Localization
 		private static string _transFolder = @"";
 		private static string _defaultLocale = @"";
 		private static string _propertiesXml = @"";
+		private static string _currentLocale = @"";
 		private static readonly Dictionary<string, Locale> LocalesMap = new Dictionary<string, Locale>();
 
-		public string CurrentLocale { get; private set; }
+		public string CurrentLocale { get { return _currentLocale; } private set { _currentLocale = value; } }
 
 		public string DefaultCollectionKey { get; set; }
 
@@ -70,10 +71,15 @@ namespace NeoSmart.Localization
 					if (string.IsNullOrEmpty(localeKey))
 						continue;
 
-					if (!File.Exists(Path.Combine(directory, _propertiesXml)))
+					var propertiesXml = Path.Combine(directory, _propertiesXml);
+
+					if (!File.Exists(propertiesXml))
 						continue;
 
-					LocalesMap.Add(localeKey, new Locale(localeKey));
+					var locale = new Locale(localeKey);
+					locale.Load(propertiesXml);
+
+					LocalesMap.Add(localeKey, locale);
 				}
 			}
 		}

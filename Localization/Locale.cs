@@ -32,6 +32,16 @@ namespace NeoSmart.Localization
 			return StringCollections[collectionKey][key];
 		}
 
+		public override string ToString()
+		{
+			return string.IsNullOrEmpty(Name) ? Key : Name;
+		}
+
+		public static implicit operator string(Locale l)
+		{
+			return l.ToString();
+		}
+
 		private void LoadPropertiesXml(string xmlPath)
 		{
 			_xmlPath = xmlPath;
