@@ -40,12 +40,15 @@ namespace NLTUI
 			_collection = _locale.StringCollections[collectionKey];
 			txtNew.RightToLeft = _locale.RightToLeft ? RightToLeft.Yes : RightToLeft.No;
 
-			var enumerable = loadFrom.StringCollections[collectionKey].StringsTable.Keys;
+			var enumerable = loadFrom.StringCollections[collectionKey].StringsTable.Values;
 			foreach (var key in enumerable)
 			{
-				var item = new ListViewItem(key);
+				if (key.AliasedKey)
+					continue;
 
-				switch (_localeManager.GetStringStatus(_locale, collectionKey, key))
+				var item = new ListViewItem(key.Key);
+
+				switch (_localeManager.GetStringStatus(_locale, collectionKey, key.Key))
 				{
 					case StringStatus.UpToDate:
 						item.ImageKey = @"green";
