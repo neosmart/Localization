@@ -23,11 +23,21 @@ namespace NeoSmart.Localization
 			get { return !string.IsNullOrEmpty(CloneOf); }
 		}
 
-		public StringTranslation(string key, string value)
+		public StringTranslation(string key, string value = @"")
 		{
 			Key = key;
 			Value = value;
 			BumpVersion = false;
+		}
+
+		public override string ToString()
+		{
+			return Key;
+		}
+
+		public static implicit operator string(StringTranslation st)
+		{
+			return st.ToString();
 		}
 	}
 }

@@ -27,9 +27,9 @@ namespace NeoSmart.Localization
 			RightToLeft = false;
 		}
 
-		public string GetString(string collectionKey, string key)
+		public StringTranslation GetString(string collectionKey, string key)
 		{
-			return StringCollections[collectionKey][key];
+			return StringCollections[collectionKey].StringsTable[key];
 		}
 
 		public override string ToString()

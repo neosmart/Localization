@@ -14,7 +14,13 @@ namespace NeoSmart.Localization
 			{
 				try
 				{
-					return StringsTable[key].Value;
+					var temp = StringsTable[key];
+					if(!temp.AliasedKey)
+					{
+						return temp.Value;
+					}
+
+					return this[temp.CloneOf];
 				}
 				catch(KeyNotFoundException)
 				{
@@ -137,7 +143,7 @@ namespace NeoSmart.Localization
 					}
 					else
 					{
-						newString = new StringTranslation(key, _strings[clone.InnerText].Value);
+						newString = new StringTranslation(key);
 						newString.CloneOf = clone.InnerText;
 					}
 

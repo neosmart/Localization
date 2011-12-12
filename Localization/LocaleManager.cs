@@ -163,9 +163,16 @@ namespace NeoSmart.Localization
 			{
 				try
 				{
-					return locale.GetString(collectionKey, key);
+					var translation = locale.GetString(collectionKey, key);
+					if (translation.AliasedKey)
+					{
+						//We've come across a string in a parent locale that's actually linked
+						//Try to grab the clone source from the child instead
+						return GetString(collectionKey, translation.CloneOf, fallback);
+					}
+					return translation.Value;
 				}
-				catch (StringNotFoundException)
+				catch (KeyNotFoundException)
 				{
 					if (!string.IsNullOrEmpty(locale.ParentLocale))
 					{
