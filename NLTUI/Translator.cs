@@ -151,10 +151,37 @@ namespace NLTUI
 			txtNew.Text = chkDerived.Checked ? txtOld.Text : _lastTranslation.Value;
 		}
 
+		private void BumpVersions()
+		{
+			//Set correct version numbers
+			foreach (var item in lstKeys.Items)
+			{
+				var key = ((ListViewItem) item).Text;
+				var translation = _locale.GetString(_collection.Key, key);
+
+				if (_parentLocale == null)
+				{
+					if(_forceModified)
+					{
+						translation.BumpVersion = true;
+					}
+				}
+				else
+				{
+					if (translation.BumpVersion)
+					{
+						translation.BumpVersion = false;
+						translation.Version = _localeManager.GetLocaleVersion(_parentLocale.Key, _collection.Key, key);
+					}
+				}
+			}
+		}
+
 		public void Save()
 		{
 			StoreCurrentData();
-			_locale.Save(_collection, btnSetModified.Checked);
+			BumpVersions();
+			_locale.Save(_collection);
 		}
 
 		private void btnSetModified_Click(object sender, EventArgs e)

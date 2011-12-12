@@ -14,7 +14,7 @@ namespace NeoSmart.Localization
 
 		public bool BumpVersion { get; set; }
 
-		public uint Version { get; internal set; }
+		public uint Version { get; set; }
 
 		public string CloneOf { get; set; }
 

@@ -57,7 +57,7 @@ namespace NeoSmart.Localization
 			Key = key;
 		}
 
-		public void Save(string xmlPath, bool forceUpdated = false)
+		public void Save(string xmlPath)
 		{
 			var xmlDocument = new XmlDocument();
 
@@ -86,7 +86,7 @@ namespace NeoSmart.Localization
 				{
 					stringNode.SetAttribute(@"value", Utils.NormalizeLineBreaks(entry.Value));
 
-					if (entry.BumpVersion || forceUpdated)
+					if (entry.BumpVersion)
 						++entry.Version;
 
 					if (entry.Version != 0)

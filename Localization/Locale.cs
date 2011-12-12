@@ -37,7 +37,7 @@ namespace NeoSmart.Localization
 			return string.IsNullOrEmpty(Name) ? Key : Name;
 		}
 
-		public static implicit operator string(Locale l)
+		public static explicit operator string(Locale l)
 		{
 			return l.ToString();
 		}
@@ -111,7 +111,7 @@ namespace NeoSmart.Localization
 			return true;
 		}
 
-		public bool Save(string xmlPath, StringCollection collection = null, bool exportStrings = true, bool forceUpdated = false)
+		public bool Save(string xmlPath, StringCollection collection = null, bool exportStrings = true)
 		{
 			xmlPath = Path.GetFullPath(xmlPath);
 			SavePropertiesXml(xmlPath);
@@ -126,24 +126,24 @@ namespace NeoSmart.Localization
 				{
 					foreach (var sCollection in StringCollections.Values)
 					{
-						sCollection.Save(Path.Combine(folder, sCollection.Key + @".xml"), forceUpdated);
+						sCollection.Save(Path.Combine(folder, sCollection.Key + @".xml"));
 					}
 				}
 				else
 				{
-					collection.Save(Path.Combine(folder, collection.Key + @".xml"), forceUpdated);
+					collection.Save(Path.Combine(folder, collection.Key + @".xml"));
 				}
 			}
 
 			return true;
 		}
 
-		public bool Save(StringCollection collection = null, bool forceUpdated = false)
+		public bool Save(StringCollection collection = null)
 		{
 			if(string.IsNullOrEmpty(_xmlPath))
 				throw new Exception("Calling save without save as!");
 
-			return Save(_xmlPath, collection, true, forceUpdated);
+			return Save(_xmlPath, collection);
 		}
 	}
 }
