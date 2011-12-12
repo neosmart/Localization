@@ -48,19 +48,8 @@ namespace NLTUI
 
 				var item = new ListViewItem(key.Key);
 
-				switch (_localeManager.GetStringStatus(_locale, collectionKey, key.Key))
-				{
-					case StringStatus.UpToDate:
-						item.ImageKey = @"green";
-						break;
-					case StringStatus.Outdated:
-						item.ImageKey = @"orange";
-						break;
-					case StringStatus.Missing:
-						item.ImageKey = @"red";
-						break;
-				}
-
+				item.ImageKey = GetStatusIcon(collectionKey, key.Key);
+				
 				lstKeys.Items.Add(item);
 			}
 
@@ -72,17 +61,43 @@ namespace NLTUI
 			btnSetModified.Visible = _parentLocale == null;
 		}
 
+		private string GetStatusIcon(string collectionKey, string key)
+		{
+			switch (_localeManager.GetStringStatus(_locale, collectionKey, key))
+			{
+				case StringStatus.UpToDate:
+					return @"green";
+				case StringStatus.Outdated:
+					return @"orange";
+				case StringStatus.Missing:
+					return @"red";
+			}
+
+			return string.Empty;
+		}
 		private void StoreCurrentData()
 		{
 			if (_lastTranslation == null)
 				return;
 
-			_lastTranslation.DeriveFromParent = chkDerived.Checked;
-			_lastTranslation.BumpVersion = !chkMinorUpdate.Checked;
+			if (chkDerived.Visible)
+			{
+				_lastTranslation.DeriveFromParent = chkDerived.Checked;
+			}
+
+			if(chkMinorUpdate.Visible)
+			{
+				_lastTranslation.BumpVersion = !chkMinorUpdate.Checked;
+			}
 
 			if (!_lastTranslation.DeriveFromParent)
 			{
 				_lastTranslation.Value = txtNew.Text;
+			}
+
+			if (chkUpToDate.Visible)
+			{
+				_lastTranslation.BumpVersion = chkUpToDate.Checked;
 			}
 		}
 
@@ -113,27 +128,27 @@ namespace NLTUI
 
 			chkDerived.Checked = _lastTranslation.DeriveFromParent;
 
-			if(_forceModified)
+			if (chkMinorUpdate.Visible)
 			{
-				chkMinorUpdate.Checked = true;
+				if (_forceModified)
+				{
+					chkMinorUpdate.Checked = true;
+				}
+				else
+				{
+					chkMinorUpdate.Checked = !_lastTranslation.BumpVersion;
+				}
 			}
-			else
+			else if(chkUpToDate.Visible)
 			{
-				chkMinorUpdate.Checked = !_lastTranslation.BumpVersion;
+				chkUpToDate.Checked = _lastTranslation.BumpVersion;
 			}
 		}
 
 		private void chkDerived_CheckedChanged(object sender, EventArgs e)
 		{
 			txtNew.Enabled = !chkDerived.Checked;
-			if(chkDerived.Checked)
-			{
-				txtNew.Text = txtOld.Text;
-			}
-			else
-			{
-				txtNew.Text = _lastTranslation.Value;
-			}
+			txtNew.Text = chkDerived.Checked ? txtOld.Text : _lastTranslation.Value;
 		}
 
 		public void Save()
@@ -146,6 +161,15 @@ namespace NLTUI
 		{
 			_forceModified = btnSetModified.Checked;
 			chkMinorUpdate.Enabled = !btnSetModified.Checked;
+		}
+
+		private void chkUpToDate_CheckedChanged(object sender, EventArgs e)
+		{
+			if (chkUpToDate.Visible && _lastTranslation != null)
+			{
+				//Need to update icons
+				lstKeys.SelectedItems[0].ImageKey = chkUpToDate.Checked ? @"green" : GetStatusIcon(_collection.Key, lstKeys.SelectedItems[0].Text);
+			}
 		}
 	}
 }

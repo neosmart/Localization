@@ -139,10 +139,15 @@ namespace NeoSmart.Localization
 			if (translation.AliasedKey)
 				return StringStatus.UpToDate;
 
-			if (translation.Version == LocalesMap[_defaultLocale].StringCollections[collectionKey].StringsTable[key].Version)
+			if (translation.Version == GetLocaleVersion(_defaultLocale, collectionKey, key))
 				return StringStatus.UpToDate;
 
 			return StringStatus.Outdated;
+		}
+
+		public uint GetLocaleVersion(string localeKey, string collectionKey, string key)
+		{
+			return LocalesMap[localeKey].StringCollections[collectionKey].StringsTable[key].Version;
 		}
 
 		public string GetString(string key, bool useFallback = false, string fallback = null)

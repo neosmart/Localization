@@ -41,15 +41,15 @@ namespace NLTUI
 			this.txtOld = new System.Windows.Forms.RichTextBox();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-			this.chkDerived = new System.Windows.Forms.CheckBox();
 			this.chkMinorUpdate = new System.Windows.Forms.CheckBox();
+			this.chkDerived = new System.Windows.Forms.CheckBox();
+			this.chkUpToDate = new System.Windows.Forms.CheckBox();
 			this.txtNew = new System.Windows.Forms.RichTextBox();
 			this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
 			this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
 			this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
 			this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
-			this.chkUpToDate = new System.Windows.Forms.CheckBox();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.btnSetModified = new System.Windows.Forms.ToolStripButton();
 			this.splitContainer1.Panel1.SuspendLayout();
@@ -149,12 +149,12 @@ namespace NLTUI
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.txtOld.BackColor = System.Drawing.Color.White;
 			this.txtOld.Location = new System.Drawing.Point(7, 19);
-			this.txtOld.Multiline = true;
 			this.txtOld.Name = "txtOld";
 			this.txtOld.ReadOnly = true;
-			this.txtOld.ScrollBars = RichTextBoxScrollBars.ForcedVertical;
+			this.txtOld.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
 			this.txtOld.Size = new System.Drawing.Size(347, 66);
 			this.txtOld.TabIndex = 0;
+			this.txtOld.Text = "";
 			// 
 			// groupBox2
 			// 
@@ -182,6 +182,16 @@ namespace NLTUI
 			this.flowLayoutPanel1.Size = new System.Drawing.Size(346, 17);
 			this.flowLayoutPanel1.TabIndex = 2;
 			// 
+			// chkMinorUpdate
+			// 
+			this.chkMinorUpdate.AutoSize = true;
+			this.chkMinorUpdate.Location = new System.Drawing.Point(255, 3);
+			this.chkMinorUpdate.Name = "chkMinorUpdate";
+			this.chkMinorUpdate.Size = new System.Drawing.Size(88, 17);
+			this.chkMinorUpdate.TabIndex = 2;
+			this.chkMinorUpdate.Text = "Minor update";
+			this.chkMinorUpdate.UseVisualStyleBackColor = true;
+			// 
 			// chkDerived
 			// 
 			this.chkDerived.AutoSize = true;
@@ -193,28 +203,29 @@ namespace NLTUI
 			this.chkDerived.UseVisualStyleBackColor = true;
 			this.chkDerived.CheckedChanged += new System.EventHandler(this.chkDerived_CheckedChanged);
 			// 
-			// chkMinorUpdate
+			// chkUpToDate
 			// 
-			this.chkMinorUpdate.AutoSize = true;
-			this.chkMinorUpdate.Location = new System.Drawing.Point(255, 3);
-			this.chkMinorUpdate.Name = "chkMinorUpdate";
-			this.chkMinorUpdate.Size = new System.Drawing.Size(88, 17);
-			this.chkMinorUpdate.TabIndex = 2;
-			this.chkMinorUpdate.Text = "Minor update";
-			this.chkMinorUpdate.UseVisualStyleBackColor = true;
+			this.chkUpToDate.AutoSize = true;
+			this.chkUpToDate.Location = new System.Drawing.Point(17, 3);
+			this.chkUpToDate.Name = "chkUpToDate";
+			this.chkUpToDate.Size = new System.Drawing.Size(90, 17);
+			this.chkUpToDate.TabIndex = 3;
+			this.chkUpToDate.Text = "Synchronized";
+			this.chkUpToDate.UseVisualStyleBackColor = true;
+			this.chkUpToDate.CheckedChanged += new System.EventHandler(this.chkUpToDate_CheckedChanged);
 			// 
 			// txtNew
 			// 
-			this.txtNew.ScrollBars = RichTextBoxScrollBars.ForcedVertical;
 			this.txtNew.AcceptsTab = true;
 			this.txtNew.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.txtNew.Location = new System.Drawing.Point(7, 19);
-			this.txtNew.Multiline = true;
 			this.txtNew.Name = "txtNew";
+			this.txtNew.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
 			this.txtNew.Size = new System.Drawing.Size(347, 126);
 			this.txtNew.TabIndex = 0;
+			this.txtNew.Text = "";
 			// 
 			// toolStripContainer1
 			// 
@@ -245,7 +256,7 @@ namespace NLTUI
             this.btnSetModified});
 			this.toolStrip1.Location = new System.Drawing.Point(3, 0);
 			this.toolStrip1.Name = "toolStrip1";
-			this.toolStrip1.Size = new System.Drawing.Size(141, 25);
+			this.toolStrip1.Size = new System.Drawing.Size(110, 25);
 			this.toolStrip1.TabIndex = 0;
 			// 
 			// toolStripButton1
@@ -274,16 +285,6 @@ namespace NLTUI
 			this.toolStripButton3.Name = "toolStripButton3";
 			this.toolStripButton3.Size = new System.Drawing.Size(23, 22);
 			this.toolStripButton3.Text = "Rename Key";
-			// 
-			// chkUpToDate
-			// 
-			this.chkUpToDate.AutoSize = true;
-			this.chkUpToDate.Location = new System.Drawing.Point(17, 3);
-			this.chkUpToDate.Name = "chkUpToDate";
-			this.chkUpToDate.Size = new System.Drawing.Size(90, 17);
-			this.chkUpToDate.TabIndex = 3;
-			this.chkUpToDate.Text = "Synchronized";
-			this.chkUpToDate.UseVisualStyleBackColor = true;
 			// 
 			// toolStripSeparator1
 			// 
@@ -315,9 +316,7 @@ namespace NLTUI
 			this.splitContainer2.Panel2.ResumeLayout(false);
 			this.splitContainer2.ResumeLayout(false);
 			this.groupBox1.ResumeLayout(false);
-			this.groupBox1.PerformLayout();
 			this.groupBox2.ResumeLayout(false);
-			this.groupBox2.PerformLayout();
 			this.flowLayoutPanel1.ResumeLayout(false);
 			this.flowLayoutPanel1.PerformLayout();
 			this.toolStripContainer1.ContentPanel.ResumeLayout(false);
