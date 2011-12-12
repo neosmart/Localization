@@ -15,12 +15,17 @@ namespace NeoSmart.Localization
 				try
 				{
 					var temp = StringsTable[key];
-					if(!temp.AliasedKey)
+					if(temp.AliasedKey)
 					{
-						return temp.Value;
+						return this[temp.CloneOf];
+					}
+					if(temp.DeriveFromParent)
+					{
+						//Keep things easy :)
+						throw new StringNotFoundException();
 					}
 
-					return this[temp.CloneOf];
+					return temp.Value;
 				}
 				catch(KeyNotFoundException)
 				{
@@ -73,6 +78,10 @@ namespace NeoSmart.Localization
 				{
 					stringNode.SetAttribute(@"clone", entry.CloneOf);
 				}
+				else if(entry.DeriveFromParent)
+				{
+					stringNode.SetAttribute(@"derive", @"true");
+				}
 				else
 				{
 					stringNode.SetAttribute(@"value", Utils.NormalizeLineBreaks(entry.Value));
@@ -117,13 +126,9 @@ namespace NeoSmart.Localization
 
 					var key = temp.InnerText;
 
-					var value = text.Attributes["value"];
-					var clone = text.Attributes["clone"];
-
-					if((clone == null || string.IsNullOrEmpty(clone.InnerText)) && value == null)
-					{
-						throw new MalformedStringException("Invalid translation string found. Either attribute 'value' or 'clone' is required.");
-					}
+					var value = text.Attributes["value"] != null ? text.Attributes["value"].InnerText : null;
+					var clone = text.Attributes["clone"] != null ? text.Attributes["clone"].InnerText : null;
+					var derive = text.Attributes["derive"] != null && text.Attributes["derive"].InnerText == @"true";
 
 					uint version = 0;
 					var versionElement = text.Attributes["version"];
@@ -135,16 +140,23 @@ namespace NeoSmart.Localization
 					if (_strings.ContainsKey(key))
 						throw new DuplicateKeyException(string.Format("Key {0} in {1}\\{2} was defined more than once.", key, localeKey, Key));
 
-					StringTranslation newString;
+					var newString = new StringTranslation(key);
 
-					if(clone == null || string.IsNullOrEmpty(clone.InnerText))
+					if(value != null)
 					{
-						newString = new StringTranslation(key, value.InnerText);
+						newString.Value = value;
+					}
+					else if(!string.IsNullOrEmpty(clone))
+					{
+						newString.CloneOf = clone;
+					}
+					else if(derive)
+					{
+						newString.DeriveFromParent = true;
 					}
 					else
 					{
-						newString = new StringTranslation(key);
-						newString.CloneOf = clone.InnerText;
+						throw new MalformedStringException("Invalid translation string found. One of attributes 'value', 'clone', or 'derive' is required.");
 					}
 
 					_strings[newString.Key] = newString;

@@ -136,6 +136,9 @@ namespace NeoSmart.Localization
 			if (translation.DeriveFromParent)
 				return StringStatus.UpToDate;
 
+			if (translation.AliasedKey)
+				return StringStatus.UpToDate;
+
 			if (translation.Version == LocalesMap[_defaultLocale].StringCollections[collectionKey].StringsTable[key].Version)
 				return StringStatus.UpToDate;
 
@@ -169,6 +172,11 @@ namespace NeoSmart.Localization
 						//We've come across a string in a parent locale that's actually linked
 						//Try to grab the clone source from the child instead
 						return GetString(collectionKey, translation.CloneOf, fallback);
+					}
+					if (translation.DeriveFromParent)
+					{
+						//Keep things simple :)
+						throw new KeyNotFoundException();
 					}
 					return translation.Value;
 				}
