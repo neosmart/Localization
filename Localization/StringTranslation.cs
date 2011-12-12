@@ -32,7 +32,7 @@ namespace NeoSmart.Localization
 
 		public override string ToString()
 		{
-			return Key;
+			return Value;
 		}
 
 		public static implicit operator string(StringTranslation st)
