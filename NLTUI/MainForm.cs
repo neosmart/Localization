@@ -20,7 +20,7 @@ namespace NLTUI
 		{
 			InitializeComponent();
 			toolStrip1.Location = new Point(0, 0);
-			toolStrip2.Location = new Point(toolStrip1.Location.X + 2, 0);
+			toolStrip2.Location = new Point(1, 0);
 		}
 
 		private void FillLocalesMenu(string selectedKey)
