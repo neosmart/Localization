@@ -19,6 +19,8 @@ namespace NLTUI
 		public MainForm()
 		{
 			InitializeComponent();
+			toolStrip1.Location = new Point(0, 0);
+			toolStrip2.Location = new Point(toolStrip1.Location.X + 2, 0);
 		}
 
 		private void FillLocalesMenu(string selectedKey)
@@ -195,7 +197,18 @@ namespace NLTUI
 
 		private void Save()
 		{
+			if (tbxTranslations.SelectedIndex == -1)
+				return;
+
 			_translators[tbxTranslations.SelectedIndex].Save();
+		}
+
+		private void SaveAll()
+		{
+			foreach (var translator in _translators)
+			{
+				translator.Save();
+			}
 		}
 
 		private void openToolStripButton_Click(object sender, EventArgs e)
@@ -211,6 +224,11 @@ namespace NLTUI
 		private void btnNewLocale_Click(object sender, EventArgs e)
 		{
 			NewLocale();
+		}
+
+		private void btnSaveAll_Click(object sender, EventArgs e)
+		{
+			SaveAll();
 		}
 	}
 }

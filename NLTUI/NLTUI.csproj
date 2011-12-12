@@ -107,6 +107,48 @@
   <ItemGroup>
     <None Include="Resources\red.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\package_green.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\page_white_copy.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\page_white.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\folder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\disk.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\disk_multiple.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cut.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\page_copy.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\paste_plain.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\help.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\page_add.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\page_delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\page_edit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\lightning.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

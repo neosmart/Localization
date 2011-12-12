@@ -31,7 +31,6 @@ namespace NLTUI
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Translator));
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.lstKeys = new System.Windows.Forms.ListView();
 			this.colKey = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -47,10 +46,10 @@ namespace NLTUI
 			this.txtNew = new System.Windows.Forms.RichTextBox();
 			this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-			this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-			this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
-			this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.btnNewKey = new System.Windows.Forms.ToolStripButton();
+			this.btnDeleteKey = new System.Windows.Forms.ToolStripButton();
+			this.btnRename = new System.Windows.Forms.ToolStripButton();
 			this.btnSetModified = new System.Windows.Forms.ToolStripButton();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
@@ -249,53 +248,53 @@ namespace NLTUI
 			// 
 			this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
 			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButton1,
-            this.toolStripButton2,
-            this.toolStripButton3,
+            this.btnNewKey,
+            this.btnDeleteKey,
+            this.btnRename,
             this.toolStripSeparator1,
             this.btnSetModified});
 			this.toolStrip1.Location = new System.Drawing.Point(3, 0);
 			this.toolStrip1.Name = "toolStrip1";
-			this.toolStrip1.Size = new System.Drawing.Size(110, 25);
+			this.toolStrip1.Size = new System.Drawing.Size(141, 25);
 			this.toolStrip1.TabIndex = 0;
-			// 
-			// toolStripButton1
-			// 
-			this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-			this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.toolStripButton1.Name = "toolStripButton1";
-			this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
-			this.toolStripButton1.Text = "New Key";
-			// 
-			// toolStripButton2
-			// 
-			this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
-			this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.toolStripButton2.Name = "toolStripButton2";
-			this.toolStripButton2.Size = new System.Drawing.Size(23, 22);
-			this.toolStripButton2.Text = "Delete Key";
-			// 
-			// toolStripButton3
-			// 
-			this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
-			this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.toolStripButton3.Name = "toolStripButton3";
-			this.toolStripButton3.Size = new System.Drawing.Size(23, 22);
-			this.toolStripButton3.Text = "Rename Key";
 			// 
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
 			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
 			// 
+			// btnNewKey
+			// 
+			this.btnNewKey.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.btnNewKey.Image = global::NLTUI.Properties.Resources.page_add;
+			this.btnNewKey.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.btnNewKey.Name = "btnNewKey";
+			this.btnNewKey.Size = new System.Drawing.Size(23, 22);
+			this.btnNewKey.Text = "New String";
+			// 
+			// btnDeleteKey
+			// 
+			this.btnDeleteKey.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.btnDeleteKey.Image = global::NLTUI.Properties.Resources.page_delete;
+			this.btnDeleteKey.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.btnDeleteKey.Name = "btnDeleteKey";
+			this.btnDeleteKey.Size = new System.Drawing.Size(23, 22);
+			this.btnDeleteKey.Text = "Delete Key";
+			// 
+			// btnRename
+			// 
+			this.btnRename.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.btnRename.Image = global::NLTUI.Properties.Resources.page_edit;
+			this.btnRename.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.btnRename.Name = "btnRename";
+			this.btnRename.Size = new System.Drawing.Size(23, 22);
+			this.btnRename.Text = "Rename Key";
+			// 
 			// btnSetModified
 			// 
 			this.btnSetModified.CheckOnClick = true;
 			this.btnSetModified.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.btnSetModified.Image = ((System.Drawing.Image)(resources.GetObject("btnSetModified.Image")));
+			this.btnSetModified.Image = global::NLTUI.Properties.Resources.lightning;
 			this.btnSetModified.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.btnSetModified.Name = "btnSetModified";
 			this.btnSetModified.Size = new System.Drawing.Size(23, 22);
@@ -346,9 +345,9 @@ namespace NLTUI
 		private System.Windows.Forms.CheckBox chkDerived;
 		private System.Windows.Forms.CheckBox chkMinorUpdate;
 		private System.Windows.Forms.ToolStrip toolStrip1;
-		private System.Windows.Forms.ToolStripButton toolStripButton1;
-		private System.Windows.Forms.ToolStripButton toolStripButton2;
-		private System.Windows.Forms.ToolStripButton toolStripButton3;
+		private System.Windows.Forms.ToolStripButton btnNewKey;
+		private System.Windows.Forms.ToolStripButton btnDeleteKey;
+		private System.Windows.Forms.ToolStripButton btnRename;
 		private System.Windows.Forms.CheckBox chkUpToDate;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 		private System.Windows.Forms.ToolStripButton btnSetModified;

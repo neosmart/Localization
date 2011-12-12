@@ -154,7 +154,7 @@ namespace NLTUI
 		public void Save()
 		{
 			StoreCurrentData();
-			_locale.Save(btnSetModified.Checked);
+			_locale.Save(_collection, btnSetModified.Checked);
 		}
 
 		private void btnSetModified_Click(object sender, EventArgs e)

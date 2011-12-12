@@ -37,28 +37,28 @@
 			this.mnuHelp = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
 			this.tbxTranslations = new System.Windows.Forms.TabControl();
+			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+			this.toolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolStrip2 = new System.Windows.Forms.ToolStrip();
 			this.txtLocaleSelector = new System.Windows.Forms.ToolStripLabel();
 			this.cbxLocales = new System.Windows.Forms.ToolStripDropDownButton();
-			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
 			this.btnNew = new System.Windows.Forms.ToolStripButton();
 			this.btnNewLocale = new System.Windows.Forms.ToolStripButton();
 			this.btnOpen = new System.Windows.Forms.ToolStripButton();
 			this.btnSave = new System.Windows.Forms.ToolStripButton();
-			this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-			this.toolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
+			this.btnSaveAll = new System.Windows.Forms.ToolStripButton();
 			this.btnCut = new System.Windows.Forms.ToolStripButton();
 			this.btnCopy = new System.Windows.Forms.ToolStripButton();
 			this.btnPaste = new System.Windows.Forms.ToolStripButton();
-			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.btnHelp = new System.Windows.Forms.ToolStripButton();
-			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.menuStrip1.SuspendLayout();
 			this.toolStripContainer1.ContentPanel.SuspendLayout();
 			this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
 			this.toolStripContainer1.SuspendLayout();
-			this.toolStrip2.SuspendLayout();
 			this.toolStrip1.SuspendLayout();
+			this.toolStrip2.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// statusStrip1
@@ -113,7 +113,7 @@
 			// toolStripContainer1.ContentPanel
 			// 
 			this.toolStripContainer1.ContentPanel.Controls.Add(this.tbxTranslations);
-			this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(764, 436);
+			this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(764, 411);
 			this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.toolStripContainer1.LeftToolStripPanelVisible = false;
 			this.toolStripContainer1.Location = new System.Drawing.Point(0, 24);
@@ -125,8 +125,8 @@
 			// 
 			// toolStripContainer1.TopToolStripPanel
 			// 
-			this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip1);
 			this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip2);
+			this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip1);
 			// 
 			// tbxTranslations
 			// 
@@ -134,8 +134,44 @@
 			this.tbxTranslations.Location = new System.Drawing.Point(0, 0);
 			this.tbxTranslations.Name = "tbxTranslations";
 			this.tbxTranslations.SelectedIndex = 0;
-			this.tbxTranslations.Size = new System.Drawing.Size(764, 436);
+			this.tbxTranslations.Size = new System.Drawing.Size(764, 411);
 			this.tbxTranslations.TabIndex = 0;
+			// 
+			// toolStrip1
+			// 
+			this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
+			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnNew,
+            this.btnNewLocale,
+            this.btnOpen,
+            this.btnSave,
+            this.btnSaveAll,
+            this.toolStripSeparator,
+            this.btnCut,
+            this.btnCopy,
+            this.btnPaste,
+            this.toolStripSeparator1,
+            this.btnHelp,
+            this.toolStripSeparator2});
+			this.toolStrip1.Location = new System.Drawing.Point(3, 25);
+			this.toolStrip1.Name = "toolStrip1";
+			this.toolStrip1.Size = new System.Drawing.Size(268, 25);
+			this.toolStrip1.TabIndex = 0;
+			// 
+			// toolStripSeparator
+			// 
+			this.toolStripSeparator.Name = "toolStripSeparator";
+			this.toolStripSeparator.Size = new System.Drawing.Size(6, 25);
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+			// 
+			// toolStripSeparator2
+			// 
+			this.toolStripSeparator2.Name = "toolStripSeparator2";
+			this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
 			// 
 			// toolStrip2
 			// 
@@ -143,7 +179,7 @@
 			this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.txtLocaleSelector,
             this.cbxLocales});
-			this.toolStrip2.Location = new System.Drawing.Point(240, 0);
+			this.toolStrip2.Location = new System.Drawing.Point(81, 0);
 			this.toolStrip2.Name = "toolStrip2";
 			this.toolStrip2.Size = new System.Drawing.Size(69, 25);
 			this.toolStrip2.TabIndex = 1;
@@ -162,31 +198,10 @@
 			this.cbxLocales.Name = "cbxLocales";
 			this.cbxLocales.Size = new System.Drawing.Size(13, 22);
 			// 
-			// toolStrip1
-			// 
-			this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
-			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnNew,
-            this.btnNewLocale,
-            this.btnOpen,
-            this.btnSave,
-            this.toolStripButton1,
-            this.toolStripSeparator,
-            this.btnCut,
-            this.btnCopy,
-            this.btnPaste,
-            this.toolStripSeparator1,
-            this.btnHelp,
-            this.toolStripSeparator2});
-			this.toolStrip1.Location = new System.Drawing.Point(3, 0);
-			this.toolStrip1.Name = "toolStrip1";
-			this.toolStrip1.Size = new System.Drawing.Size(237, 25);
-			this.toolStrip1.TabIndex = 0;
-			// 
 			// btnNew
 			// 
 			this.btnNew.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.btnNew.Image = ((System.Drawing.Image)(resources.GetObject("btnNew.Image")));
+			this.btnNew.Image = global::NLTUI.Properties.Resources.page_white;
 			this.btnNew.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.btnNew.Name = "btnNew";
 			this.btnNew.Size = new System.Drawing.Size(23, 22);
@@ -196,7 +211,7 @@
 			// btnNewLocale
 			// 
 			this.btnNewLocale.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.btnNewLocale.Image = ((System.Drawing.Image)(resources.GetObject("btnNewLocale.Image")));
+			this.btnNewLocale.Image = global::NLTUI.Properties.Resources.page_white_copy;
 			this.btnNewLocale.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.btnNewLocale.Name = "btnNewLocale";
 			this.btnNewLocale.Size = new System.Drawing.Size(23, 22);
@@ -206,7 +221,7 @@
 			// btnOpen
 			// 
 			this.btnOpen.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.btnOpen.Image = ((System.Drawing.Image)(resources.GetObject("btnOpen.Image")));
+			this.btnOpen.Image = global::NLTUI.Properties.Resources.folder;
 			this.btnOpen.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.btnOpen.Name = "btnOpen";
 			this.btnOpen.Size = new System.Drawing.Size(23, 22);
@@ -216,31 +231,27 @@
 			// btnSave
 			// 
 			this.btnSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.btnSave.Image = ((System.Drawing.Image)(resources.GetObject("btnSave.Image")));
+			this.btnSave.Image = global::NLTUI.Properties.Resources.disk;
 			this.btnSave.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.btnSave.Name = "btnSave";
 			this.btnSave.Size = new System.Drawing.Size(23, 22);
 			this.btnSave.Text = "&Save";
 			this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
 			// 
-			// toolStripButton1
+			// btnSaveAll
 			// 
-			this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-			this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.toolStripButton1.Name = "toolStripButton1";
-			this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
-			this.toolStripButton1.Text = "Save All";
-			// 
-			// toolStripSeparator
-			// 
-			this.toolStripSeparator.Name = "toolStripSeparator";
-			this.toolStripSeparator.Size = new System.Drawing.Size(6, 25);
+			this.btnSaveAll.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.btnSaveAll.Image = global::NLTUI.Properties.Resources.disk_multiple;
+			this.btnSaveAll.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.btnSaveAll.Name = "btnSaveAll";
+			this.btnSaveAll.Size = new System.Drawing.Size(23, 22);
+			this.btnSaveAll.Text = "Save All";
+			this.btnSaveAll.Click += new System.EventHandler(this.btnSaveAll_Click);
 			// 
 			// btnCut
 			// 
 			this.btnCut.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.btnCut.Image = ((System.Drawing.Image)(resources.GetObject("btnCut.Image")));
+			this.btnCut.Image = global::NLTUI.Properties.Resources.cut;
 			this.btnCut.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.btnCut.Name = "btnCut";
 			this.btnCut.Size = new System.Drawing.Size(23, 22);
@@ -249,7 +260,7 @@
 			// btnCopy
 			// 
 			this.btnCopy.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.btnCopy.Image = ((System.Drawing.Image)(resources.GetObject("btnCopy.Image")));
+			this.btnCopy.Image = global::NLTUI.Properties.Resources.page_copy;
 			this.btnCopy.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.btnCopy.Name = "btnCopy";
 			this.btnCopy.Size = new System.Drawing.Size(23, 22);
@@ -258,30 +269,20 @@
 			// btnPaste
 			// 
 			this.btnPaste.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.btnPaste.Image = ((System.Drawing.Image)(resources.GetObject("btnPaste.Image")));
+			this.btnPaste.Image = global::NLTUI.Properties.Resources.paste_plain;
 			this.btnPaste.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.btnPaste.Name = "btnPaste";
 			this.btnPaste.Size = new System.Drawing.Size(23, 22);
 			this.btnPaste.Text = "&Paste";
 			// 
-			// toolStripSeparator1
-			// 
-			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
-			// 
 			// btnHelp
 			// 
 			this.btnHelp.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.btnHelp.Image = ((System.Drawing.Image)(resources.GetObject("btnHelp.Image")));
+			this.btnHelp.Image = global::NLTUI.Properties.Resources.help;
 			this.btnHelp.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.btnHelp.Name = "btnHelp";
 			this.btnHelp.Size = new System.Drawing.Size(23, 22);
 			this.btnHelp.Text = "He&lp";
-			// 
-			// toolStripSeparator2
-			// 
-			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
 			// 
 			// MainForm
 			// 
@@ -302,10 +303,10 @@
 			this.toolStripContainer1.TopToolStripPanel.PerformLayout();
 			this.toolStripContainer1.ResumeLayout(false);
 			this.toolStripContainer1.PerformLayout();
-			this.toolStrip2.ResumeLayout(false);
-			this.toolStrip2.PerformLayout();
 			this.toolStrip1.ResumeLayout(false);
 			this.toolStrip1.PerformLayout();
+			this.toolStrip2.ResumeLayout(false);
+			this.toolStrip2.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -336,7 +337,7 @@
 		private System.Windows.Forms.ToolStripLabel txtLocaleSelector;
 		private System.Windows.Forms.ToolStripDropDownButton cbxLocales;
 		private System.Windows.Forms.ToolStripButton btnNewLocale;
-		private System.Windows.Forms.ToolStripButton toolStripButton1;
+		private System.Windows.Forms.ToolStripButton btnSaveAll;
 	}
 }
 
