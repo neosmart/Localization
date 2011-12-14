@@ -150,19 +150,19 @@ namespace NeoSmart.Localization
 			return LocalesMap[localeKey].StringCollections[collectionKey].StringsTable[key].Version;
 		}
 
-		public string GetString(string key, bool useFallback = false, string fallback = null)
+		public StringTranslation GetString(string key, bool useFallback = false, string fallback = null)
 		{
 			CheckDefaultCollectionKey();
 			return GetString(DefaultCollectionKey, key, useFallback ? fallback : null);
 		}
 
-		public string GetString(string collectionKey, string key, string fallback = null)
+		public StringTranslation GetString(string collectionKey, string key, bool useFallback = false, string fallback = null)
 		{
 			var localeKey = string.IsNullOrEmpty(CurrentLocale) ? _defaultLocale : CurrentLocale;
-			return GetString(localeKey, collectionKey, key, fallback);
+			return GetString(localeKey, collectionKey, key, useFallback ? fallback : null);
 		}
 
-		public string GetString(string localeKey, string collectionKey, string key, string fallback = null)
+		public StringTranslation GetString(string localeKey, string collectionKey, string key, string fallback = null)
 		{
 			if (!LocalesMap.ContainsKey(localeKey))
 			{
@@ -187,7 +187,7 @@ namespace NeoSmart.Localization
 						//Keep things simple :)
 						throw new KeyNotFoundException();
 					}
-					return translation.Value;
+					return translation;
 				}
 				catch (KeyNotFoundException)
 				{
@@ -199,7 +199,7 @@ namespace NeoSmart.Localization
 
 					if (fallback != null)
 					{
-						return fallback;
+						return new StringTranslation(key, fallback);
 					}
 
 					throw new StringNotFoundException();
@@ -215,15 +215,15 @@ namespace NeoSmart.Localization
 			}
 		}
 
-		public string [] GetStrings(string [] keys)
+		public StringTranslation[] GetStrings(string[] keys)
 		{
 			CheckDefaultCollectionKey();
 			return GetStrings(DefaultCollectionKey, keys);
 		}
 
-		public string [] GetStrings(string collectionKey, string [] keys)
+		public StringTranslation[] GetStrings(string collectionKey, string[] keys)
 		{
-			var results = new List<string>(keys.Length);
+			var results = new List<StringTranslation>(keys.Length);
 
 			foreach(string key in keys)
 			{
