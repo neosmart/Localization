@@ -162,13 +162,19 @@ namespace NeoSmart.Localization
 					{
 						var translation = manager.GetString(ParentLocale, collection.Key, key);
 						if (translation.AliasedKey)
-							collection.StringsTable.Remove(key);
+						{
+							deleteList.Add(key);
+						}
 					}
 					catch (StringNotFoundException)
 					{
-						collection.StringsTable.Remove(key);
 						deleteList.Add(key);
 					}
+				}
+
+				foreach(var key in deleteList)
+				{
+					collection.StringsTable.Remove(key);
 				}
 			}
 		}
