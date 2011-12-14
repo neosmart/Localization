@@ -44,16 +44,25 @@ namespace NeoSmart.Localization
 		public LocaleManager(string defaultCollectionKey = null, string defaultLocale = @"en-US", string localizationFolder = @"lang",
 		                     string propertiesXml = @"properties.xml")
 		{
-			LocaleRoot = localizationFolder;
+			if(string.IsNullOrEmpty(LocaleRoot))
+			{
+				LocaleRoot = localizationFolder;
+			}
 
 			lock (_propertiesXml)
 			{
-				_propertiesXml = propertiesXml;
+				if (string.IsNullOrEmpty(_propertiesXml))
+				{
+					_propertiesXml = propertiesXml;
+				}
 			}
 
 			lock (_defaultLocale)
 			{
-				_defaultLocale = defaultLocale;
+				if (string.IsNullOrEmpty(_defaultLocale))
+				{
+					_defaultLocale = defaultLocale;
+				}
 			}
 
 			DefaultCollectionKey = defaultCollectionKey;
