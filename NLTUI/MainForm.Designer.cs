@@ -37,28 +37,29 @@
 			this.mnuHelp = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
 			this.tbxTranslations = new System.Windows.Forms.TabControl();
-			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-			this.toolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
-			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolStrip2 = new System.Windows.Forms.ToolStrip();
 			this.txtLocaleSelector = new System.Windows.Forms.ToolStripLabel();
 			this.cbxLocales = new System.Windows.Forms.ToolStripDropDownButton();
+			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
 			this.btnNew = new System.Windows.Forms.ToolStripButton();
 			this.btnNewLocale = new System.Windows.Forms.ToolStripButton();
 			this.btnOpen = new System.Windows.Forms.ToolStripButton();
 			this.btnSave = new System.Windows.Forms.ToolStripButton();
 			this.btnSaveAll = new System.Windows.Forms.ToolStripButton();
+			this.toolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
 			this.btnCut = new System.Windows.Forms.ToolStripButton();
 			this.btnCopy = new System.Windows.Forms.ToolStripButton();
 			this.btnPaste = new System.Windows.Forms.ToolStripButton();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.btnHelp = new System.Windows.Forms.ToolStripButton();
+			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+			this.cleanupLocaleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip1.SuspendLayout();
 			this.toolStripContainer1.ContentPanel.SuspendLayout();
 			this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
 			this.toolStripContainer1.SuspendLayout();
-			this.toolStrip1.SuspendLayout();
 			this.toolStrip2.SuspendLayout();
+			this.toolStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// statusStrip1
@@ -96,6 +97,8 @@
 			// 
 			// mnuTools
 			// 
+			this.mnuTools.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cleanupLocaleToolStripMenuItem});
 			this.mnuTools.Name = "mnuTools";
 			this.mnuTools.Size = new System.Drawing.Size(48, 20);
 			this.mnuTools.Text = "&Tools";
@@ -137,42 +140,6 @@
 			this.tbxTranslations.Size = new System.Drawing.Size(764, 411);
 			this.tbxTranslations.TabIndex = 0;
 			// 
-			// toolStrip1
-			// 
-			this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
-			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnNew,
-            this.btnNewLocale,
-            this.btnOpen,
-            this.btnSave,
-            this.btnSaveAll,
-            this.toolStripSeparator,
-            this.btnCut,
-            this.btnCopy,
-            this.btnPaste,
-            this.toolStripSeparator1,
-            this.btnHelp,
-            this.toolStripSeparator2});
-			this.toolStrip1.Location = new System.Drawing.Point(3, 25);
-			this.toolStrip1.Name = "toolStrip1";
-			this.toolStrip1.Size = new System.Drawing.Size(268, 25);
-			this.toolStrip1.TabIndex = 0;
-			// 
-			// toolStripSeparator
-			// 
-			this.toolStripSeparator.Name = "toolStripSeparator";
-			this.toolStripSeparator.Size = new System.Drawing.Size(6, 25);
-			// 
-			// toolStripSeparator1
-			// 
-			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
-			// 
-			// toolStripSeparator2
-			// 
-			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
-			// 
 			// toolStrip2
 			// 
 			this.toolStrip2.Dock = System.Windows.Forms.DockStyle.None;
@@ -197,6 +164,27 @@
 			this.cbxLocales.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.cbxLocales.Name = "cbxLocales";
 			this.cbxLocales.Size = new System.Drawing.Size(13, 22);
+			// 
+			// toolStrip1
+			// 
+			this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
+			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnNew,
+            this.btnNewLocale,
+            this.btnOpen,
+            this.btnSave,
+            this.btnSaveAll,
+            this.toolStripSeparator,
+            this.btnCut,
+            this.btnCopy,
+            this.btnPaste,
+            this.toolStripSeparator1,
+            this.btnHelp,
+            this.toolStripSeparator2});
+			this.toolStrip1.Location = new System.Drawing.Point(3, 25);
+			this.toolStrip1.Name = "toolStrip1";
+			this.toolStrip1.Size = new System.Drawing.Size(237, 25);
+			this.toolStrip1.TabIndex = 0;
 			// 
 			// btnNew
 			// 
@@ -248,6 +236,11 @@
 			this.btnSaveAll.Text = "Save All";
 			this.btnSaveAll.Click += new System.EventHandler(this.btnSaveAll_Click);
 			// 
+			// toolStripSeparator
+			// 
+			this.toolStripSeparator.Name = "toolStripSeparator";
+			this.toolStripSeparator.Size = new System.Drawing.Size(6, 25);
+			// 
 			// btnCut
 			// 
 			this.btnCut.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -275,6 +268,11 @@
 			this.btnPaste.Size = new System.Drawing.Size(23, 22);
 			this.btnPaste.Text = "&Paste";
 			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+			// 
 			// btnHelp
 			// 
 			this.btnHelp.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -283,6 +281,18 @@
 			this.btnHelp.Name = "btnHelp";
 			this.btnHelp.Size = new System.Drawing.Size(23, 22);
 			this.btnHelp.Text = "He&lp";
+			// 
+			// toolStripSeparator2
+			// 
+			this.toolStripSeparator2.Name = "toolStripSeparator2";
+			this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+			// 
+			// cleanupLocaleToolStripMenuItem
+			// 
+			this.cleanupLocaleToolStripMenuItem.Name = "cleanupLocaleToolStripMenuItem";
+			this.cleanupLocaleToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+			this.cleanupLocaleToolStripMenuItem.Text = "&Cleanup Locale";
+			this.cleanupLocaleToolStripMenuItem.Click += new System.EventHandler(this.cleanupLocaleToolStripMenuItem_Click);
 			// 
 			// MainForm
 			// 
@@ -303,10 +313,10 @@
 			this.toolStripContainer1.TopToolStripPanel.PerformLayout();
 			this.toolStripContainer1.ResumeLayout(false);
 			this.toolStripContainer1.PerformLayout();
-			this.toolStrip1.ResumeLayout(false);
-			this.toolStrip1.PerformLayout();
 			this.toolStrip2.ResumeLayout(false);
 			this.toolStrip2.PerformLayout();
+			this.toolStrip1.ResumeLayout(false);
+			this.toolStrip1.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -338,6 +348,7 @@
 		private System.Windows.Forms.ToolStripDropDownButton cbxLocales;
 		private System.Windows.Forms.ToolStripButton btnNewLocale;
 		private System.Windows.Forms.ToolStripButton btnSaveAll;
+		private System.Windows.Forms.ToolStripMenuItem cleanupLocaleToolStripMenuItem;
 	}
 }
 

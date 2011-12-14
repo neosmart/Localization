@@ -230,5 +230,13 @@ namespace NLTUI
 		{
 			SaveAll();
 		}
+
+		private void cleanupLocaleToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (string.IsNullOrEmpty(_localeManager.CurrentLocale))
+				return;
+
+			_localeManager.Locales[_localeManager.CurrentLocale].Cleanup();
+		}
 	}
 }

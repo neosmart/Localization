@@ -145,5 +145,30 @@ namespace NeoSmart.Localization
 
 			return Save(_xmlPath, collection);
 		}
+
+		public void Cleanup()
+		{
+			if(string.IsNullOrEmpty(ParentLocale))
+				return;
+
+			var manager = new LocaleManager();
+
+			foreach(var collection in StringCollections.Values)
+			{
+				var deleteList = new List<string>();
+				foreach(var key in collection.StringsTable.Keys)
+				{
+					try
+					{
+						manager.GetString(ParentLocale, collection.Key, key);
+					}
+					catch (StringNotFoundException)
+					{
+						collection.StringsTable.Remove(key);
+						deleteList.Add(key);
+					}
+				}
+			}
+		}
 	}
 }

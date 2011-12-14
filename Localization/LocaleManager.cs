@@ -159,7 +159,11 @@ namespace NeoSmart.Localization
 		public string GetString(string collectionKey, string key, string fallback = null)
 		{
 			var localeKey = string.IsNullOrEmpty(CurrentLocale) ? _defaultLocale : CurrentLocale;
-			
+			return GetString(localeKey, collectionKey, key, fallback);
+		}
+
+		public string GetString(string localeKey, string collectionKey, string key, string fallback = null)
+		{
 			if (!LocalesMap.ContainsKey(localeKey))
 			{
 				LoadLocale(localeKey);
