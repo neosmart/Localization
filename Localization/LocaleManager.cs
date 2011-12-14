@@ -162,7 +162,7 @@ namespace NeoSmart.Localization
 		public StringTranslation GetString(string key, bool useFallback = false, string fallback = null)
 		{
 			CheckDefaultCollectionKey();
-			return GetString(DefaultCollectionKey, key, useFallback ? fallback : null);
+			return GetString(DefaultCollectionKey, key, useFallback, fallback);
 		}
 
 		public StringTranslation GetString(string collectionKey, string key, bool useFallback = false, string fallback = null)
@@ -189,7 +189,7 @@ namespace NeoSmart.Localization
 					{
 						//We've come across a string in a parent locale that's actually linked
 						//Try to grab the clone source from the child instead
-						return GetString(collectionKey, translation.CloneOf, fallback);
+						return GetString(collectionKey, translation.CloneOf, true, fallback);
 					}
 					if (translation.DeriveFromParent)
 					{
