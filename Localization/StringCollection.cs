@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 
@@ -21,8 +22,7 @@ namespace NeoSmart.Localization
 					}
 					if(temp.DeriveFromParent)
 					{
-						//Keep things easy :)
-						throw new StringNotFoundException();
+						return null;
 					}
 
 					return temp.Value;
@@ -82,7 +82,7 @@ namespace NeoSmart.Localization
 				{
 					stringNode.SetAttribute(@"derive", @"true");
 				}
-				else
+				else if(!string.IsNullOrEmpty(entry.Value))
 				{
 					stringNode.SetAttribute(@"value", Utils.NormalizeLineBreaks(entry.Value));
 
@@ -91,6 +91,10 @@ namespace NeoSmart.Localization
 
 					if (entry.Version != 0)
 						stringNode.SetAttribute(@"version", entry.Version.ToString());
+				}
+				else
+				{
+					continue;
 				}
 
 				xmlNode.AppendChild(stringNode);
@@ -156,7 +160,8 @@ namespace NeoSmart.Localization
 					}
 					else
 					{
-						throw new MalformedStringException("Invalid translation string found. One of attributes 'value', 'clone', or 'derive' is required.");
+						//throw new MalformedStringException(string.Format("Invalid translation string {0} found. One of attributes 'value', 'clone', or 'derive' is required.", key));
+						continue;
 					}
 
 					_strings[newString.Key] = newString;

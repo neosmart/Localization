@@ -16,7 +16,7 @@ namespace NeoSmart.Localization
 
 		public uint Version { get; set; }
 
-		public string CloneOf { get; set; }
+		public string CloneOf { get; internal set; }
 
 		public bool AliasedKey
 		{

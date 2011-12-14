@@ -114,6 +114,7 @@ namespace NLTUI
 			}
 
 			txtOld.Text = _parentLocale != null ? _parentLocale.GetString(_collection.Key, selectedKey) : string.Empty;
+
 			try
 			{
 				txtNew.Text = _collection[selectedKey];
@@ -157,7 +158,17 @@ namespace NLTUI
 			foreach (var item in lstKeys.Items)
 			{
 				var key = ((ListViewItem) item).Text;
-				var translation = _locale.GetString(_collection.Key, key);
+
+				StringTranslation translation;
+
+				try
+				{
+					translation = _locale.GetString(_collection.Key, key);
+				}
+				catch (KeyNotFoundException)
+				{
+					continue;
+				}
 
 				if (_parentLocale == null)
 				{
