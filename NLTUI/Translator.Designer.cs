@@ -90,7 +90,6 @@ namespace NLTUI
 			this.lstKeys.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lstKeys.FullRowSelect = true;
 			this.lstKeys.HideSelection = false;
-			this.lstKeys.LabelEdit = true;
 			this.lstKeys.Location = new System.Drawing.Point(0, 0);
 			this.lstKeys.Name = "lstKeys";
 			this.lstKeys.Size = new System.Drawing.Size(115, 284);

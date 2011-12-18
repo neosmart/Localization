@@ -237,7 +237,9 @@ namespace NLTUI
 				_lastTranslation.Key = e.Label;
 				lstKeys.SelectedItems[0].Name = e.Label;
 				lstKeys.SelectedItems[0].Text = e.Label;
+				_lastTranslation.BumpVersion = true;
 				_collection.StringsTable.Add(e.Label, _lastTranslation);
+				lstKeys.LabelEdit = false;
 			}
 		}
 	}
