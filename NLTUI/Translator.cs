@@ -144,12 +144,8 @@ namespace NLTUI
 			{
 				chkUpToDate.Checked = _lastTranslation.BumpVersion;
 			}
-		}
 
-		private void chkDerived_CheckedChanged(object sender, EventArgs e)
-		{
-			txtNew.Enabled = !chkDerived.Checked;
-			txtNew.Text = chkDerived.Checked ? txtOld.Text : _lastTranslation.Value;
+			ReflectCheckboxes();
 		}
 
 		private void BumpVersions()
@@ -201,13 +197,24 @@ namespace NLTUI
 			chkMinorUpdate.Enabled = !btnSetModified.Checked;
 		}
 
-		private void chkUpToDate_CheckedChanged(object sender, EventArgs e)
+		private void ReflectCheckboxes()
 		{
-			if (chkUpToDate.Visible && _lastTranslation != null)
+			if (lstKeys.SelectedItems.Count > 0)
 			{
 				//Need to update icons
-				lstKeys.SelectedItems[0].ImageKey = chkUpToDate.Checked ? @"green" : GetStatusIcon(_collection.Key, lstKeys.SelectedItems[0].Text);
+				lstKeys.SelectedItems[0].ImageKey = (chkUpToDate.Visible && chkUpToDate.Checked) || (chkDerived.Visible && chkDerived.Checked) ? @"green" : GetStatusIcon(_collection.Key, lstKeys.SelectedItems[0].Text);
+
+				txtNew.Enabled = !chkDerived.Checked;
+				if (!txtNew.Enabled)
+				{
+					txtNew.Text = chkDerived.Checked ? txtOld.Text : _lastTranslation.Value;
+				}
 			}
+		}
+
+		private void chkChild_CheckedChanged(object sender, EventArgs e)
+		{
+			ReflectCheckboxes();
 		}
 	}
 }

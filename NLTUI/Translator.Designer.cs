@@ -46,10 +46,10 @@ namespace NLTUI
 			this.txtNew = new System.Windows.Forms.RichTextBox();
 			this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.btnNewKey = new System.Windows.Forms.ToolStripButton();
 			this.btnDeleteKey = new System.Windows.Forms.ToolStripButton();
 			this.btnRename = new System.Windows.Forms.ToolStripButton();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.btnSetModified = new System.Windows.Forms.ToolStripButton();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
@@ -200,7 +200,7 @@ namespace NLTUI
 			this.chkDerived.TabIndex = 1;
 			this.chkDerived.Text = "Use parent locale\'s text";
 			this.chkDerived.UseVisualStyleBackColor = true;
-			this.chkDerived.CheckedChanged += new System.EventHandler(this.chkDerived_CheckedChanged);
+			this.chkDerived.CheckedChanged += new System.EventHandler(this.chkChild_CheckedChanged);
 			// 
 			// chkUpToDate
 			// 
@@ -211,7 +211,7 @@ namespace NLTUI
 			this.chkUpToDate.TabIndex = 3;
 			this.chkUpToDate.Text = "Synchronized";
 			this.chkUpToDate.UseVisualStyleBackColor = true;
-			this.chkUpToDate.CheckedChanged += new System.EventHandler(this.chkUpToDate_CheckedChanged);
+			this.chkUpToDate.CheckedChanged += new System.EventHandler(this.chkChild_CheckedChanged);
 			// 
 			// txtNew
 			// 
@@ -255,13 +255,8 @@ namespace NLTUI
             this.btnSetModified});
 			this.toolStrip1.Location = new System.Drawing.Point(3, 0);
 			this.toolStrip1.Name = "toolStrip1";
-			this.toolStrip1.Size = new System.Drawing.Size(141, 25);
+			this.toolStrip1.Size = new System.Drawing.Size(110, 25);
 			this.toolStrip1.TabIndex = 0;
-			// 
-			// toolStripSeparator1
-			// 
-			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
 			// 
 			// btnNewKey
 			// 
@@ -289,6 +284,11 @@ namespace NLTUI
 			this.btnRename.Name = "btnRename";
 			this.btnRename.Size = new System.Drawing.Size(23, 22);
 			this.btnRename.Text = "Rename Key";
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
 			// 
 			// btnSetModified
 			// 
