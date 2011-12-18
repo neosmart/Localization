@@ -216,5 +216,29 @@ namespace NLTUI
 		{
 			ReflectCheckboxes();
 		}
+
+		private void btnNewKey_Click(object sender, EventArgs e)
+		{
+			var newKey = new ListViewItem(@"untitled");
+			lstKeys.Items.Add(newKey);
+			lstKeys.Select();
+			lstKeys.SelectedItems.Clear();
+			newKey.Selected = true;
+			lstKeys.LabelEdit = true;
+			newKey.BeginEdit();
+		}
+
+		private void lstKeys_AfterLabelEdit(object sender, LabelEditEventArgs e)
+		{
+			//Change the key
+			if (_lastTranslation != null && lstKeys.SelectedItems.Count > 0)
+			{
+				_collection.StringsTable.Remove(_lastTranslation.Key);
+				_lastTranslation.Key = e.Label;
+				lstKeys.SelectedItems[0].Name = e.Label;
+				lstKeys.SelectedItems[0].Text = e.Label;
+				_collection.StringsTable.Add(e.Label, _lastTranslation);
+			}
+		}
 	}
 }

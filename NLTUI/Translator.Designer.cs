@@ -90,6 +90,7 @@ namespace NLTUI
 			this.lstKeys.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lstKeys.FullRowSelect = true;
 			this.lstKeys.HideSelection = false;
+			this.lstKeys.LabelEdit = true;
 			this.lstKeys.Location = new System.Drawing.Point(0, 0);
 			this.lstKeys.Name = "lstKeys";
 			this.lstKeys.Size = new System.Drawing.Size(115, 284);
@@ -97,6 +98,7 @@ namespace NLTUI
 			this.lstKeys.TabIndex = 1;
 			this.lstKeys.UseCompatibleStateImageBehavior = false;
 			this.lstKeys.View = System.Windows.Forms.View.Details;
+			this.lstKeys.AfterLabelEdit += new System.Windows.Forms.LabelEditEventHandler(this.lstKeys_AfterLabelEdit);
 			this.lstKeys.SelectedIndexChanged += new System.EventHandler(this.lstKeys_SelectedIndexChanged);
 			// 
 			// colKey
@@ -266,6 +268,7 @@ namespace NLTUI
 			this.btnNewKey.Name = "btnNewKey";
 			this.btnNewKey.Size = new System.Drawing.Size(23, 22);
 			this.btnNewKey.Text = "New String";
+			this.btnNewKey.Click += new System.EventHandler(this.btnNewKey_Click);
 			// 
 			// btnDeleteKey
 			// 
