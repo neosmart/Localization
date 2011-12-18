@@ -189,7 +189,7 @@ namespace NeoSmart.Localization
 					{
 						//We've come across a string in a parent locale that's actually linked
 						//Try to grab the clone source from the child instead
-						return GetString(collectionKey, translation.CloneOf, true, fallback);
+						return GetString(localeKey, collectionKey, translation.CloneOf, fallback);
 					}
 					if (translation.DeriveFromParent)
 					{

@@ -160,7 +160,7 @@ namespace NeoSmart.Localization
 				{
 					try
 					{
-						var translation = manager.GetString(ParentLocale, collection.Key, key);
+						var translation = manager.Locales[ParentLocale].GetString(collection.Key, key);
 						if (translation.AliasedKey)
 						{
 							deleteList.Add(key);
