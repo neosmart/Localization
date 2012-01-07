@@ -48,5 +48,9 @@ namespace NeoSmart.Localization
 
 	public class StringNotFoundException : LocalizationException
 	{
+		public StringNotFoundException(string message)
+			: base(message)
+		{
+		}
 	}
 }

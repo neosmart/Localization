@@ -211,7 +211,7 @@ namespace NeoSmart.Localization
 						return new StringTranslation(key, fallback);
 					}
 
-					throw new StringNotFoundException();
+					throw new StringNotFoundException(key);
 				}
 			}
 		}
