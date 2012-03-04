@@ -242,5 +242,17 @@ namespace NLTUI
 				lstKeys.LabelEdit = false;
 			}
 		}
+
+        private void btnRename_Click(object sender, EventArgs e)
+        {
+            lstKeys.LabelEdit = true;
+            lstKeys.SelectedItems[0].BeginEdit();
+        }
+
+        private void btnDeleteKey_Click(object sender, EventArgs e)
+        {
+            _collection.StringsTable.Remove(_lastTranslation.Key);
+            lstKeys.Items.Remove(lstKeys.SelectedItems[0]);
+        }
 	}
 }
