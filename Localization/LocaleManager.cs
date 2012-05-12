@@ -86,7 +86,7 @@ namespace NeoSmart.Localization
 						continue;
 
 					var locale = new Locale(localeKey);
-					locale.Load(propertiesXml);
+					locale.LoadProperties(propertiesXml);
 
 					LocalesMap.Add(localeKey, locale);
 				}

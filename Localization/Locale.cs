@@ -15,6 +15,7 @@ namespace NeoSmart.Localization
 		public string ParentLocale { get; set; }
 
 		private string _xmlPath;
+		private bool _fullyLoaded;
 
 		public int CompareTo(Locale other)
 		{
@@ -29,6 +30,11 @@ namespace NeoSmart.Localization
 
 		public StringTranslation GetString(string collectionKey, string key)
 		{
+			if (!_fullyLoaded)
+			{
+				Load(_xmlPath);
+			}
+
 			return StringCollections[collectionKey].StringsTable[key];
 		}
 
@@ -82,6 +88,22 @@ namespace NeoSmart.Localization
 			xmlDocument.Save(xmlPath);
 		}
 
+		//Loads only properties.xml for DisplayName enumeration
+		public bool LoadProperties(string xmlPath)
+		{
+			if (!File.Exists(xmlPath))
+				return false;
+
+			var folder = Path.GetDirectoryName(xmlPath);
+			if (string.IsNullOrEmpty(folder))
+				return false;
+
+			StringCollections.Clear();
+			LoadPropertiesXml(xmlPath);
+
+			return true;
+		}
+
 		public bool Load(string xmlPath)
 		{
 			if (!File.Exists(xmlPath))
@@ -91,6 +113,7 @@ namespace NeoSmart.Localization
 			if (string.IsNullOrEmpty(folder))
 				return false;
 
+			StringCollections.Clear();
 			LoadPropertiesXml(xmlPath);
 
 			foreach (var stringFile in Directory.GetFiles(folder, @"*.xml"))
@@ -107,6 +130,8 @@ namespace NeoSmart.Localization
 
 				StringCollections[stringKey] = stringCollection;
 			}
+
+			_fullyLoaded = true;
 
 			return true;
 		}
