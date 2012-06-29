@@ -238,5 +238,83 @@ namespace NLTUI
 
 			_localeManager.Locales[_localeManager.CurrentLocale].Cleanup();
 		}
+
+        private void findMissingStringsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            StringBuilder missing = new StringBuilder();
+            foreach (var translation in _localeManager.Locales.Values)
+            {
+                if (translation.Key == _localeManager.DefaultLocale)
+                    continue;
+
+                translation.Load(translation.XmlPath);
+                
+                foreach (var sCollection in _localeManager.Locales[_localeManager.DefaultLocale].StringCollections)
+                {
+                    int found = 0;
+                    foreach(var sPair in sCollection.Value.StringsTable)
+                    {
+                        if (sPair.Value.AliasedKey || sPair.Key == @"MinimumWidth" || sPair.Key == @"MinimumHeight")
+                            continue;
+
+                        if (translation.StringCollections.ContainsKey(sCollection.Key))
+                        {
+                            if (translation.StringCollections[sCollection.Key].StringsTable.ContainsKey(sPair.Key))
+                            {
+                                    continue;
+                            }
+                        }
+
+                        if (found++ == 0)
+                        {
+                            missing.AppendFormat("{0}:{1}\n", translation.Key, sCollection.Key);
+                        }
+                        missing.AppendFormat("\t{0}\n", sPair.Key);
+                    }
+                }
+            }
+
+            MessageBox.Show(missing.ToString());
+        }
+
+        private void findoutdatedStringsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            StringBuilder outdated = new StringBuilder();
+            foreach (var translation in _localeManager.Locales.Values)
+            {
+                if (translation.Key == _localeManager.DefaultLocale)
+                    continue;
+
+                translation.Load(translation.XmlPath);
+
+                foreach (var sCollection in _localeManager.Locales[_localeManager.DefaultLocale].StringCollections)
+                {
+                    int found = 0;
+                    foreach (var sPair in sCollection.Value.StringsTable)
+                    {
+                        if (sPair.Value.AliasedKey || sPair.Key == @"MinimumWidth" || sPair.Key == @"MinimumHeight")
+                            continue;
+
+                        if (translation.StringCollections.ContainsKey(sCollection.Key))
+                        {
+                            if (translation.StringCollections[sCollection.Key].StringsTable.ContainsKey(sPair.Key))
+                            {
+                                if (translation.StringCollections[sCollection.Key].StringsTable[sPair.Key].Version < sPair.Value.Version
+                                    && !translation.StringCollections[sCollection.Key].StringsTable[sPair.Key].DeriveFromParent)
+                                {
+                                    if (found++ == 0)
+                                    {
+                                        outdated.AppendFormat("{0}:{1}\n", translation.Key, sCollection.Key);
+                                    }
+                                    outdated.AppendFormat("\t{0}\n", sPair.Key);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            MessageBox.Show(outdated.ToString());
+        }
 	}
 }

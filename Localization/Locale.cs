@@ -14,7 +14,7 @@ namespace NeoSmart.Localization
 		public bool RightToLeft { get; set; }
 		public string ParentLocale { get; set; }
 
-		private string _xmlPath;
+        public string XmlPath { private set; get; }
 		private bool _fullyLoaded;
 
 		public int CompareTo(Locale other)
@@ -32,7 +32,7 @@ namespace NeoSmart.Localization
 		{
 			if (!_fullyLoaded)
 			{
-				Load(_xmlPath);
+				Load(XmlPath);
 			}
 
 			return StringCollections[collectionKey].StringsTable[key];
@@ -50,7 +50,7 @@ namespace NeoSmart.Localization
 
 		private void LoadPropertiesXml(string xmlPath)
 		{
-			_xmlPath = xmlPath;
+			XmlPath = xmlPath;
 			var xmlDocument = new XmlDocument();
 			xmlDocument.Load(xmlPath);
 
@@ -165,10 +165,10 @@ namespace NeoSmart.Localization
 
 		public bool Save(StringCollection collection = null)
 		{
-			if(string.IsNullOrEmpty(_xmlPath))
+			if(string.IsNullOrEmpty(XmlPath))
 				throw new Exception("Calling save without save as!");
 
-			return Save(_xmlPath, collection);
+			return Save(XmlPath, collection);
 		}
 
 		public void Cleanup()
@@ -191,10 +191,10 @@ namespace NeoSmart.Localization
 							deleteList.Add(key);
 						}
 					}
-					catch (StringNotFoundException)
-					{
-						deleteList.Add(key);
-					}
+                    catch (KeyNotFoundException)
+                    {
+                        deleteList.Add(key);
+                    }
 				}
 
 				foreach(var key in deleteList)
