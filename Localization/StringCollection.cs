@@ -29,7 +29,7 @@ namespace NeoSmart.Localization
 				}
 				catch(KeyNotFoundException)
 				{
-					throw new StringNotFoundException(key);
+					throw new StringNotFoundException(key, this.Key);
 				}
 			}
 			set

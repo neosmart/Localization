@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace NeoSmart.Localization
 {
@@ -48,9 +49,13 @@ namespace NeoSmart.Localization
 
 	public class StringNotFoundException : LocalizationException
 	{
-		public StringNotFoundException(string message)
-			: base(message)
+	    public string Key;
+	    public string Collection;
+		public StringNotFoundException(string key, string collection, string language = "")
+			: base(string.Format("String \"{0}\" was not found in collection \"{1}\" for language {2}!", key, collection, language))
 		{
+		    Key = key;
+		    Collection = collection;
 		}
 	}
 }
