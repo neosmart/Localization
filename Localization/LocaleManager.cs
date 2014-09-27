@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Security.Principal;
+using System.Windows.Forms;
 
 namespace NeoSmart.Localization
 {
@@ -92,6 +94,52 @@ namespace NeoSmart.Localization
 				}
 			}
 		}
+
+        private void LocalizeToolstrip(ToolStripItem child)
+        {
+            child.Text = GetString(child.Name, true, child.Text);
+            if (child is ToolStripMenuItem)
+            {
+                foreach (var submenu in (child as ToolStripMenuItem).DropDownItems)
+                {
+                    if (submenu is ToolStripItem)
+                    {
+                        LocalizeToolstrip(submenu as ToolStripItem);
+                    }
+                }
+            }
+        }
+
+        public void Localize(Control control)
+        {
+            foreach (Control child in control.Controls)
+            {
+                child.Text = GetString(child.Name, true, child.Text);
+                Localize(child);
+            }
+
+            if (control is ToolStrip)
+            {
+                foreach (ToolStripItem child in (control as ToolStrip).Items)
+                {
+                    LocalizeToolstrip(child);
+                }
+            }
+
+            if (control is ComboBox)
+            {
+                try
+                {
+                    var translated = GetString(control.Name);
+                    (control as ComboBox).Items.Clear();
+                    (control as ComboBox).Items.AddRange(translated.Value.Split('\n'));
+                }
+                catch (StringNotFoundException)
+                {
+                    //Do nothing
+                }
+            }
+        }
 
 		public bool SetLocale(string localeKey)
 		{
