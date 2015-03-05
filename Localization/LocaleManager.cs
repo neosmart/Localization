@@ -118,21 +118,23 @@ namespace NeoSmart.Localization
                 Localize(child);
             }
 
-            if (control is ToolStrip)
+            var toolStrip = control as ToolStrip;
+            if (toolStrip != null)
             {
-                foreach (ToolStripItem child in (control as ToolStrip).Items)
+                foreach (ToolStripItem child in toolStrip.Items)
                 {
                     LocalizeToolstrip(child);
                 }
             }
 
-            if (control is ComboBox)
+            var comboBox = control as ComboBox;
+            if (comboBox != null)
             {
                 try
                 {
-                    var translated = GetString(control.Name);
-                    (control as ComboBox).Items.Clear();
-                    (control as ComboBox).Items.AddRange(translated.Value.Split('\n'));
+                    var translated = GetString(comboBox.Name);
+                    comboBox.Items.Clear();
+                    comboBox.Items.AddRange(translated.Value.Split(new []{'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries));
                 }
                 catch (StringNotFoundException)
                 {
@@ -209,7 +211,8 @@ namespace NeoSmart.Localization
 
 		public StringTranslation GetString(string key, bool useFallback = false, string fallback = null)
 		{
-			CheckDefaultCollectionKey();
+			
+CheckDefaultCollectionKey();
 			return GetString(DefaultCollectionKey, key, useFallback, fallback);
 		}
 
