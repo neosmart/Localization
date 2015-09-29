@@ -75,30 +75,31 @@ namespace NLTUI
 
 			return string.Empty;
 		}
+
 		private void StoreCurrentData()
 		{
 			if (_lastTranslation == null)
 				return;
 
-			if (chkDerived.Visible)
-			{
-				_lastTranslation.DeriveFromParent = chkDerived.Checked;
-			}
+            if (chkDerived.Visible)
+            {
+	            _lastTranslation.DeriveFromParent = chkDerived.Checked;
+            }
 
-			if(chkMinorUpdate.Visible)
-			{
-				_lastTranslation.BumpVersion = !chkMinorUpdate.Checked;
-			}
+            if (chkMinorUpdate.Visible)
+            {
+	            _lastTranslation.BumpVersion = !chkMinorUpdate.Checked;
+            }
 
-			if (!_lastTranslation.DeriveFromParent)
-			{
-				_lastTranslation.Value = txtNew.Text;
-			}
+            if (!_lastTranslation.DeriveFromParent)
+            {
+	            _lastTranslation.Value = txtNew.Text;
+            }
 
-			if (chkUpToDate.Visible)
-			{
-				_lastTranslation.BumpVersion = chkUpToDate.Checked;
-			}
+            if (chkUpToDate.Visible)
+            {
+	            _lastTranslation.BumpVersion = chkUpToDate.Checked;
+            }
 		}
 
 		private void lstKeys_SelectedIndexChanged(object sender, EventArgs e)
@@ -108,7 +109,7 @@ namespace NLTUI
 
 			var selectedKey = lstKeys.SelectedItems[0].Text;
 
-			if(_lastTranslation != null)
+			if (_lastTranslation != null)
 			{
 				StoreCurrentData();
 			}
@@ -168,7 +169,7 @@ namespace NLTUI
 
 				if (_parentLocale == null)
 				{
-					if(_forceModified)
+					if (_forceModified)
 					{
 						translation.BumpVersion = true;
 					}

@@ -216,6 +216,9 @@ namespace NeoSmart.Localization
 			if (translation.Version == GetLocaleVersion(_defaultLocale, collectionKey, key))
 				return StringStatus.UpToDate;
 
+            if (string.IsNullOrEmpty(translation.Value))
+                return StringStatus.Missing;
+
 			return StringStatus.Outdated;
 		}
 
