@@ -185,21 +185,35 @@ namespace NeoSmart.Localization
 				{
 					try
 					{
-						var translation = manager.Locales[ParentLocale].GetString(collection.Key, key);
-						if (translation.AliasedKey)
-						{
-							deleteList.Add(key);
-						}
+                        var st = GetString(collection.Key, key); //stringTranslation
+                        var pt = manager.Locales[ParentLocale].GetString(collection.Key, key); //parentTranslation
+
+                        //If the translation is an exact match of the parent, derive it from the parent
+                        if (!(st.DeriveFromParent || st.AliasedKey) && string.Compare(st.Value, pt.Value, StringComparison.InvariantCulture) == 0)
+                        {
+                            st.DeriveFromParent = true;
+                            st.Value = null;
+                        }
+
+                        //Remove existing key if the *parent* is now a derived key of another object
+					    if (pt.AliasedKey)
+					    {
+					        deleteList.Add(key);
+					    }
 					}
                     catch (KeyNotFoundException)
                     {
+                        //If this key isn't in the parent dictionary, don't include it (it's an orphaned key)
                         deleteList.Add(key);
                     }
 				}
 
 				foreach(var key in deleteList)
 				{
-					collection.StringsTable.Remove(key);
+				    if (collection.StringsTable.ContainsKey(key))
+				    {
+				        collection.StringsTable.Remove(key);
+				    }
 				}
 			}
 		}
