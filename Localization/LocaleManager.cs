@@ -11,10 +11,12 @@ namespace NeoSmart.Localization
 		private static string _transFolder = @"";
 		private static string _defaultLocale = @"";
 		private static string _propertiesXml = @"";
-		private static string _currentLocale = @"";
+		private static string _currentLocaleKey = @"";
+	    private Locale _currentLocale = null;
+
 		private static readonly Dictionary<string, Locale> LocalesMap = new Dictionary<string, Locale>();
 
-		public string CurrentLocale { get { return _currentLocale; } private set { _currentLocale = value; } }
+		public string CurrentLocale { get { return _currentLocaleKey; } private set { _currentLocaleKey = value; } }
 
 		public string DefaultCollectionKey { get; set; }
 
@@ -42,6 +44,8 @@ namespace NeoSmart.Localization
 				}
 			}
 		}
+
+	    public bool EnableAutoRtl { get; set; } = true;
 
 		public LocaleManager(string defaultCollectionKey = null, string defaultLocale = @"en-US", string localizationFolder = @"lang",
 		                     string propertiesXml = @"properties.xml")
@@ -112,6 +116,11 @@ namespace NeoSmart.Localization
 
         public void Localize(Control control)
         {
+            if (_currentLocale == null)
+            {
+                _currentLocale = LocalesMap[CurrentLocale];
+            }
+
             foreach (Control child in control.Controls)
             {
                 child.Text = GetString(child.Name, true, child.Text);
@@ -140,6 +149,12 @@ namespace NeoSmart.Localization
                 {
                     //Do nothing
                 }
+            }
+
+            //[EBCD-508]: Automatically set RTL of all form elements
+            if (EnableAutoRtl)
+            {
+                control.RightToLeft = _currentLocale.RightToLeft ? RightToLeft.Yes : RightToLeft.No;
             }
         }
 
@@ -211,8 +226,7 @@ namespace NeoSmart.Localization
 
 		public StringTranslation GetString(string key, bool useFallback = false, string fallback = null)
 		{
-			
-CheckDefaultCollectionKey();
+		    CheckDefaultCollectionKey();
 			return GetString(DefaultCollectionKey, key, useFallback, fallback);
 		}
 
