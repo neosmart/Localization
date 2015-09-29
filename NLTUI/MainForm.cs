@@ -19,9 +19,20 @@ namespace NLTUI
 		public MainForm()
 		{
 			InitializeComponent();
+		    FixFonts(this);
+
 			toolStrip1.Location = new Point(0, 0);
 			toolStrip2.Location = new Point(1, 0);
 		}
+
+	    private static void FixFonts(Control c)
+	    {
+            c.Font = SystemFonts.MessageBoxFont;
+            foreach (var child in c.Controls)
+            {
+                FixFonts((Control)child);
+            }
+        }
 
 		private void FillLocalesMenu(string selectedKey)
 		{
@@ -261,7 +272,7 @@ namespace NLTUI
                         {
                             if (translation.StringCollections[sCollection.Key].StringsTable.ContainsKey(sPair.Key))
                             {
-                                    continue;
+                                continue;
                             }
                         }
 
