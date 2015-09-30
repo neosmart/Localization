@@ -173,49 +173,74 @@ namespace NeoSmart.Localization
 
 		public void Cleanup()
 		{
-			if(string.IsNullOrEmpty(ParentLocale))
-				return;
+		    bool rootLocale = string.IsNullOrEmpty(ParentLocale);
 
-			var manager = new LocaleManager();
-
-			foreach(var collection in StringCollections.Values)
-			{
-				var deleteList = new List<string>();
-				foreach(var key in collection.StringsTable.Keys)
-				{
-					try
-					{
-                        var st = GetString(collection.Key, key); //stringTranslation
-                        var pt = manager.Locales[ParentLocale].GetString(collection.Key, key); //parentTranslation
-
-                        //If the translation is an exact match of the parent, derive it from the parent
-                        if (!(st.DeriveFromParent || st.AliasedKey) && string.Compare(st.Value, pt.Value, StringComparison.InvariantCulture) == 0)
-                        {
-                            st.DeriveFromParent = true;
-                            st.Value = null;
-                        }
-
-                        //Remove existing key if the *parent* is now a derived key of another object
-					    if (pt.AliasedKey)
-					    {
-					        deleteList.Add(key);
-					    }
-					}
-                    catch (KeyNotFoundException)
+            //Operations on root locale only
+            if (rootLocale)
+		    {
+                foreach (var collection in StringCollections.Values)
+                {
+                    foreach (var key in collection.StringsTable.Keys)
                     {
-                        //If this key isn't in the parent dictionary, don't include it (it's an orphaned key)
-                        deleteList.Add(key);
-                    }
-				}
+                        var st = GetString(collection.Key, key);
 
-				foreach(var key in deleteList)
-				{
-				    if (collection.StringsTable.ContainsKey(key))
-				    {
-				        collection.StringsTable.Remove(key);
-				    }
-				}
-			}
+                        //No version 0 allowed, except for special strings
+                        if (st.Key == "MinimumHeight" || st.Key == "MinimumWidth")
+                        {
+                            st.Version = 0;
+                        }
+                        else if (st.Version == 0)
+                        {
+                            st.Version = 1;
+                        }
+                    }
+                }
+            }
+
+            //Operations based on presence of parent locale
+		    if (!rootLocale)
+		    {
+		        var manager = new LocaleManager();
+		        foreach (var collection in StringCollections.Values)
+		        {
+		            var deleteList = new List<string>();
+		            foreach (var key in collection.StringsTable.Keys)
+		            {
+		                try
+		                {
+		                    var st = GetString(collection.Key, key); //stringTranslation
+		                    var pt = manager.Locales[ParentLocale].GetString(collection.Key, key); //parentTranslation
+
+		                    //If the translation is an exact match of the parent, derive it from the parent
+		                    if (!(st.DeriveFromParent || st.AliasedKey) &&
+		                        string.Compare(st.Value, pt.Value, StringComparison.InvariantCulture) == 0)
+		                    {
+		                        st.DeriveFromParent = true;
+		                        st.Value = null;
+		                    }
+
+		                    //Remove existing key if the *parent* is now a derived key of another object
+		                    if (pt.AliasedKey)
+		                    {
+		                        deleteList.Add(key);
+		                    }
+		                }
+		                catch (KeyNotFoundException)
+		                {
+		                    //If this key isn't in the parent dictionary, don't include it (it's an orphaned key)
+		                    deleteList.Add(key);
+		                }
+		            }
+
+		            foreach (var key in deleteList)
+		            {
+		                if (collection.StringsTable.ContainsKey(key))
+		                {
+		                    collection.StringsTable.Remove(key);
+		                }
+		            }
+		        }
+		    }
 		}
 	}
 }
